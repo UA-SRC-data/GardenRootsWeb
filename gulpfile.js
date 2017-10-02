@@ -72,9 +72,9 @@ gulp.task('copy:lib', function(){
 	.pipe(gulp.dest(paths.build.home + 'lib'));
 });
 
-gulp.task('copy:img', function(){
-	gulp.src('www/img/**/*')
-	.pipe(gulp.dest(paths.build.home + 'img'));
+gulp.task('copy:assets', function(){
+	gulp.src('www/assets/**/*')
+	.pipe(gulp.dest(paths.build.home + 'assets'));
 
 });
 
@@ -91,11 +91,11 @@ gulp.task('copy:bower', function(){
 	.pipe(gulp.dest(paths.build.home + 'bower_components'));
 });
 
-gulp.task('copy:all', ['copy:html', 'copy:img', 'copy:bower']);
+gulp.task('copy:all', ['copy:html', 'copy:assets', 'copy:bower']);
 
 gulp.task('build', ['copy:all', 'scripts', 'styles']);
 
-gulp.task('serve', ['build'], function(){
+gulp.task('serve', function(){
 	browserSync.init({
 		server: {
 			baseDir: paths.build.home
@@ -103,7 +103,7 @@ gulp.task('serve', ['build'], function(){
 	});
 	// gulp.watch('www/lib/**/*', ['copy:lib']);
 	gulp.watch('www/**/*.html', ['copy:html']);
-	gulp.watch('www/img/**/*', ['copy:img']);
+	gulp.watch('www/assets/**/*', ['copy:assets']);
 	gulp.watch('www/js/*.js', ['scripts']);
 	gulp.watch('www/scss/*.scss', ['styles']);
 
