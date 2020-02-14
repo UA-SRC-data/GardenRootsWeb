@@ -1,5 +1,5 @@
 {
-  "name": "Trust",
+  "name": "trust",
   "private": "true",
   "devDependencies": {
     "angular": "^1.5.6",

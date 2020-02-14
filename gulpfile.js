@@ -91,7 +91,7 @@ gulp.task('copy:bower', function(){
 	.pipe(gulp.dest(paths.build.home + 'bower_components'));
 });
 
-gulp.task('copy:all', ['copy:html', 'copy:assets', 'copy:bower']);
+gulp.task('copy:all', ['copy:html', 'copy:assets', 'copy:bower', 'copy:lib']);
 
 gulp.task('build', ['copy:all', 'scripts', 'styles']);
 
