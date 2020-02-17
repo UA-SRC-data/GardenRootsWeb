@@ -1,6 +1,6 @@
 class View {
 
-    static projection = d3.geo.albersUsa().scale(4500).translate([1750,100]);
+    static projection = d3.geo.albersUsa().scale(4500).translate([1750, 100]);
     static geoPath = d3.geo.path().projection(View.projection);
 
     controller;
@@ -52,47 +52,37 @@ class View {
         debugger;
     }
 
-    callbackDrawGroundMap(path, mapG) {
+    // this function has to be done in this way( (...)=> {...}) to avoid the problem of 'this' key word
+    callbackDrawGroundMap = (err, json) => {
+        //check error
+        if (err) {
+            console.log(err);
+        }
+
         //draw the map
-
         debugger;
-        d3.json(path, function (err, json) {
-
-            //check error
-            if (err) {
-                console.log(err);
-            }
-
-            //draw the map
-            debugger;
-            mapG.selectAll("path")
-                .data(json.features)
-                .enter()
-                .append("path")
-                .attr("class", "garden")
-                .attr("d", View.geoPath)
-                .attr("stroke-width", 0.5)
-                .attr("stroke", function (d) { //light grey for roads, black for outline
-                    if (d.properties && d.properties.hasOwnProperty("FULLNAME")) {
-                        return "lightgrey";
-                    }
-                    return "black";
-                })
-                .attr("z-index", -1)
-                .attr("opacity", 1)
-                .attr('fill', 'transparent');
-            debugger;
-        });
-    }
+        this.mapG.selectAll("path")
+            .data(json.features)
+            .enter()
+            .append("path")
+            .attr("class", "garden")
+            .attr("d", View.geoPath)
+            .attr("stroke-width", 0.5)
+            .attr("stroke", function (d) { //light grey for roads, black for outline
+                if (d.properties && d.properties.hasOwnProperty("FULLNAME")) {
+                    return "lightgrey";
+                }
+                return "black";
+            })
+            .attr("z-index", -1)
+            .attr("opacity", 1)
+            .attr('fill', 'transparent');
+        debugger;
+    };
 
     setUPBackGroundMap() {
-        let mapG = this.mapG;
-        let callBack = this.callbackDrawGroundMap;
-
-
-        this.controller.setUPBackGroundMap(function (path) {
-            callBack(path, mapG);
-        });
+        // -------------------------------------vvvvv has to be done in this way. to avoid the problem of "this" keyword
+        this.controller.setUPBackGroundMap((path)=> { d3.json(path, this.callbackDrawGroundMap);});
     }
 
     static lunch() {
