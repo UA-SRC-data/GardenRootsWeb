@@ -76,25 +76,50 @@ class Model {
 
     // other Model objects
     // a dictionary that maps minerals to their color scales
-    colorScales = {};
-    backGroundMap = undefined;
+    dataSets = {};
 
     constructor() {
         this.currentDataSet = Model.dataSets.NULL;
         this.currentMineral = Model.mineral.NULL;
     }
 
+    getCurrentDataSet(){
+        return this.currentDataSet;
+    }
+
+    setCurrentDataSet(dataSet){
+        if (Model.dataSet.contains(dataSet)){
+            this.currentDataSet = dataSet;
+        }
+    }
+
+    getCurrentMineral(){
+        return this.currentMineral;
+    }
+
+    setCurrentMineral(mineral){
+        if (Model.mineral.contains(mineral)){
+            this.currentMineral = mineral;
+        }
+    }
+
     getBackGroundMapObj(callback){
         return new backgroundMap(Model.backGroundMapPath, callback);
     }
 
+    getDataPointObj(callback) {
+        //todo
+
+    }
+
+    //todo merge with setCurrentDataSet maybe
     changeDataSet(newSet) {
         //check if the give set is OK
-        if(!Model.dataSets.contains(newSet)){
+        if (!Model.dataSets.contains(newSet)) {
             return
         }
         //check if the current one
-        if(newSet === this.currentDataSet){
+        if (newSet === this.currentDataSet) {
             return;
         }
         //change currentDataSer
@@ -106,11 +131,7 @@ class Model {
         //todo delete data points
     }
 
-    getColor(value){
-
-
-
-
+    getColor(value) {
 
 
     }
