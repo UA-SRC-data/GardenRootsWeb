@@ -16,4 +16,12 @@ class Controller{
         this.backgroundMap = this.model.getBackGroundMapObj(callBack);
         this.backgroundMap.setUp();
     }
+
+    setCurrentDataSet(dataSetsName){
+        this.model.setCurrentDataSet(dataSetsName);
+    }
+
+    setCurrentMineral(mineralName){
+        this.model.setCurrentMineral(mineralName);
+    }
 }
