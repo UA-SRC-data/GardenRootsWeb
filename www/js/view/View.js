@@ -62,7 +62,7 @@ class View {
         //draw the map
         debugger;
         this.mapG.selectAll("path")
-            .data(json.features)
+            .data(json.features) // todo need change
             .enter()
             .append("path")
             .attr("class", "garden")
