@@ -67,7 +67,18 @@ class Model {
         "garden": Model.SRLS
     };
 
+    static colors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4'];
+    static maxColor = '#0c2c84';
+
     static backGroundMapPath = "./lib/counties-and-roads.json";
+
+    static libraryPath = "./lib/";
+
+    static filenames = {
+        "water": "water-centroids-avgs-vals.json",
+        "yard": "yard-centroids-avgs-vals.json",
+        "garden": "garden-centroids-avgs-vals.json"
+    };
 
 
     // keep recording current data set and mineral
@@ -83,56 +94,54 @@ class Model {
         this.currentMineral = Model.mineral.NULL;
     }
 
-    getCurrentDataSet(){
+    getCurrentDataSet() {
         return this.currentDataSet;
     }
 
-    setCurrentDataSet(dataSet){
-        if (Model.dataSet.contains(dataSet)){
-            this.currentDataSet = dataSet;
-        }
-    }
-
-    getCurrentMineral(){
-        return this.currentMineral;
-    }
-
-    setCurrentMineral(mineral){
-        if (Model.mineral.contains(mineral)){
-            this.currentMineral = mineral;
-        }
-    }
-
-    getBackGroundMapObj(callback){
-        return new backgroundMap(Model.backGroundMapPath, callback);
-    }
-
-    getDataPointObj(callback) {
-        //todo
-
-    }
-
-    //todo merge with setCurrentDataSet maybe
-    changeDataSet(newSet) {
-        //check if the give set is OK
-        if (!Model.dataSets.contains(newSet)) {
-            return
-        }
-        //check if the current one
+    setCurrentDataSet(newSet) {
         if (newSet === this.currentDataSet) {
             return;
         }
-        //change currentDataSer
+        if (!Model.dataSet.hasOwnProperty(newSet)) {
+            return;
+        }
         this.currentDataSet = newSet;
-        //change currentMineral to null
-        this.currentMineral = Model.mineral.NULL;
-        //todo reset the color scale to all white
-        //todo clean mineral
-        //todo delete data points
+        //todo clean other clean mineral
     }
 
-    getColor(value) {
-
-
+    getCurrentMineral() {
+        return this.currentMineral;
     }
+
+    setCurrentMineral(newMineral) {
+        if (newMineral === this.currentMineral) {
+            return;
+        }
+        if (!Model.mineral.contains(newMineral)) {
+            return;
+        }
+        this.currentMineral = newMineral;
+        //todo clean other
+    }
+
+    getBackGroundMapObj(callback) {
+        return new backgroundMap(Model.backGroundMapPath, callback);
+    }
+
+    getDataSetObj() {
+        if (this.dataSets.hasOwnProperty(this.currentDataSet)) {
+            return this.dataSets[this.currentDataSet];
+        }
+        let setObj = new DataSet(this.currentDataSet, Model.libraryPath + Model.filenames[this.currentDataSet]
+            , Model.allRefs[this.currentDataSet]);
+        this.dataSets[this.currentDataSet] = setObj;
+        return setObj;
+    }
+
+    getDataPointObj(){
+        let setObj = this.getDataSetObj();
+        return setObj.getDataPointObj(this.currentMineral);
+    }
+
+
 }

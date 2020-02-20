@@ -18,6 +18,10 @@ class DataSet {
         })
     }
 
+    setUpPoints(callback){
+        callback(this.jsonData);
+    }
+
     #getMaxValues(mineral){
         //todo implement
         return 1000000000
@@ -38,11 +42,19 @@ class DataSet {
     }
 
     getDataPointObj(mineral){
+        if(!this.availableMinerals.hasOwnProperty(mineral)) {
+            if (this.dataPoints.hasOwnProperty("default")){
+                this.dataPoints["default"] = new DataPoints(this.name, mineral, (value)=>{return "black"},
+                    d3.scaleLinear().domain([1,5]).range([1,5]))
+            }
+            return this.dataPoints["default"];
+        }
         if (!this.dataPoints.hasOwnProperty(mineral)){
             this.dataPoints[mineral] =
                 new DataPoints(this.name, mineral, this.#getColorScale(mineral),
                     d3.scaleLinear().domain([1,5]).range([1,5])) //because we are just using the number of point.
         }
+        return this.dataPoints[mineral];
     }
 
     calculateSize(mineral, value){
