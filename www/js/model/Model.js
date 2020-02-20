@@ -9,7 +9,7 @@ class Model {
     };
 
     //todo maybe should be read from json
-    static mineral = {
+    static minerals = {
         NULL: undefined,
         Beryllium: "Beryllium",
         Sodium: "Sodium",
@@ -91,7 +91,7 @@ class Model {
 
     constructor() {
         this.currentDataSet = Model.dataSets.NULL;
-        this.currentMineral = Model.mineral.NULL;
+        this.currentMineral = Model.minerals.NULL;
     }
 
     getCurrentDataSet() {
@@ -117,7 +117,7 @@ class Model {
         if (newMineral === this.currentMineral) {
             return;
         }
-        if (!Model.mineral.contains(newMineral)) {
+        if (!Model.minerals.contains(newMineral)) {
             return;
         }
         this.currentMineral = newMineral;
