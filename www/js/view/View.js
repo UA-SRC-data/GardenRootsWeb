@@ -62,8 +62,8 @@ class View {
 
     setUpBackGroundMap() {
         // -------------------------------------vvvvv has to be done in this way. to avoid the problem of "this" keyword
-        this.controller.setUpBackGroundMap((path) => {
-            d3.json(path).then(this.callbackDrawBackGroundMap);
+        this.controller.setUpBackGroundMap((data) => {
+           this.callbackDrawBackGroundMap(data)
         });
     }
 
@@ -99,10 +99,10 @@ class View {
     }
 
     // this function has to be done in this way( (...)=> {...}) to avoid the problem of 'this' key word
-    callbackDrawBackGroundMap = (json) => {
+    callbackDrawBackGroundMap = (data) => {
         //draw the map
         this.mapG.selectAll("path")
-            .data(json.features) // todo need change
+            .data(data) // todo need change
             .enter()
             .append("path")
             .attr("class", "garden")

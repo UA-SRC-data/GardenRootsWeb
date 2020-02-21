@@ -127,8 +127,8 @@ class Model {
         //todo clean other
     }
 
-    getBackGroundMapObj(callback) {
-        return new backgroundMap(Model.backGroundMapPath, callback);
+    getBackGroundMapObj() {
+        return new backgroundMap(Model.backGroundMapPath);
     }
 
     getDataSetObj() {

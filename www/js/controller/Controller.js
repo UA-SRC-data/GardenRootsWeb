@@ -17,8 +17,8 @@ class Controller{
         if (this.backgroundMap !== undefined){
             return; // todo maybe generate an error.
         }
-        this.backgroundMap = this.model.getBackGroundMapObj(callBack);
-        this.backgroundMap.setUp();
+        this.backgroundMap = this.model.getBackGroundMapObj();
+        this.backgroundMap.setUp(callBack);
     }
 
     setUpPoints(callBack){

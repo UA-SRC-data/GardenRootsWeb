@@ -1,14 +1,20 @@
 class backgroundMap{
 
     path;
-    callback;
+    jsonData;
 
-    constructor(path, callback) {
+    constructor(path) {
         this.path = path;
-        this.callback = callback;
     }
 
-    setUp(){
-        this.callback(this.path);
+    setUp(callback){
+        if (this.jsonData === undefined) {
+            d3.json(this.path).then((data) => {
+                this.jsonData = data;
+                callback(data.features);
+            })
+        } else {
+            callback(this.jsonData.features);
+        }
     }
 }
