@@ -46,11 +46,9 @@ class DataSet {
 
     getDataPointObj(mineral) {
         if (!this.availableMinerals.hasOwnProperty(mineral)) {
-            if (!this.dataPoints.hasOwnProperty("default")) {
-                this.dataPoints["default"] = new DataPoints(this.name, mineral, this.getColorScale(mineral),
-                    d3.scaleLinear().domain([1, 5]).range([1, 5]))
-            }
-            return this.dataPoints["default"];
+            this.dataPoints[mineral] = new DataPoints(this.name, mineral, this.getColorScale(mineral),
+                d3.scaleLinear().domain([1, 5]).range([1, 5]));
+            return this.dataPoints[mineral];
         }
         if (!this.dataPoints.hasOwnProperty(mineral)) {
             this.dataPoints[mineral] =
@@ -62,14 +60,14 @@ class DataSet {
 
     calculateSize(mineral, value) {
         if (!this.dataPoints.hasOwnProperty(mineral)) {
-            return this.dataPoints["default"].calculateSize(value);
+            // todo throw error
         }
         return this.dataPoints[mineral].calculateSize(value);
     }
 
     calculateColor(mineral, value) {
         if (!this.dataPoints.hasOwnProperty(mineral)) {
-            return this.dataPoints["default"].calculateColor(value);
+            // todo throw error
         }
         return this.dataPoints[mineral].calculateColor(value);
     }
