@@ -108,7 +108,7 @@ class View {
             .attr("r", (d) => {
                 return this.controller.calculateSize(d)
             })
-            .attr("stroke", "black")// todo change
+            .attr("stroke", "black")
             .attr("stroke-width", 0.5)
             .attr("fill", (d) => {
                 return this.controller.calculateColor(d)
