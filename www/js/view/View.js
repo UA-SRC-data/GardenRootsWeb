@@ -2,6 +2,7 @@ class View {
 
     static projection = d3.geoAlbersUsa().scale(4500).translate([1750, 100]);
     static geoPath = d3.geoPath().projection(View.projection);
+    static zoom = d3.zoom();
 
     static viewInstance = undefined;
 
@@ -19,42 +20,41 @@ class View {
         this.mapG = this.svg.append("g");
     }
 
-    setUpSvg(){
+    setUpSvg() {
         this.svg = d3.select(".mapCanvas")
             .append("svg")
             .attr("width", "100%")
             .attr("height", "100vh")
-        //todo needs modify
-        /*
-        .call(zoom.on("zoom", function () {
-            //check the d3.event.scale
-            //figure out reasonable range
-            svg.selectAll(".garden")
-                .attr("stroke-width", function (d) {
-                    return (0.5) / d3.event.scale;
-                });
-            svg.selectAll(".points")
-                .attr("stroke-width", function (d) {
-                    return (0.5) / d3.event.scale;
-                });
+            .call(View.zoom.on("zoom", () => {
+                //check the d3.event.scale
+                //figure out reasonable range
+                this.svg.selectAll(".garden")
+                    .attr("stroke-width", function (d) {
+                        return (0.5) / d3.event.transform.k;
+                    });
+                this.svg.selectAll(".points")
+                    .attr("stroke-width", function (d) {
+                        return (0.5) / d3.event.transform.k;
+                    });
 
-            svg.selectAll(".legendpoints")
-                .attr("stroke-width", function (d) {
-                    return (0.5) / d3.event.scale;
-                });
+                this.svg.selectAll(".legendpoints")
+                    .attr("stroke-width", function (d) {
+                        return (0.5) / d3.event.transform.k;
+                    });
 
-            svg.selectAll(".legendlabels")
-                .attr("y", function (d) {
-                    return 7 / d3.event.scale
-                })
-                .style("font-size", function (d) {
-                    return 14 / d3.event.scale;
-                });
+                this.svg.selectAll(".legendlabels")
+                    .attr("y", function (d) {
+                        return 7 / d3.event.transform.k
+                    })
+                    .style("font-size", function (d) {
+                        return 14 / d3.event.transform.k;
+                    });
 
-            mapG.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
-            legendG.attr("transform", "scale(" + d3.event.scale + ")")
+                this.mapG.attr("transform", d3.event.transform)
+                //todo when legend is done uncomment this.
+                //legendG.attr("transform", "scale(" + d3.event.scale + ")")
 
-        }))*/;
+            }));
     }
 
     setUpBackGroundMap() {
@@ -86,7 +86,9 @@ class View {
     };
 
     setUpDataPoints() {
-        this.controller.setUpPoints((points)=>{this.callbackDrawPoints(points)});
+        this.controller.setUpPoints((points) => {
+            this.callbackDrawPoints(points)
+        });
     }
 
     cleanUpDataPoints() {
@@ -103,10 +105,14 @@ class View {
             .attr("transform", function (d) {
                 return "translate(" + View.projection(d.coordinates) + ")";
             })
-            .attr("r", (d)=>{return this.controller.calculateSize(d)})
+            .attr("r", (d) => {
+                return this.controller.calculateSize(d)
+            })
             .attr("stroke", "black")// todo change
             .attr("stroke-width", 0.5)
-            .attr("fill", (d)=>{return this.controller.calculateColor(d)})// todo change
+            .attr("fill", (d) => {
+                return this.controller.calculateColor(d)
+            })// todo change
     };
 
     selectDataSet(dataSet) {
