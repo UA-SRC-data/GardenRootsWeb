@@ -42,12 +42,18 @@ class Controller{
         return this.currentDataSet.calculateSize(this.model.getCurrentMineral(), value);
     }
 
-
     calculateColor(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.calculateColor(this.model.getCurrentMineral(), value);//todo put it to better place
+        return this.currentDataSet.calculateColor(this.model.getCurrentMineral(), value);
+    }
+
+    getLegendPoints() {
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return this.currentDataSet.getLegendPoints(this.model.getCurrentMineral());
     }
 
 

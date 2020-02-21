@@ -71,4 +71,11 @@ class DataSet {
         }
         return this.dataPoints[mineral].calculateColor(value);
     }
+
+    getLegendPoints(mineral) {
+        if (!this.dataPoints.hasOwnProperty(mineral)) {
+            // todo throw error
+        }
+        return this.dataPoints[mineral].getLegendPoints();
+    }
 }
