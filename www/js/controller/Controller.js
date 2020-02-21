@@ -39,7 +39,7 @@ class Controller{
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        this.currentDataSet.calculateSize(value);
+        return this.currentDataSet.calculateSize(this.model.getCurrentMineral(), value);
     }
 
 
@@ -47,7 +47,8 @@ class Controller{
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        this.currentDataSet.calculateColor(value);
+        let contaminant = this.model.getCurrentMineral();
+        return this.currentDataSet.calculateColor(contaminant, value);//todo put it to better place
     }
 
 

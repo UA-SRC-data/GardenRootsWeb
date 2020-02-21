@@ -82,13 +82,11 @@ class View {
     };
 
     setUpDataPoints() {
-        this.controller.setUpPoints(this.callbackDrawPoints);
+        this.controller.setUpPoints((points)=>{this.callbackDrawPoints(points)});
     }
 
     cleanUpDataPoints() {
         this.mapG.selectAll(".points").remove();
-        this.controller.setCurrentDataSet(Model.dataSets.NULL);
-        this.controller.setCurrentMineral(Model.minerals.NULL);
     }
 
     callbackDrawPoints = (points) => {
@@ -106,7 +104,7 @@ class View {
             })
             .attr("stroke", "black")// todo change
             .attr("stroke-width", 0.5)
-            .attr("fill", "black")// todo change
+            .attr("fill", (d)=>{return this.controller.calculateColor(d)})// todo change
     };
 
     selectDataSet(dataSet) {
@@ -118,6 +116,7 @@ class View {
     selectContaminant(contaminant) {
         document.getElementById('contaminant').innerHTML = contaminant;
         // todo need to figure out what to do when dataset changed and not changed
+        this.cleanUpDataPoints();
         this.controller.setCurrentMineral(contaminant);
         this.setUpDataPoints();
     }

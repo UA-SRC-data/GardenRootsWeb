@@ -27,12 +27,12 @@ class DataSet {
 
     getMaxValues(mineral) {
         //todo implement
-        return 1000000000
+        return 2320
     }
 
     getColorScale(mineral) {
         if (this.availableMinerals.hasOwnProperty(mineral)) {
-            let colorScale = d3.scaleLinear().domain([0, this.availableMinerals[mineral]]).range([Model.colors]);
+            let colorScale = d3.scaleLinear().domain([0, this.availableMinerals[mineral]]).range(Model.colors);
             return (value) => {
                 if (value > this.availableMinerals[mineral]) {
                     return Model.maxColor;
@@ -46,10 +46,8 @@ class DataSet {
 
     getDataPointObj(mineral) {
         if (!this.availableMinerals.hasOwnProperty(mineral)) {
-            if (this.dataPoints.hasOwnProperty("default")) {
-                this.dataPoints["default"] = new DataPoints(this.name, mineral, (value) => {
-                        return "black"
-                    },
+            if (!this.dataPoints.hasOwnProperty("default")) {
+                this.dataPoints["default"] = new DataPoints(this.name, mineral, this.getColorScale(mineral),
                     d3.scaleLinear().domain([1, 5]).range([1, 5]))
             }
             return this.dataPoints["default"];
@@ -64,13 +62,15 @@ class DataSet {
 
     calculateSize(mineral, value) {
         if (!this.dataPoints.hasOwnProperty(mineral)) {
-        }//todo throw error
+            return this.dataPoints["default"].calculateSize(value);
+        }
         return this.dataPoints[mineral].calculateSize(value);
     }
 
     calculateColor(mineral, value) {
         if (!this.dataPoints.hasOwnProperty(mineral)) {
-        }//todo throw error
+            return this.dataPoints["default"].calculateColor(value);
+        }
         return this.dataPoints[mineral].calculateColor(value);
     }
 }

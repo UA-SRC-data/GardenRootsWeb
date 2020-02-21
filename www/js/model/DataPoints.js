@@ -17,6 +17,6 @@ class DataPoints{
     }
 
     calculateColor(value){
-        return this.colorScale(value);
+        return this.colorScale(value.properties.averages[this.mineral]);
     }
 }
