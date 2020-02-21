@@ -14,6 +14,12 @@ class View {
     constructor() {
         this.model = new Model();
         this.controller = new Controller(this, this.model);
+        this.setUpSvg();
+
+        this.mapG = this.svg.append("g");
+    }
+
+    setUpSvg(){
         this.svg = d3.select(".mapCanvas")
             .append("svg")
             .attr("width", "100%")
@@ -49,8 +55,6 @@ class View {
             legendG.attr("transform", "scale(" + d3.event.scale + ")")
 
         }))*/;
-
-        this.mapG = this.svg.append("g");
     }
 
     setUpBackGroundMap() {
@@ -99,9 +103,7 @@ class View {
             .attr("transform", function (d) {
                 return "translate(" + View.projection(d.coordinates) + ")";
             })
-            .attr("r", function (d) {
-                return d.properties.numPoints;
-            })
+            .attr("r", (d)=>{return this.controller.calculateSize(d)})
             .attr("stroke", "black")// todo change
             .attr("stroke-width", 0.5)
             .attr("fill", (d)=>{return this.controller.calculateColor(d)})// todo change

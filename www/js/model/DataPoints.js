@@ -13,7 +13,7 @@ class DataPoints{
     }
 
     calculateSize(value){
-        return this.sizeScale(value);
+        return this.sizeScale(value.properties.numPoints);
     }
 
     calculateColor(value){
