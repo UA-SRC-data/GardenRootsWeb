@@ -12,7 +12,7 @@ class View {
     point;
     backgroundMap;
     sizeLegend;
-    scaleG;
+    colorLegend;
 
     constructor() {
         this.model = new Model();
@@ -21,8 +21,7 @@ class View {
         this.backgroundMap = new BackgroundMap(this.svg, this.controller);
         this.point = new Points(this.svg, this.controller);
         this.sizeLegend = new SizeLegend(this.svg, this.controller);
-
-        this.scaleG = this.svg.append("g");
+        this.colorLegend = new ColorLegend(this.svg, this.controller);
     }
 
     setUpSvg() {
@@ -66,73 +65,21 @@ class View {
     }
 
     setUpWhiteColorLegend() {
-        this.scaleG.selectAll("rect")
-            .data([1, 2, 3, 4, 5]).enter()
-            .append("svg:rect")
-            .attr("class", "scaleRects")
-            .attr("x", function (d) {
-                return 60 * d;
-            })
-            .attr("y", "85vh")
-            .attr("width", 50)
-            .attr("height", 50)
-            .attr("stroke", "black")
-            .attr("stroke-width", 0.5)
-            .attr("fill", "white");
-        this.scaleG.selectAll("text")
-            .data([1, 2, 3, 4, 5, 6]).enter()
-            .append("text")
-            .attr("y", "94vh")
-            .attr("x", function (d) {
-                return 60 * d;
-            })
-            .attr("text-anchor", "middle")
-            .attr("class", "scalelabels")
-            .style("font-size", 14)
-            .text("");
-    }
-
-    resetColorLegend() {
-        this.scaleG.selectAll("rect").attr("fill", "white");
+        this.colorLegend.setUpWhiteColor();
     }
 
     drawDataPoints() {
         this.controller.setUpPoints((points) => {
             this.point.callbackDrawPoints(points);
             this.sizeLegend.drawSizeLegend();
-            this.updateColorLegend();
+            this.colorLegend.updateColor();
         });
     }
-
-    updateColorLegend = () => {
-        this.scaleG.selectAll(".scaleRects")
-            .attr("fill", (d, i) => {
-                if (this.controller.isCurrentMineralAvailableInCurrentDataSet()) {
-                    return ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#0c2c84'][i];
-                } else {
-                    var linearColor = d3.scaleLinear()
-                        .domain([0, 4])
-                        .range(["white", "purple"]);
-                    return linearColor(i);
-                }
-            });
-
-        /*
-        this.scaleG.selectAll(".scalelabels")
-            .text(function(d, i) {
-                var top = refs.hasOwnProperty(contaminant) ? refs[contaminant] : maxes[contaminant];
-                var rounded = Math.ceil(top);
-                if (i < 5)
-                    return (rounded/4) * i;
-                else
-                    return units[globalDataset];
-            });*/
-    };
 
     erasePreviousDrawing() {
         this.point.erase();
         this.sizeLegend.erase();
-        this.resetColorLegend();
+        this.colorLegend.resetColor();
     }
 
     selectDataSet(dataSet) {
