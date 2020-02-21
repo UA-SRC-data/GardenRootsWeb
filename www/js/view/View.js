@@ -4,6 +4,12 @@ class View {
     static geoPath = d3.geoPath().projection(View.projection);
     static zoom = d3.zoom();
 
+    static svgWidth = "100%";
+    static svgHeight = "100vh";
+    static divClass = ".mapCanvas";
+    static setSelectorId = "dataset";
+    static contaminantSelectorId = "contaminant";
+
     static viewInstance = undefined;
 
     controller;
@@ -25,10 +31,10 @@ class View {
     }
 
     setUpSvg() {
-        this.svg = d3.select(".mapCanvas")
+        this.svg = d3.select(View.divClass)
             .append("svg")
-            .attr("width", "100%")
-            .attr("height", "100vh")
+            .attr("width", View.svgWidth)
+            .attr("height", View.svgHeight)
             .call(View.zoom.on("zoom", () => {
                 this.point.zoom();
                 this.backgroundMap.zoom();
@@ -47,7 +53,7 @@ class View {
         this.colorLegend.setUpWhiteColor();
     }
 
-    drawDataPoints() {
+    drawDataPointsAndLegends() {
         this.controller.setUpPoints((points) => {
             this.point.callbackDrawPoints(points);
             this.sizeLegend.drawSizeLegend();
@@ -62,17 +68,17 @@ class View {
     }
 
     selectDataSet(dataSet) {
-        document.getElementById('dataset').innerHTML = dataSet;
+        document.getElementById(View.setSelectorId).innerHTML = dataSet;
         this.erasePreviousDrawing();
         this.controller.setCurrentDataSet(dataSet);
     }
 
     selectContaminant(contaminant) {
-        document.getElementById('contaminant').innerHTML = contaminant;
+        document.getElementById(View.contaminantSelectorId).innerHTML = contaminant;
         // todo need to figure out what to do when dataset changed and not changed
         this.erasePreviousDrawing();
         this.controller.setCurrentMineral(contaminant);
-        this.drawDataPoints();
+        this.drawDataPointsAndLegends();
     }
 
     static lunch() {
