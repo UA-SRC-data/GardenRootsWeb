@@ -10,6 +10,7 @@ class View {
     model;
     svg;
     point;
+    backgroundMap;
     mapG;
     legendG;
     scaleG;
@@ -21,7 +22,7 @@ class View {
         this.setUpSvg();
         this.mapG = this.svg.append("g");
         this.point = new Points(this.mapG, this.controller);
-
+        this.backgroundMap = new BackgroundMap(this.mapG, this.controller);
 
         this.legendG = this.svg.append("g");
         this.scaleG = this.svg.append("g");
@@ -62,7 +63,7 @@ class View {
     setUpBackGroundMap() {
         // -------------------------------------vvvvv has to be done in this way. to avoid the problem of "this" keyword
         this.controller.setUpBackGroundMap((data) => {
-            this.callbackDrawBackGroundMap(data)
+            this.backgroundMap.callbackDrawBackGroundMap(data)
         });
     }
 
@@ -96,27 +97,6 @@ class View {
     resetColorLegend() {
         this.scaleG.selectAll("rect").attr("fill", "white");
     }
-
-    // this function has to be done in this way( (...)=> {...}) to avoid the problem of 'this' key word
-    callbackDrawBackGroundMap = (data) => {
-        //draw the map
-        this.mapG.selectAll("path")
-            .data(data) // todo need change
-            .enter()
-            .append("path")
-            .attr("class", "garden")
-            .attr("d", View.geoPath)
-            .attr("stroke-width", 0.5)
-            .attr("stroke", function (d) { //light grey for roads, black for outline
-                if (d.properties && d.properties.hasOwnProperty("FULLNAME")) {
-                    return "lightgrey";
-                }
-                return "black";
-            })
-            .attr("z-index", -1)
-            .attr("opacity", 1)
-            .attr('fill', 'transparent');
-    };
 
 
     drawDataPoints() {
