@@ -51,6 +51,17 @@ class SizeLegend {
 
     zoom = () => {
         this.legendG.attr("transform", "scale(" + d3.event.transform.k + ")")
+        this.svg.selectAll(".legendpoints")
+            .attr("stroke-width", function (d) {
+                return (0.5) / d3.event.transform.k;
+            });
+        this.svg.selectAll(".legendlabels")
+            .attr("y", function (d) {
+                return 7 / d3.event.transform.k
+            })
+            .style("font-size", function (d) {
+                return 14 / d3.event.transform.k;
+            });
     };
 
     erase = () => {

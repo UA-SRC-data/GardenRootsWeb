@@ -33,6 +33,10 @@ class Points {
 
     erase = () => {
         this.layer.selectAll(".points").remove();
+        this.layer.selectAll(".points")
+            .attr("stroke-width", function (d) {
+                return (0.5) / d3.event.transform.k;
+            });
     }
 
 

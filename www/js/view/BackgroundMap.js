@@ -30,5 +30,9 @@ class BackgroundMap {
 
     zoom = () => {
         this.layer.attr("transform", d3.event.transform);
+        this.layer.selectAll(".garden")
+            .attr("stroke-width", function (d) {
+                return (0.5) / d3.event.transform.k;
+            });
     };
 }

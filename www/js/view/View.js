@@ -30,27 +30,6 @@ class View {
             .attr("width", "100%")
             .attr("height", "100vh")
             .call(View.zoom.on("zoom", () => {
-                //check the d3.event.scale
-                //figure out reasonable range
-                this.svg.selectAll(".garden")
-                    .attr("stroke-width", function (d) {
-                        return (0.5) / d3.event.transform.k;
-                    });
-                this.svg.selectAll(".points")
-                    .attr("stroke-width", function (d) {
-                        return (0.5) / d3.event.transform.k;
-                    });
-                this.svg.selectAll(".legendpoints")
-                    .attr("stroke-width", function (d) {
-                        return (0.5) / d3.event.transform.k;
-                    });
-                this.svg.selectAll(".legendlabels")
-                    .attr("y", function (d) {
-                        return 7 / d3.event.transform.k
-                    })
-                    .style("font-size", function (d) {
-                        return 14 / d3.event.transform.k;
-                    });
                 this.point.zoom();
                 this.backgroundMap.zoom();
                 this.sizeLegend.zoom();
