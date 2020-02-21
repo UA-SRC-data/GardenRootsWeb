@@ -9,6 +9,7 @@ class View {
     controller;
     model;
     svg;
+    point;
     mapG;
     legendG;
     scaleG;
@@ -18,8 +19,10 @@ class View {
         this.model = new Model();
         this.controller = new Controller(this, this.model);
         this.setUpSvg();
-
         this.mapG = this.svg.append("g");
+        this.point = new Points(this.mapG, this.controller);
+
+
         this.legendG = this.svg.append("g");
         this.scaleG = this.svg.append("g");
     }
@@ -40,12 +43,10 @@ class View {
                     .attr("stroke-width", function (d) {
                         return (0.5) / d3.event.transform.k;
                     });
-
                 this.svg.selectAll(".legendpoints")
                     .attr("stroke-width", function (d) {
                         return (0.5) / d3.event.transform.k;
                     });
-
                 this.svg.selectAll(".legendlabels")
                     .attr("y", function (d) {
                         return 7 / d3.event.transform.k
@@ -53,27 +54,25 @@ class View {
                     .style("font-size", function (d) {
                         return 14 / d3.event.transform.k;
                     });
-
-                this.mapG.attr("transform", d3.event.transform);
+                this.point.zoom();
                 this.legendG.attr("transform", "scale(" + d3.event.transform.k + ")")
-
             }));
     }
 
     setUpBackGroundMap() {
         // -------------------------------------vvvvv has to be done in this way. to avoid the problem of "this" keyword
         this.controller.setUpBackGroundMap((data) => {
-           this.callbackDrawBackGroundMap(data)
+            this.callbackDrawBackGroundMap(data)
         });
     }
 
     setUpWhiteColorLegend() {
         this.scaleG.selectAll("rect")
-            .data([1,2,3,4,5]).enter()
+            .data([1, 2, 3, 4, 5]).enter()
             .append("svg:rect")
             .attr("class", "scaleRects")
-            .attr("x", function(d){
-                return 60*d;
+            .attr("x", function (d) {
+                return 60 * d;
             })
             .attr("y", "85vh")
             .attr("width", 50)
@@ -82,19 +81,19 @@ class View {
             .attr("stroke-width", 0.5)
             .attr("fill", "white");
         this.scaleG.selectAll("text")
-            .data([1,2,3,4,5,6]).enter()
+            .data([1, 2, 3, 4, 5, 6]).enter()
             .append("text")
             .attr("y", "94vh")
-            .attr("x", function(d){
-                return 60*d;
+            .attr("x", function (d) {
+                return 60 * d;
             })
             .attr("text-anchor", "middle")
             .attr("class", "scalelabels")
-            .style("font-size",14)
+            .style("font-size", 14)
             .text("");
     }
 
-    resetColorLegend(){
+    resetColorLegend() {
         this.scaleG.selectAll("rect").attr("fill", "white");
     }
 
@@ -122,7 +121,7 @@ class View {
 
     drawDataPoints() {
         this.controller.setUpPoints((points) => {
-            this.callbackDrawPoints(points);
+            this.point.callbackDrawPoints(points);
             this.drawSizeLegend();
             this.updateColorLegend();
         });
@@ -130,12 +129,12 @@ class View {
 
     updateColorLegend = () => {
         this.scaleG.selectAll(".scaleRects")
-            .attr("fill",(d, i)=>{
-                if (this.controller.isCurrentMineralAvailableInCurrentDataSet()){
+            .attr("fill", (d, i) => {
+                if (this.controller.isCurrentMineralAvailableInCurrentDataSet()) {
                     return ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#0c2c84'][i];
                 } else {
                     var linearColor = d3.scaleLinear()
-                        .domain([0,4])
+                        .domain([0, 4])
                         .range(["white", "purple"]);
                     return linearColor(i);
                 }
@@ -196,31 +195,12 @@ class View {
     };
 
     erasePreviousDrawing() {
-        this.mapG.selectAll(".points").remove();
+        this.point.erase();
         this.legendG.selectAll(".legendpoints").remove();
-        this.legendG.selectAll(".legendlabels").remove()
+        this.legendG.selectAll(".legendlabels").remove();
         this.resetColorLegend();
     }
 
-    callbackDrawPoints = (points) => {
-        this.mapG
-            .selectAll("circle")
-            .data(points)
-            .enter()
-            .append("svg:circle")
-            .attr("class", "points")
-            .attr("transform", function (d) {
-                return "translate(" + View.projection(d.coordinates) + ")";
-            })
-            .attr("r", (d) => {
-                return this.controller.calculateSize(d)
-            })
-            .attr("stroke", "black")
-            .attr("stroke-width", 0.5)
-            .attr("fill", (d) => {
-                return this.controller.calculateColor(d)
-            })// todo change
-    };
 
     selectDataSet(dataSet) {
         document.getElementById('dataset').innerHTML = dataSet;
