@@ -56,6 +56,11 @@ class Controller{
         return this.currentDataSet.getLegendPoints(this.model.getCurrentMineral());
     }
 
-
+    isCurrentMineralAvailableInCurrentDataSet(){
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return this.currentDataSet.isMineralAvailable(this.model.currentMineral);
+    }
 
 }

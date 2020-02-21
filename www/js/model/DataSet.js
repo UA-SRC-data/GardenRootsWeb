@@ -78,4 +78,8 @@ class DataSet {
         }
         return this.dataPoints[mineral].getLegendPoints();
     }
+
+    isMineralAvailable(mineral){
+        return this.availableMinerals.hasOwnProperty(mineral);
+    }
 }
