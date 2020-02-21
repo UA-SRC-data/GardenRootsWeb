@@ -1,14 +1,14 @@
 class Points {
-    mapG;
+    layer;
     controller;
 
-    constructor(mpg, controller) {
-        this.mapG = mpg;
+    constructor(svg, controller) {
+        this.layer = svg.append("g");
         this.controller = controller;
     }
 
     callbackDrawPoints = (points) => {
-        this.mapG
+        this.layer
             .selectAll("circle")
             .data(points)
             .enter()
@@ -28,11 +28,11 @@ class Points {
     };
 
     zoom = () => {
-        this.mapG.attr("transform", d3.event.transform);
+        this.layer.attr("transform", d3.event.transform);
     };
 
     erase = () => {
-        this.mapG.selectAll(".points").remove();
+        this.layer.selectAll(".points").remove();
     }
 
 

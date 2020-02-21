@@ -1,16 +1,16 @@
 class BackgroundMap {
-    mapG;
+    layer;
     controller;
 
-    constructor(mpg, controller) {
-        this.mapG = mpg;
+    constructor(svg, controller) {
+        this.layer = svg.append("g");
         this.controller = controller;
     }
 
     // this function has to be done in this way( (...)=> {...}) to avoid the problem of 'this' key word
     callbackDrawBackGroundMap = (data) => {
         //draw the map
-        this.mapG.selectAll("path")
+        this.layer.selectAll("path")
             .data(data) // todo need change
             .enter()
             .append("path")
@@ -26,5 +26,9 @@ class BackgroundMap {
             .attr("z-index", -1)
             .attr("opacity", 1)
             .attr('fill', 'transparent');
+    };
+
+    zoom = () => {
+        this.layer.attr("transform", d3.event.transform);
     };
 }

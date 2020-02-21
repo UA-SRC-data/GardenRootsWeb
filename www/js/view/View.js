@@ -11,18 +11,15 @@ class View {
     svg;
     point;
     backgroundMap;
-    mapG;
     legendG;
     scaleG;
-
 
     constructor() {
         this.model = new Model();
         this.controller = new Controller(this, this.model);
         this.setUpSvg();
-        this.mapG = this.svg.append("g");
-        this.point = new Points(this.mapG, this.controller);
-        this.backgroundMap = new BackgroundMap(this.mapG, this.controller);
+        this.backgroundMap = new BackgroundMap(this.svg, this.controller);
+        this.point = new Points(this.svg, this.controller);
 
         this.legendG = this.svg.append("g");
         this.scaleG = this.svg.append("g");
@@ -56,6 +53,7 @@ class View {
                         return 14 / d3.event.transform.k;
                     });
                 this.point.zoom();
+                this.backgroundMap.zoom();
                 this.legendG.attr("transform", "scale(" + d3.event.transform.k + ")")
             }));
     }
