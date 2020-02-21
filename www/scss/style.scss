@@ -96,7 +96,7 @@ icon-white {
 		display: block;
 	}
 	&:after {
-		@include transform(translate(-50%, -50%))
+		@include transform(translate(-50%, -50%));
 		content: '';
 		position: absolute;
 		top: 50%;
