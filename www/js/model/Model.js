@@ -3,9 +3,9 @@ class Model {
     //to maybe take this into a object.
     static dataSets = {
         NULL: undefined,
-        SOIL_YARD: "Soil Yard",
-        SOIL_GARDEN: "Soil Garden",
-        WATER: "water"
+        yard: "Soil Yard",
+        garden: "Soil Garden",
+        water: "water"
     };
 
     //todo maybe should be read from json
@@ -102,12 +102,15 @@ class Model {
         if (newSet === this.currentDataSet) {
             return;
         }
-        if (!Model.dataSet.hasOwnProperty(newSet)) {
+        if (!Model.dataSets.hasOwnProperty(newSet)) {
             return;
         }
         this.currentDataSet = newSet;
         //todo clean other clean mineral
     }
+
+
+
 
     getCurrentMineral() {
         return this.currentMineral;
@@ -117,7 +120,7 @@ class Model {
         if (newMineral === this.currentMineral) {
             return;
         }
-        if (!Model.minerals.contains(newMineral)) {
+        if (!Model.minerals.hasOwnProperty(newMineral)) {
             return;
         }
         this.currentMineral = newMineral;
