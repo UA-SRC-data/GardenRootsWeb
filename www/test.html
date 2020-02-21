@@ -46,8 +46,8 @@
 
 
 </style>
-<script src="//d3js.org/d3.v3.min.js"></script>
-<script src="//d3js.org/topojson.v1.min.js"></script>
+<script src="//d3js.org/d3.v5.min.js"></script>
+<script src="//d3js.org/topojson.v2.min.js"></script>
 <!-- todo this needs to be changed -->
 <script src="./js/view/View.js"></script>
 <script src="./js/controller/Controller.js"></script>
@@ -67,9 +67,9 @@
                 Select a Dataset
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" onclick="selectDataSet('yard');">Soil Yard</a>
-                <a class="dropdown-item" href="#" onclick="selectDataSet('garden');">Soil Garden</a>
-                <a class="dropdown-item" href="#" onclick="selectDataSet('water');">Water</a>
+                <a class="dropdown-item" href="#" onclick="View.selectDataSet('yard');">Soil Yard</a>
+                <a class="dropdown-item" href="#" onclick="View.selectDataSet('garden');">Soil Garden</a>
+                <a class="dropdown-item" href="#" onclick="View.selectDataSet('water');">Water</a>
             </div>
         </div>
         <div class="dropdown">
@@ -77,23 +77,23 @@
                 Select a Mineral
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Beryllium</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Sodium</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Potassium</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Calcium</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Chromium</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Manganese</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Iron</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Cobalt</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Nickel</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Copper</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Zinc</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Arsenic</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Selenium</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Molybdenum</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Cadmium</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Barium</a>
-                <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Lead</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Beryllium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Sodium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Potassium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Calcium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Chromium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Manganese</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Iron</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Cobalt</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Nickel</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Copper</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Zinc</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Arsenic</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Selenium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Molybdenum</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Cadmium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Barium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Lead</a>
             </div>
         </div>
 
