@@ -51,9 +51,6 @@ class DataPointPrompt {
     };
 
     showPrompt = (d) => {
-        let rowNumber = Math.ceil(this.controller.getNumberOfSamplePoint(d) / DataPointPrompt.colNumber);
-        let textY = DataPointPrompt.lineHeight * (rowNumber + 1);
-
         this.tooltip.transition()
             .duration(150)
             .style("opacity", 1);
@@ -62,22 +59,29 @@ class DataPointPrompt {
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) + "px");
 
-
+        let rowNumber = Math.ceil(this.controller.getNumberOfSamplePoint(d) / DataPointPrompt.colNumber);
+        let textY = DataPointPrompt.lineHeight * (rowNumber + 1);
 
         //set up the tooltip svg
         let histSvg = this.tooltip.append("svg");
         histSvg.attr("width", DataPointPrompt.width)
             .attr("height", DataPointPrompt.height);
 
+        //draw the dotmap
+        this.addDotMap(histSvg, d);
 
+        //add text
+        this.addAverageInfo(histSvg, textY, d);
+        this.addMedianInfo(histSvg, textY, d);
+        this.addExceedingSampleInfo(histSvg, textY, d);
+    };
 
+    addDotMap = (histSvg, d) => {
         //get the values and sort them directly
         let protData = this.controller.getAllSampleData(d);
-        protData.sort(function (a, b) {
+        protData.sort((a, b) => {
             return a - b;
         });
-
-        //draw the dotmap
         histSvg.selectAll("circle")
             .data(protData).enter()
             .append("svg:circle")
@@ -90,40 +94,44 @@ class DataPointPrompt {
             .attr("r", 5)
             .attr("stroke", "black")
             .attr("stroke-width", 0.5)
-            .attr("fill",  (d) => {
+            .attr("fill", (d) => {
                 return this.controller.calculateColor(d);
             });
+    };
 
-
-        //add text
+    addAverageInfo = (histSvg, textY, d) => {
         histSvg.append("text")
             .attr("x", 10)
             .attr("y", textY)
             .style("font-size", 14)
-            .text(()=> {
+            .text(() => {
                 return "Average " + Number.parseFloat(this.controller.getSampleAverage(d)).toFixed(1) + " ug/mg";
             });
+    };
 
+    addMedianInfo = (histSvg, textY, d) => {
         histSvg.append("text")
             .attr("x", 10)
             .attr("y", textY + DataPointPrompt.lineHeight)
             .style("font-size", 14)
-            .text( () =>{
+            .text(() => {
                 return "Median " + this.controller.getSampleMedian(d).toFixed(1) + " ug/mg";
             });
+    };
 
+    addExceedingSampleInfo = (histSvg, textY, d) => {
         histSvg.append("text")
             .attr("x", 10)
             .attr("y", textY + 2 * DataPointPrompt.lineHeight)
             .style("font-size", 14)
-            .text( () => {
+            .text(() => {
                 let percentage = Math.ceil(this.controller.getSampleExceed(d));
                 if (percentage === 0) {
                     return "No exceedances";
                 }
                 return percentage + "% of samples exceed level";
             });
-    }
+    };
 
 
 }
