@@ -1,10 +1,12 @@
 class Points {
     layer;
     controller;
+    dataPointPrompt;
 
     constructor(svg, controller) {
         this.layer = svg.append("g");
         this.controller = controller;
+        this.dataPointPrompt = new DataPointPrompt(this.layer, controller);
     }
 
     callbackDrawPoints = (points) => {
@@ -24,7 +26,8 @@ class Points {
             .attr("stroke-width", 0.5)
             .attr("fill", (d) => {
                 return this.controller.calculateColor(d)
-            })
+            });
+        this.dataPointPrompt.bound();
     };
 
     zoom = () => {
