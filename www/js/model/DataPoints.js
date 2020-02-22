@@ -43,4 +43,16 @@ class DataPoints{
     getAllSampleData(value){// todo we may call it sample
         return value.properties.values[this.mineral];
     }
+
+    getSampleAverage(value){
+        return value.properties.averages[this.mineral];
+    }
+
+    getSampleMedian(value){
+        let values = this.getAllSampleData(value);
+        values.sort((a, b) => a - b);
+        let lowMiddle = Math.floor((values.length - 1) / 2);
+        let highMiddle = Math.ceil((values.length - 1) / 2);
+        return (values[lowMiddle] + values[highMiddle]) / 2;
+    }
 }

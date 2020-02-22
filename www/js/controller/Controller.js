@@ -80,4 +80,18 @@ class Controller{
         }
         return this.currentDataSet.getAllSampleData(this.model.currentMineral, value)
     }
+
+    getSampleAverage(value){
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return this.currentDataSet.getSampleAverage(this.model.currentMineral, value)
+    }
+
+    getSampleMedian(value){
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return this.currentDataSet.getSampleMedian(this.model.currentMineral, value)
+    }
 }

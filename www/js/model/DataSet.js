@@ -87,7 +87,24 @@ class DataSet {
     }
 
     getAllSampleData(mineral, value){// todo we may call it sample
+        if (!this.dataPoints.hasOwnProperty(mineral)) {
+            // todo throw error
+        }
         return this.dataPoints[mineral].getAllSampleData(value);
+    }
+
+    getSampleAverage(mineral, value){// todo we may call it sample
+        if (!this.dataPoints.hasOwnProperty(mineral)) {
+            // todo throw error
+        }
+        return this.dataPoints[mineral].getSampleAverage(value);
+    }
+
+    getSampleMedian(mineral, value){// todo we may call it sample
+        if (!this.dataPoints.hasOwnProperty(mineral)) {
+            // todo throw error
+        }
+        return this.dataPoints[mineral].getSampleMedian(value);
     }
 
     isMineralAvailable(mineral){
