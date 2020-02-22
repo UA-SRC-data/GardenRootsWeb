@@ -35,6 +35,10 @@ class Controller{
         this.model.setCurrentMineral(mineralName);
     }
 
+    getCurrentMineral(){
+        this.model.getCurrentMineral();
+    }
+
     calculateSize(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
@@ -70,4 +74,10 @@ class Controller{
         return this.currentDataSet.getNumberOfSamplePoint(this.model.currentMineral, value)
     }
 
+    getAllSampleData(value){
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return this.currentDataSet.getAllSampleData(this.model.currentMineral, value)
+    }
 }
