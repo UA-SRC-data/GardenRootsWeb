@@ -71,7 +71,6 @@ class DataPointPrompt {
 
 
 
-        let currentContaminant = this.controller.getCurrentMineral();
         //get the values and sort them directly
         let protData = this.controller.getAllSampleData(d);
         protData.sort(function (a, b) {
@@ -117,7 +116,7 @@ class DataPointPrompt {
             .attr("x", 10)
             .attr("y", textY + 2 * DataPointPrompt.lineHeight)
             .style("font-size", 14)
-            .text( () => { //todo need controller
+            .text( () => {
                 let percentage = Math.ceil(this.controller.getSampleExceed(d));
                 if (percentage === 0) {
                     return "No exceedances";
