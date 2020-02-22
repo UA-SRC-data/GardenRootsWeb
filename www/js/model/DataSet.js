@@ -107,6 +107,13 @@ class DataSet {
         return this.dataPoints[mineral].getSampleMedian(value);
     }
 
+    getSampleExceed(mineral, value){// todo we may call it sample
+        if (!this.dataPoints.hasOwnProperty(mineral)) {
+            // todo throw error
+        }
+        return this.dataPoints[mineral].getSampleExceed(value);
+    }
+
     isMineralAvailable(mineral){
         return this.availableMinerals.hasOwnProperty(mineral);
     }

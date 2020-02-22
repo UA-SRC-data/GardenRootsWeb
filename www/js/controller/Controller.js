@@ -94,4 +94,11 @@ class Controller{
         }
         return this.currentDataSet.getSampleMedian(this.model.currentMineral, value)
     }
+
+    getSampleExceed(value){
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return this.currentDataSet.getSampleExceed(this.model.currentMineral, value)
+    }
 }

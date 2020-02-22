@@ -55,4 +55,15 @@ class DataPoints{
         let highMiddle = Math.ceil((values.length - 1) / 2);
         return (values[lowMiddle] + values[highMiddle]) / 2;
     }
+
+    getSampleExceed(value){
+        let values = this.getAllSampleData(value);
+        let exceeds = 0;
+        for (let i = 0; i < values.length; i++){
+            if (values[i] >= Model.SRLS[this.mineral]){  // todo why just use SRLS?????????????????????????????
+                exceeds++;
+            }
+        }
+        return exceeds/(values.length)*100;
+    }
 }
