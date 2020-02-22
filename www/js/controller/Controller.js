@@ -49,7 +49,7 @@ class Controller{
         return this.currentDataSet.calculateColor(this.model.getCurrentMineral(), value);
     }
 
-    getLegendPoints() {
+    getLegendPoints() {//size legend
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
@@ -61,6 +61,13 @@ class Controller{
             // todo throw error
         }
         return this.currentDataSet.isMineralAvailable(this.model.currentMineral);
+    }
+
+    getNumberOfSamplePoint(value){
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return this.currentDataSet.getNumberOfSamplePoint(this.model.currentMineral, value)
     }
 
 }

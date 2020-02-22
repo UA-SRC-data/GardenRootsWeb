@@ -31,4 +31,8 @@ class DataPoints{
         }
         return data;
     }
+
+    getNumberOfSamplePoint(value){
+        return value.properties.numPoints;
+    }
 }

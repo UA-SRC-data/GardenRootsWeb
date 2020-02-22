@@ -79,6 +79,13 @@ class DataSet {
         return this.dataPoints[mineral].getLegendPoints();
     }
 
+    getNumberOfSamplePoint(mineral, value) {
+        if (!this.dataPoints.hasOwnProperty(mineral)) {
+            // todo throw error
+        }
+        return this.dataPoints[mineral].getNumberOfSamplePoint(value);
+    }
+
     isMineralAvailable(mineral){
         return this.availableMinerals.hasOwnProperty(mineral);
     }
