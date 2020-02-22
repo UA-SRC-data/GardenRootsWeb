@@ -18,7 +18,11 @@ class DataPoints{
     }
 
     calculateColor(value){
-        return this.colorScale(value.properties.averages[this.mineral]);
+        if (typeof value === "number") {
+            return this.colorScale(value);
+        }else {
+            return this.colorScale(value.properties.averages[this.mineral]);
+        }
     }
 
     getLegendPoints(){
@@ -34,5 +38,9 @@ class DataPoints{
 
     getNumberOfSamplePoint(value){
         return value.properties.numPoints;
+    }
+
+    getAllSampleData(value){// todo we may call it sample
+        return value.properties.values[this.mineral];
     }
 }

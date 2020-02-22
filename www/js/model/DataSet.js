@@ -86,6 +86,10 @@ class DataSet {
         return this.dataPoints[mineral].getNumberOfSamplePoint(value);
     }
 
+    getAllSampleData(mineral, value){// todo we may call it sample
+        return this.dataPoints[mineral].getAllSampleData(value);
+    }
+
     isMineralAvailable(mineral){
         return this.availableMinerals.hasOwnProperty(mineral);
     }
