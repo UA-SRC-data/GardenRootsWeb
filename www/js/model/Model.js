@@ -148,7 +148,6 @@ class Model {
             return;
         }
         this.currentContaminant = newContaminant;
-        //todo clean other
     }
 
     getBackGroundMapObj() {
@@ -165,10 +164,17 @@ class Model {
         return setObj;
     }
 
+    isCurrentDataSetReady() {
+        return this.dataSets.hasOwnProperty(this.currentDataSet);
+    }
+
     getDataPointObj() {
         let setObj = this.getDataSetObj();
         return setObj.getDataPointObj(this.currentContaminant);
     }
 
+    isCurrentDataPointReady() {
+        return this.isCurrentDataSetReady() && this.dataSets[this.currentDataSet].dataPoints.hasOwnProperty(this.currentContaminant);
+    }
 
 }
