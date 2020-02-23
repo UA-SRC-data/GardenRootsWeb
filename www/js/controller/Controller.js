@@ -2,13 +2,14 @@ class Controller{
 
     view;
     model;
-    backgroundMap = undefined;
+    backgroundMap;
     currentDataSet;
     currentDataPoint;
 
     constructor(view, model){
         this.model = model;
         this.view = view;
+        this.backgroundMap = undefined;
         this.currentDataSet = undefined;
         this.currentDataPoint = undefined;
     }
@@ -64,41 +65,41 @@ class Controller{
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.isContaminantAvailable(this.model.currentContaminant);
+        return this.currentDataSet.isContaminantAvailable(this.model.getCurrentContaminant());
     }
 
     getNumberOfSamplePoint(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getNumberOfSamplePoint(this.model.currentContaminant, value)
+        return this.currentDataSet.getNumberOfSamplePoint(this.model.getCurrentContaminant(), value)
     }
 
     getAllSampleData(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getAllSampleData(this.model.currentContaminant, value)
+        return this.currentDataSet.getAllSampleData(this.model.getCurrentContaminant(), value)
     }
 
     getSampleAverage(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getSampleAverage(this.model.currentContaminant, value)
+        return this.currentDataSet.getSampleAverage(this.model.getCurrentContaminant(), value)
     }
 
     getSampleMedian(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getSampleMedian(this.model.currentContaminant, value)
+        return this.currentDataSet.getSampleMedian(this.model.getCurrentContaminant(), value)
     }
 
     getSampleExceed(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getSampleExceed(this.model.currentContaminant, value)
+        return this.currentDataSet.getSampleExceed(this.model.getCurrentContaminant(), value)
     }
 }
