@@ -1,14 +1,14 @@
 class DataPoints{
 
     dataSet;
-    mineral;
+    contaminant;
     colorScale;
     sizeScale;
     LegendSample = [20, 10, 5, 2, 1];
 
-    constructor(dataSet, mineral, colorScale, sizeScale){
+    constructor(dataSet, contaminant, colorScale, sizeScale){
         this.dataSet = dataSet;
-        this.mineral = mineral;
+        this.contaminant = contaminant;
         this.colorScale = colorScale;
         this.sizeScale = sizeScale;
     }
@@ -17,11 +17,11 @@ class DataPoints{
         return this.sizeScale(value.properties.numPoints);
     }
 
-    calculateColor(value){
+    calculateColor(value){// I call it value because it can be a number or object
         if (typeof value === "number") {
             return this.colorScale(value);
         }else {
-            return this.colorScale(value.properties.averages[this.mineral]);
+            return this.colorScale(value.properties.averages[this.contaminant]);
         }
     }
 
@@ -36,16 +36,16 @@ class DataPoints{
         return data;
     }
 
-    getNumberOfSamplePoint(value){
+    getNumberOfSamplePoint(value){// for consistency, I just call it value.
         return value.properties.numPoints;
     }
 
-    getAllSampleData(value){// todo we may call it sample
-        return value.properties.values[this.mineral];
+    getAllSampleData(value){
+        return value.properties.values[this.contaminant];
     }
 
     getSampleAverage(value){
-        return value.properties.averages[this.mineral];
+        return value.properties.averages[this.contaminant];
     }
 
     getSampleMedian(value){
@@ -60,7 +60,7 @@ class DataPoints{
         let values = this.getAllSampleData(value);
         let exceeds = 0;
         for (let i = 0; i < values.length; i++){
-            if (values[i] >= Model.SRLS[this.mineral]){  // todo why just use SRLS?????????????????????????????
+            if (values[i] >= Model.SRLS[this.contaminant]){  // todo why just use SRLS?????????????????????????????
                 exceeds++;
             }
         }
