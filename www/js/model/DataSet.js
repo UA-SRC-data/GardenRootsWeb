@@ -43,11 +43,6 @@ class DataSet {
     }
 
     getDataPointObj(contaminant) {
-        if (!this.availableContaminants.hasOwnProperty(contaminant)) {
-            this.dataPoints[contaminant] = new DataPoints(this.name, contaminant, this.getColorScale(contaminant),
-                d3.scaleLinear().domain([1, 5]).range([1, 5]));
-            return this.dataPoints[contaminant];
-        }
         if (!this.dataPoints.hasOwnProperty(contaminant)) {
             this.dataPoints[contaminant] =
                 new DataPoints(this.name, contaminant, this.getColorScale(contaminant),
