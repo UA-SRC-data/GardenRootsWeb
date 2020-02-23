@@ -26,8 +26,7 @@ class DataSet {
     }
 
     getMaxValues(mineral) {
-        //todo implement
-        return 2320
+        return Model.maxes[mineral];
     }
 
     getColorScale(mineral) {

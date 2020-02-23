@@ -67,6 +67,32 @@ class Model {
         "garden": Model.SRLS
     };
 
+    static maxes = {
+        "Beryllium": 2.0385893966666666,
+        "Sodium": 2320.69,
+        "Magnesium": 19595.42,
+        "Aluminium": 14621,
+        "Potassium": 5234,
+        "Calcium": 168491.945,
+        "Vanadium": 42.620000000000005,
+        "Chromium": 55.769999999999996,
+        "Manganese": 2087.1447099,
+        "Iron": 38754.35317433332,
+        "Cobalt": 16.205913156200005,
+        "Nickel": 35.004999999999995,
+        "Copper": 649.255,
+        "Zinc": 816.5,
+        "Arsenic": 74.75503407046666,
+        "Selenium": 9.64,
+        "Molybdenum": 3.0700000000000003,
+        "Silver": 0.8240000000000001,
+        "Cadmium": 4.475,
+        "Tin": 55.410000000000004,
+        "Antimony": 0.33599999999999997,
+        "Barium": 988.4449999999999,
+        "Lead": 498.85
+    };
+
     static colors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4'];
     static maxColor = '#0c2c84';
 
@@ -110,8 +136,6 @@ class Model {
     }
 
 
-
-
     getCurrentMineral() {
         return this.currentMineral;
     }
@@ -141,7 +165,7 @@ class Model {
         return setObj;
     }
 
-    getDataPointObj(){
+    getDataPointObj() {
         let setObj = this.getDataSetObj();
         return setObj.getDataPointObj(this.currentMineral);
     }
