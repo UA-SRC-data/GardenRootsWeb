@@ -1,6 +1,6 @@
 //todo color scale restructure
 //todo text for color scale
-//todo max
+//todo callback for cleaning
 class View {
 
     static projection = d3.geoAlbersUsa().scale(4500).translate([1750, 100]);
@@ -80,7 +80,7 @@ class View {
         document.getElementById(View.contaminantSelectorId).innerHTML = contaminant;
         // todo need to figure out what to do when dataset changed and not changed
         this.erasePreviousDrawing();
-        this.controller.setCurrentMineral(contaminant);
+        this.controller.setCurrentContaminant(contaminant);
         this.drawDataPointsAndLegends();
     }
 

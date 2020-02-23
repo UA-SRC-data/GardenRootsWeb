@@ -41,7 +41,7 @@ class ColorLegend {
     updateColor = () => {
         this.scaleG.selectAll(".scaleRects")
             .attr("fill", (d, i) => {
-                if (this.controller.isCurrentMineralAvailableInCurrentDataSet()) {
+                if (this.controller.isCurrentContaminantAvailableInCurrentDataSet()) {
                     return ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#0c2c84'][i];
                 } else {
                     let linearColor = d3.scaleLinear()

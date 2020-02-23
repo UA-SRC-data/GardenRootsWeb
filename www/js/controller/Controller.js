@@ -31,74 +31,74 @@ class Controller{
         this.model.setCurrentDataSet(dataSetsName);
     }
 
-    setCurrentMineral(mineralName){
-        this.model.setCurrentMineral(mineralName);
+    setCurrentContaminant(contaminant){
+        this.model.setCurrentContaminant(contaminant);
     }
 
-    getCurrentMineral(){
-        this.model.getCurrentMineral();
+    getCurrentContaminant(){
+        this.model.getCurrentContaminant();
     }
 
     calculateSize(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.calculateSize(this.model.getCurrentMineral(), value);
+        return this.currentDataSet.calculateSize(this.model.getCurrentContaminant(), value);
     }
 
     calculateColor(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.calculateColor(this.model.getCurrentMineral(), value);
+        return this.currentDataSet.calculateColor(this.model.getCurrentContaminant(), value);
     }
 
     getLegendPoints() {//size legend
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getLegendPoints(this.model.getCurrentMineral());
+        return this.currentDataSet.getLegendPoints(this.model.getCurrentContaminant());
     }
 
-    isCurrentMineralAvailableInCurrentDataSet(){
+    isCurrentContaminantAvailableInCurrentDataSet(){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.isMineralAvailable(this.model.currentMineral);
+        return this.currentDataSet.isContaminantAvailable(this.model.currentContaminant);
     }
 
     getNumberOfSamplePoint(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getNumberOfSamplePoint(this.model.currentMineral, value)
+        return this.currentDataSet.getNumberOfSamplePoint(this.model.currentContaminant, value)
     }
 
     getAllSampleData(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getAllSampleData(this.model.currentMineral, value)
+        return this.currentDataSet.getAllSampleData(this.model.currentContaminant, value)
     }
 
     getSampleAverage(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getSampleAverage(this.model.currentMineral, value)
+        return this.currentDataSet.getSampleAverage(this.model.currentContaminant, value)
     }
 
     getSampleMedian(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getSampleMedian(this.model.currentMineral, value)
+        return this.currentDataSet.getSampleMedian(this.model.currentContaminant, value)
     }
 
     getSampleExceed(value){
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
             // todo throw error
         }
-        return this.currentDataSet.getSampleExceed(this.model.currentMineral, value)
+        return this.currentDataSet.getSampleExceed(this.model.currentContaminant, value)
     }
 }
