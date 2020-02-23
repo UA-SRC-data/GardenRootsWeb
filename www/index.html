@@ -7,619 +7,114 @@
 
 <style>
 
-body{
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
+    body{
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
 
-svg {
-  background: white;
-}
+    svg {
+        background: white;
+    }
 
-div.tooltip {   
-    position: absolute;         
-    text-align: center;         
-/*    width: 60px;                    
-    height: 28px;*/                   
-    padding: 5px;               
-    font: 14px;      
-    background: white; 
-    border: 2px solid black;        
-    border-radius: 6px;         
-    pointer-events: none;           
-}
+    div.tooltip {
+        position: absolute;
+        text-align: center;
+        /*    width: 60px;
+            height: 28px;*/
+        padding: 5px;
+        font-size: 14px;
+        background: white;
+        border: 2px solid black;
+        border-radius: 6px;
+        pointer-events: none;
+    }
 
-.bar rect {
-  shape-rendering: crispEdges;
-}
+    .bar rect {
+        shape-rendering: crispEdges;
+    }
 
-.bar text {
-  fill: #999999;
-}
+    .bar text {
+        fill: #999999;
+    }
 
-.axis path, .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
+    .axis path, .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
 
 
 
 </style>
-<script src="//d3js.org/d3.v3.min.js"></script>
-<script src="//d3js.org/topojson.v1.min.js"></script>
+<script src="//d3js.org/d3.v5.min.js"></script>
+<script src="//d3js.org/topojson.v2.min.js"></script>
+<!-- todo this needs to be changed -->
+<script src="./js/view/View.js"></script>
+<script src="./js/view/Points.js"></script>
+<script src="./js/view/BackgroundMap.js"></script>
+<script src="./js/view/SizeLegend.js"></script>
+<script src="./js/view/ColorLegend.js"></script>
+<script src="./js/view/DataPointPrompt.js"></script>
+<script src="./js/controller/Controller.js"></script>
+<script src="./js/model/BackgroundMap.js"></script>
+<script src="./js/model/ColorScale.js"></script>
+<script src="./js/model/DataPoints.js"></script>
+<script src="./js/model/DataSet.js"></script>
+<script src="./js/model/Model.js"></script>
 <body>
 
-    <div class="row">
-        <div class="col-8 mapCanvas">
+<div class="row">
+    <div class="col-8 mapCanvas">
+    </div>
+    <div class="col-4" style="background: #f0f0f0;">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select a Dataset
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" onclick="View.selectDataSet('yard');">Soil Yard</a>
+                <a class="dropdown-item" href="#" onclick="View.selectDataSet('garden');">Soil Garden</a>
+                <a class="dropdown-item" href="#" onclick="View.selectDataSet('water');">Water</a>
+            </div>
         </div>
-        <div class="col-4" style="background: #f0f0f0;">
-            <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Select a Dataset
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#" onclick="selectDataSet('yard');">Soil Yard</a>
-                    <a class="dropdown-item" href="#" onclick="selectDataSet('garden');">Soil Garden</a>
-                    <a class="dropdown-item" href="#" onclick="selectDataSet('water');">Water</a>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Select a Mineral
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Beryllium</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Sodium</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Potassium</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Calcium</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Chromium</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Manganese</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Iron</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Cobalt</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Nickel</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Copper</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Zinc</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Arsenic</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Selenium</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Molybdenum</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Cadmium</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Barium</a>
-                    <a class="dropdown-item" href="#" onclick="selectContaminant(this.innerHTML);">Lead</a>
-                  </div>
-                </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select a Mineral
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Beryllium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Sodium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Potassium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Calcium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Chromium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Manganese</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Iron</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Cobalt</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Nickel</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Copper</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Zinc</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Arsenic</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Selenium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Molybdenum</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Cadmium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Barium</a>
+                <a class="dropdown-item" href="#" onclick="View.selectContaminant(this.innerHTML);">Lead</a>
+            </div>
+        </div>
 
-                <h1 id="dataset">
-                    
-                </h1>
-                <h1 id="contaminant">
-                    
-                </h1>
-        </div>
-    </div>   
+        <h1 id="dataset">
+
+        </h1>
+        <h1 id="contaminant">
+
+        </h1>
+    </div>
+</div>
 
 
 
 
 <script>
-
-
-
-// //recalculate the maxes??
- var maxes = {"Beryllium":2.0385893966666666,
- "Sodium":2320.69,
- "Magnesium":19595.42,
- "Aluminium":14621,
- "Potassium":5234,
- "Calcium":168491.945,
- "Vanadium":42.620000000000005,
- "Chromium":55.769999999999996,
- "Manganese":2087.1447099,
- "Iron":38754.35317433332,
- "Cobalt":16.205913156200005,
- "Nickel":35.004999999999995,
- "Copper":649.255,
- "Zinc":816.5,
- "Arsenic":74.75503407046666,
- "Selenium":9.64,
- "Molybdenum":3.0700000000000003,
- "Silver":0.8240000000000001,
- "Cadmium":4.475,
- "Tin":55.410000000000004,
- "Antimony":0.33599999999999997,
- "Barium":988.4449999999999,
- "Lead":498.85};
-
-
-//mg/kg or ug/mg
-var SRLS = {
-    "Beryllium": 150,
-    "Aluminum": 77000,
-    "Vanadium": 78,
-    "Chromium": 30,
-    "Cobalt": 900,
-    "Nickel": 1600,
-    "Copper": 3100,
-    "Zinc": 23000,
-    "Arsenic": 10,
-    "Selenium": 390,
-    "Molybdenum": 390,
-    "Silver": 390,
-    "Cadmium": 39,
-    "Tin": 47000,
-    "Barium": 15000,
-    "Lead": 400,
-}
-
-var MCLS = {
-    "Beryllium": 4,
-    "Chromium": 100,
-    "Copper": 1300,
-    "Arsenic": 10,
-    "Selenium": 50,
-    "Cadmium": 5,
-    "Antimony": 6,
-    "Barium": 2000,
-    "Lead": 15
-}
-
-var allRefs = {
-    "water": MCLS,
-    "yard": SRLS,
-    "garden": SRLS
-};
-
-var filenames = {
-    "water": "water-centroids-avgs-vals",
-    "yard": "yard-centroids-avgs-vals",
-    "garden": "garden-centroids-avgs-vals"
-}
-
-var units = {
-    "water": "ug/L",
-    "yard": "ug/mg",
-    "garden": "ug/mg"
-};
-
-var colors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4'];
-var maxColor = '#0c2c84';
-var allColors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#0c2c84']; 
-
-var selectContaminant = function(contaminant){
-    console.log(contaminant);
-    globalContaminant = contaminant;
-    document.getElementById('contaminant').innerHTML = contaminant;
-    updateMap();
-   
-};
-
-var selectDataSet = function(str){
-    console.log("select data set");
-    document.getElementById('dataset').innerHTML = str;
-    svg.selectAll(".points").remove();
-    globalDataset = str;
-
-    
-    //have to updateMap as a callback, otherwise pointsData is not updated!
-    if (globalContaminant === undefined){
-       drawData(filenames[str]); 
-    } else {
-        drawData(filenames[str], updateMap);
-    }
-
-
-};
-
-var refColor = function(contaminant, value){
-    // console.log("ref color"); 
-    var lvl = allRefs[globalDataset][contaminant];
-    // console.log(allRefs[globalDataset]);
-
-    if (value >= lvl){
-        return maxColor;
-    } else {
-        //todo my implementation modified her code
-        var step = lvl/colors.length;
-        var domain = [];
-        for (var i = 0; i < colors.length; i++){
-            domain[i] = Math.ceil(i*step);
-        }
-        // console.log(lvl);
-        // console.log(colors);
-       var linearColor = d3.scale.linear()
-        .domain(domain)
-        .range(colors);
-        return linearColor(value); 
-    }
-};
-
-
-var scaleColor = function(contaminant, value){
-    var refs = allRefs[globalDataset];
-    // console.log(refs);
-
-    if (refs.hasOwnProperty(contaminant)){
-        return refColor(contaminant, value);
-    } else {
-        var max = maxes[contaminant];
-        var linearColor = d3.scale.linear()
-            .domain([0, max])
-            .range(["white", "purple"]);
-
-        return linearColor(value);
-    }
-};
-
-
-
-var updateMap = function(){
-    updatePoints(globalContaminant);
-    updateScale(globalContaminant);
-}
-
-// every time she just updates the color
-var updatePoints = function(contaminant){
-    debugger
-    console.log("updating points ...")
-    console.log(pointsData);
-    svg.selectAll(".points")
-    .data(pointsData)
-    .attr('fill', function(d) { 
-
-        var color = scaleColor(contaminant, d.properties.averages[contaminant]);
-        console.log(color);
-        return color;
-
-    });
-};
-
-var updateScale = function(contaminant){
-    var refs = allRefs[globalDataset];
-    scaleG.selectAll(".scaleRects")
-    .attr("fill", function(d, i){
-        if (refs.hasOwnProperty(contaminant)){
-            return allColors[i];
-        } else {
-            var linearColor = d3.scale.linear()
-            .domain([0,4])
-            .range(["white", "purple"]);
-            return linearColor(i);
-        }
-    })
-
-    scaleG.selectAll(".scalelabels")
-    .text(function(d, i) { 
-        var top = refs.hasOwnProperty(contaminant) ? refs[contaminant] : maxes[contaminant];
-        var rounded = Math.ceil(top);
-        if (i < 5)
-            return (rounded/4) * i; 
-        else 
-            return units[globalDataset];
-    });
-
-};
-
-
-var projection = d3.geo.albersUsa()
-    .scale(4500)
-    .translate([1750,100]);
-
-var path = d3.geo.path()
-    .projection(projection);
-
-var zoom = d3.behavior.zoom();
-
-var svg = d3.select(".mapCanvas")
-    .append("svg")
-    .attr("width", "100%")
-    .attr("height", "100vh")
-    .call(zoom.on("zoom", function () {
-        //check the d3.event.scale
-        //figure out reasonable range
-        svg.selectAll(".garden")
-        .attr("stroke-width", function(d){
-            return (0.5)/d3.event.scale;
-        });
-        svg.selectAll(".points")
-        .attr("stroke-width", function(d){
-            return (0.5)/d3.event.scale;
-        });
-
-         svg.selectAll(".legendpoints")
-        .attr("stroke-width", function(d){
-            return (0.5)/d3.event.scale;
-        });
-
-        svg.selectAll(".legendlabels")
-        .attr("y", function(d){
-            return 7/d3.event.scale
-        })
-        .style("font-size", function(d){
-            return 14/d3.event.scale;
-        });
-
-        mapG.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
-        legendG.attr("transform", "scale(" + d3.event.scale + ")")
-
-    }));
-
-var mapG = svg.append("g");
-var legendG = svg.append("g"); //legend for circle map
-var scaleG = svg.append("g");
-
-var legendpoints = [20, 10, 5, 2, 1];
-var prev = 0;
-var dist = 20;
-
-
-//draw the legend
-legendG.selectAll("circle")
-    .data(legendpoints).enter()
-    .append("svg:circle")
-    .attr("class", "legendpoints")
-    .attr("transform", function(d) {
-        console.log(dist+d/2);
-        var trans = "translate(" + (dist+d) + "," + (prev+dist+d) + ")";
-        prev = prev+dist+d*2;
-        return trans;
-    })
-    .attr("r", function(d){
-        return d;
-    })
-    .attr("stroke", "black")
-    .attr("stroke-width", 0.5)
-    .attr("fill", "white");
-  
-var prev = 0;
-
-//draw the legend             
-legendG.selectAll("text")
-    .data(legendpoints).enter()
-    .append("text")
-    .attr("y", 7)
-    .attr("class", "legendlabels")
-    .attr("transform", function(d) {
-        var trans = "translate(" + (2*dist + 2*d) + "," + (prev+dist+d) + ")";
-        prev = prev+dist+d*2;
-        return trans;
-    })
-    .style("font-size",14)
-    .text(function(d) { if (d == 1){ return "1 sample";} else {return d;}});
-
-//draw the color scale
-scaleG.selectAll("rect")
-            .data([1,2,3,4,5]).enter()
-            .append("svg:rect")
-            .attr("class", "scaleRects")
-            .attr("x", function(d){
-                return 60*d;
-            })
-            .attr("y", "85vh")
-            .attr("width", 50)
-            .attr("height", 50)
-            .attr("stroke", "black")
-            .attr("stroke-width", 0.5)
-            .attr("fill", "white");
-
-//draw the color scale
-scaleG.selectAll("text")
-    .data([1,2,3,4,5,6]).enter()
-    .append("text")
-    .attr("y", "94vh")
-    .attr("x", function(d){
-        return 60*d;
-    })
-    .attr("text-anchor", "middle")
-    .attr("class", "scalelabels")
-    .style("font-size",14)
-    .text("");
-
-
-
-var resetZoom = function(){
-    console.log('resetting zoom');
-    zoom.scale(1);
-    zoom.translate([0, 0]);
-    svg.attr('transform', 'translate(' + zoom.translate() + ') scale(' + zoom.scale() + ')')
-};
-
-var calcMedian = function(values){
-    console.log(values);
-    values.sort((a, b) => a - b);
-    var lowMiddle = Math.floor((values.length - 1) / 2);
-    var highMiddle = Math.ceil((values.length - 1) / 2);
-    var median = (values[lowMiddle] + values[highMiddle]) / 2;
-    return median;
-}
-
-var calcExceed = function(values, con){
-    var exceeds = 0;
-    for (var i = 0; i < values.length; i++){
-        if (values[i] >= SRLS[con]){
-            exceeds++;
-        }
-    }
-    return exceeds/(values.length)*100;
-}
-//can do zoom with redraw of points
-//change size of points of points on zoom
- 
-
-var globalData;
-var pointsData;
-var globalContaminant;
-var globalDataset;
-
-var tooltip = d3.select("body").append("div")   
-    .attr("class", "tooltip")               
-    .style("opacity", 0);
-
-
-
-//draw counties and roads in background
-d3.json("/lib/counties-and-roads.json", function (err, json) {
-      
-    //check error
-    if (err) { console.log(err); }
-     
-    //save the json data to access outside  
-    globalData = json;
-
-    //draw the map
-    mapG.selectAll("path")
-        .data(json.features)
-        .enter()
-        .append("path")
-        .attr("class", "garden")
-        .attr("d", path) 
-        .attr("stroke-width", 0.5)
-        .attr("stroke", function(d){ //light grey for roads, black for outline
-            if (d.properties && d.properties.hasOwnProperty("FULLNAME")){
-                return "lightgrey";
-            } 
-            return "black";
-        })
-        .attr("z-index", -1)
-        .attr("opacity", 1)
-        .attr('fill', 'transparent');
-
-   
-
-    });
-
-
-var drawData = function(filename, callback){
-     d3.json("/lib/"+filename+".json", function(error, points) {
-            //check error
-            if (error) { console.log(error); }
-
-            //save the centroid data to access outside
-            pointsData = points;
-            mapG.selectAll(".points").remove();
-
-            mapG.selectAll("circle")
-                .data(points).enter()
-                .append("svg:circle")
-                .attr("class", "points")
-                .attr("transform", function(d) {
-                    return "translate(" + projection(d.coordinates) + ")";
-                })
-                .attr("r", function(d){
-                    return d.properties.numPoints;
-                })
-                .attr("stroke", "black")
-                .attr("stroke-width", 0.5)
-                .attr("fill", "black")// todo did not implement mouse event.
-                .on("mouseenter", function(d){
-
-                    var colnumber = 10;
-                    var rownumber = Math.ceil(d.properties.numPoints/colnumber);
-                    var lineh = 18;
-                    var texty = lineh*(rownumber+1);
-                    var width = 200;
-                    var height = 120;
-
-                    console.log(rownumber);
-
-                    //make the points transition larger
-                    d3.select(this)
-                        .transition()
-                        .duration(150)
-                        .attr("r", d.properties.numPoints + 2);
-
-                    //get contaminant name from selector
-                    var con = globalContaminant;
-
-                    //get average and round it
-                    var val = Number.parseFloat(d.properties.averages[con]).toPrecision(2);
-
-                    tooltip.transition()       
-                        .duration(150)      
-                        .style("opacity", 1);  
-
-                    tooltip.html("")
-                        .style("left", (d3.event.pageX) + "px")     
-                        .style("top", (d3.event.pageY) + "px");
-
-                    //set up the tooltip svg
-                    var histsvg = tooltip.append("svg");    
-                    histsvg.attr("width", width)
-                        .attr("height", height);
-
-                    var histG = histsvg.append("g");
-
-                    // if (d.properties.values === undefined){
-                    //     console.log(d.properties);
-                    //     return;
-                    // }
-                    //get the values and sort them directly 
-                    var protdata = d.properties.values[con];
-                    protdata.sort(function (a, b) { return a-b; });
-
-                    //draw the dotmap
-                    histsvg.selectAll("circle")
-                        .data(protdata).enter()
-                        .append("svg:circle")
-                        .attr("class", "dotmap")
-                        .attr("transform", function(d,i) {
-                            var row = Math.floor(i/colnumber);
-                            var col = i%colnumber;
-                            return "translate(" + (col+1)*15 + "," + ((row+1)*15) + ")";
-                        })
-                        .attr("r", 5)
-                        .attr("stroke", "black")
-                        .attr("stroke-width", 0.5)
-                        .attr("fill", function(d){
-                            console.log(con + " " + d);
-                            return scaleColor(con, d);
-                        });
-
-                    //add text
-                    histsvg.append("text")
-                        .attr("x", 10)
-                        .attr("y", texty)
-                        .style("font-size",14)
-                        .text(function(){
-                            return "Average " + Number.parseFloat(d.properties.averages[con]).toFixed(1)+ " ug/mg";
-                        });
-
-                    histsvg.append("text")
-                        .attr("x", 10)
-                        .attr("y", texty + lineh)
-                        .style("font-size",14)
-                        .text(function(){
-                            return "Median " + calcMedian(d.properties.values[con]).toFixed(1) + " ug/mg";
-                        });
-
-                    histsvg.append("text")
-                        .attr("x", 10)
-                        .attr("y", texty + 2*lineh)
-                        .style("font-size",14)
-                        .text(function(){
-                            var percentage = Math.ceil(calcExceed(d.properties.values[con], con));
-                            if (percentage == 0){
-                                return "No exceedances";
-                            }
-                            return percentage + "% of samples exceed level";
-                        });
-
-                    })
-                    .on("mouseleave", function(d){
-                        d3.select(this)
-                            .transition()
-                            .duration(50)
-                            .attr("r", d.properties.numPoints);
-                        tooltip.transition()       
-                            .duration(50)      
-                            .style("opacity", 0);
-                    });
-
-
-                    if (callback !== undefined){
-                        callback();
-                    };
-                });
-    };
-
+View.lunch();
 </script>
 </body>
