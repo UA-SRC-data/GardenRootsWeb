@@ -3,12 +3,12 @@ class DataSet {
     name;
     jsonData;
     dataPath;
-    availableMinerals;
+    availableContaminants;
     dataPoints = {};
 
-    constructor(setName, setPath, availableMinerals) {
+    constructor(setName, setPath, availableContaminants) {
         this.name = setName;
-        this.availableMinerals = availableMinerals;
+        this.availableContaminants = availableContaminants;
         this.dataPath = setPath;
 
     }
@@ -24,95 +24,95 @@ class DataSet {
         }
     }
 
-    getMaxValues(mineral) {
-        return Model.maxes[mineral];
+    getMaxValues(contaminant) {
+        return Model.maxes[contaminant];
     }
 
-    getColorScale(mineral) {
-        if (this.availableMinerals.hasOwnProperty(mineral)) {
-            let colorScale = d3.scaleLinear().domain([0, this.availableMinerals[mineral]]).range(Model.colors);
+    getColorScale(contaminant) {
+        if (this.availableContaminants.hasOwnProperty(contaminant)) {
+            let colorScale = d3.scaleLinear().domain([0, this.availableContaminants[contaminant]]).range(Model.colors);
             return (value) => {
-                if (value > this.availableMinerals[mineral]) {
+                if (value > this.availableContaminants[contaminant]) {
                     return Model.maxColor;
                 } else {
                     return colorScale(value);
                 }
             };
         }
-        return d3.scaleLinear().domain([0, this.getMaxValues(mineral)]).range(["white", "purple"]);
+        return d3.scaleLinear().domain([0, this.getMaxValues(contaminant)]).range(["white", "purple"]);
     }
 
-    getDataPointObj(mineral) {
-        if (!this.availableMinerals.hasOwnProperty(mineral)) {
-            this.dataPoints[mineral] = new DataPoints(this.name, mineral, this.getColorScale(mineral),
+    getDataPointObj(contaminant) {
+        if (!this.availableContaminants.hasOwnProperty(contaminant)) {
+            this.dataPoints[contaminant] = new DataPoints(this.name, contaminant, this.getColorScale(contaminant),
                 d3.scaleLinear().domain([1, 5]).range([1, 5]));
-            return this.dataPoints[mineral];
+            return this.dataPoints[contaminant];
         }
-        if (!this.dataPoints.hasOwnProperty(mineral)) {
-            this.dataPoints[mineral] =
-                new DataPoints(this.name, mineral, this.getColorScale(mineral),
+        if (!this.dataPoints.hasOwnProperty(contaminant)) {
+            this.dataPoints[contaminant] =
+                new DataPoints(this.name, contaminant, this.getColorScale(contaminant),
                     d3.scaleLinear().domain([1, 5]).range([1, 5])) //because we are just using the number of point.
         }
-        return this.dataPoints[mineral];
+        return this.dataPoints[contaminant];
     }
 
-    calculateSize(mineral, value) {
-        if (!this.dataPoints.hasOwnProperty(mineral)) {
+    calculateSize(contaminant, value) {
+        if (!this.dataPoints.hasOwnProperty(contaminant)) {
             // todo throw error
         }
-        return this.dataPoints[mineral].calculateSize(value);
+        return this.dataPoints[contaminant].calculateSize(value);
     }
 
-    calculateColor(mineral, value) {
-        if (!this.dataPoints.hasOwnProperty(mineral)) {
+    calculateColor(contaminant, value) {
+        if (!this.dataPoints.hasOwnProperty(contaminant)) {
             // todo throw error
         }
-        return this.dataPoints[mineral].calculateColor(value);
+        return this.dataPoints[contaminant].calculateColor(value);
     }
 
-    getLegendPoints(mineral) {
-        if (!this.dataPoints.hasOwnProperty(mineral)) {
+    getLegendPoints(contaminant) {
+        if (!this.dataPoints.hasOwnProperty(contaminant)) {
             // todo throw error
         }
-        return this.dataPoints[mineral].getLegendPoints();
+        return this.dataPoints[contaminant].getLegendPoints();
     }
 
-    getNumberOfSamplePoint(mineral, value) {
-        if (!this.dataPoints.hasOwnProperty(mineral)) {
+    getNumberOfSamplePoint(contaminant, value) {
+        if (!this.dataPoints.hasOwnProperty(contaminant)) {
             // todo throw error
         }
-        return this.dataPoints[mineral].getNumberOfSamplePoint(value);
+        return this.dataPoints[contaminant].getNumberOfSamplePoint(value);
     }
 
-    getAllSampleData(mineral, value){// todo we may call it sample
-        if (!this.dataPoints.hasOwnProperty(mineral)) {
+    getAllSampleData(contaminant, value){
+        if (!this.dataPoints.hasOwnProperty(contaminant)) {
             // todo throw error
         }
-        return this.dataPoints[mineral].getAllSampleData(value);
+        return this.dataPoints[contaminant].getAllSampleData(value);
     }
 
-    getSampleAverage(mineral, value){// todo we may call it sample
-        if (!this.dataPoints.hasOwnProperty(mineral)) {
+    getSampleAverage(contaminant, value){
+        if (!this.dataPoints.hasOwnProperty(contaminant)) {
             // todo throw error
         }
-        return this.dataPoints[mineral].getSampleAverage(value);
+        return this.dataPoints[contaminant].getSampleAverage(value);
     }
 
-    getSampleMedian(mineral, value){// todo we may call it sample
-        if (!this.dataPoints.hasOwnProperty(mineral)) {
+    getSampleMedian(contaminant, value){
+        if (!this.dataPoints.hasOwnProperty(contaminant)) {
             // todo throw error
         }
-        return this.dataPoints[mineral].getSampleMedian(value);
+        return this.dataPoints[contaminant].getSampleMedian(value);
     }
 
-    getSampleExceed(mineral, value){// todo we may call it sample
-        if (!this.dataPoints.hasOwnProperty(mineral)) {
+    getSampleExceed(contaminant, value){
+        if (!this.dataPoints.hasOwnProperty(contaminant)) {
             // todo throw error
         }
-        return this.dataPoints[mineral].getSampleExceed(value);
+        return this.dataPoints[contaminant].getSampleExceed(value);
     }
 
-    isMineralAvailable(mineral){
-        return this.availableMinerals.hasOwnProperty(mineral);
+    isMineralAvailable(contaminant){
+        return this.availableContaminants.hasOwnProperty(contaminant);
     }
 }
