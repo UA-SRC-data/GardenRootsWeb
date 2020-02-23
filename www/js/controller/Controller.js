@@ -102,4 +102,25 @@ class Controller{
         }
         return this.currentDataSet.getSampleExceed(this.model.getCurrentContaminant(), value)
     }
+
+    getTheMaxValueOfCurrentContaminantInCurrentDataSet(){
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return this.currentDataSet.getMaxValues(this.model.getCurrentContaminant());
+    }
+
+    getTheRefValueOfCurrentContaminantInCurrentDataSet(){
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return this.currentDataSet.getRefValue(this.model.getCurrentContaminant());
+    }
+
+    getTheUnitForCurrentDataSet(){
+        if (this.currentDataSet === undefined || this.currentDataPoint === undefined){
+            // todo throw error
+        }
+        return Model.units[this.model.getCurrentDataSet()];
+    }
 }

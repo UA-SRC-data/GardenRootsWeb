@@ -96,6 +96,12 @@ class Model {
     static colors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4'];
     static maxColor = '#0c2c84';
 
+    static units = {
+        "water": "ug/L",
+        "yard": "ug/mg",
+        "garden": "ug/mg"
+    };
+
     static backGroundMapPath = "./lib/counties-and-roads.json";
 
     static libraryPath = "./lib/";

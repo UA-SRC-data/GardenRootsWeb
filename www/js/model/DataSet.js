@@ -3,12 +3,12 @@ class DataSet {
     name;
     jsonData;
     dataPath;
-    availableContaminants;
+    refValues;
     dataPoints = {};
 
     constructor(setName, setPath, availableContaminants) {
         this.name = setName;
-        this.availableContaminants = availableContaminants;
+        this.refValues = availableContaminants;
         this.dataPath = setPath;
 
     }
@@ -24,15 +24,19 @@ class DataSet {
         }
     }
 
+    getRefValue(contaminant){
+        return this.refValues[contaminant];
+    }
+
     getMaxValues(contaminant) {
         return Model.maxes[contaminant];
     }
 
     getColorScale(contaminant) {
-        if (this.availableContaminants.hasOwnProperty(contaminant)) {
-            let colorScale = d3.scaleLinear().domain([0, this.availableContaminants[contaminant]]).range(Model.colors);
+        if (this.refValues.hasOwnProperty(contaminant)) {
+            let colorScale = d3.scaleLinear().domain([0, this.refValues[contaminant]]).range(Model.colors);
             return (value) => {
-                if (value > this.availableContaminants[contaminant]) {
+                if (value > this.refValues[contaminant]) {
                     return Model.maxColor;
                 } else {
                     return colorScale(value);
@@ -108,6 +112,6 @@ class DataSet {
     }
 
     isContaminantAvailable(contaminant){
-        return this.availableContaminants.hasOwnProperty(contaminant);
+        return this.refValues.hasOwnProperty(contaminant);
     }
 }
