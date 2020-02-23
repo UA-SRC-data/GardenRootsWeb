@@ -9,7 +9,7 @@ class Model {
     };
 
     //todo maybe should be read from json
-    static minerals = {
+    static contaminants = {
         NULL: undefined,
         Beryllium: "Beryllium",
         Sodium: "Sodium",
@@ -107,17 +107,17 @@ class Model {
     };
 
 
-    // keep recording current data set and mineral
+    // keep recording current data set and contaminant
     currentDataSet;
-    currentMineral;
+    currentContaminant;
 
     // other Model objects
-    // a dictionary that maps minerals to their color scales
+    // a dictionary that maps contaminant to their color scales
     dataSets = {};
 
     constructor() {
         this.currentDataSet = Model.dataSets.NULL;
-        this.currentMineral = Model.minerals.NULL;
+        this.currentContaminant = Model.contaminants.NULL;
     }
 
     getCurrentDataSet() {
@@ -132,22 +132,22 @@ class Model {
             return;
         }
         this.currentDataSet = newSet;
-        //todo clean other clean mineral
+        //todo clean other clean contaminant
     }
 
 
-    getCurrentMineral() {
-        return this.currentMineral;
+    getCurrentContaminant() {
+        return this.currentContaminant;
     }
 
-    setCurrentMineral(newMineral) {
-        if (newMineral === this.currentMineral) {
+    setCurrentContaminant(newContaminant) {
+        if (newContaminant === this.currentContaminant) {
             return;
         }
-        if (!Model.minerals.hasOwnProperty(newMineral)) {
+        if (!Model.contaminants.hasOwnProperty(newContaminant)) {
             return;
         }
-        this.currentMineral = newMineral;
+        this.currentContaminant = newContaminant;
         //todo clean other
     }
 
@@ -167,7 +167,7 @@ class Model {
 
     getDataPointObj() {
         let setObj = this.getDataSetObj();
-        return setObj.getDataPointObj(this.currentMineral);
+        return setObj.getDataPointObj(this.currentContaminant);
     }
 
 
