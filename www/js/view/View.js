@@ -1,5 +1,4 @@
 //todo color scale restructure
-//todo text for color scale
 //todo callback for cleaning
 
 //todo what is ref????
