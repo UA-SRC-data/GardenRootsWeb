@@ -1,6 +1,8 @@
 //todo color scale restructure
 //todo text for color scale
 //todo callback for cleaning
+
+//todo what is ref????
 class View {
 
     static projection = d3.geoAlbersUsa().scale(4500).translate([1750, 100]);
