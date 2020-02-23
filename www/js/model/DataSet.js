@@ -5,7 +5,6 @@ class DataSet {
     dataPath;
     availableMinerals;
     dataPoints = {};
-    maxValues = {};
 
     constructor(setName, setPath, availableMinerals) {
         this.name = setName;
