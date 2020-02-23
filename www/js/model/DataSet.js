@@ -107,7 +107,7 @@ class DataSet {
         return this.dataPoints[contaminant].getSampleExceed(value);
     }
 
-    isMineralAvailable(contaminant){
+    isContaminantAvailable(contaminant){
         return this.availableContaminants.hasOwnProperty(contaminant);
     }
 }
