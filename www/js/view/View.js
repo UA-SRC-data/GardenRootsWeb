@@ -14,28 +14,32 @@ class View {
     static setSelectorId = "dataset";
     static contaminantSelectorId = "contaminant";
 
+    static histogramSvgHeight = 600;
     static viewInstance = undefined;
 
     controller;
     model;
-    svg;
+    mainSvg;
+    histogramSvg;
     point;
     backgroundMap;
     sizeLegend;
     colorLegend;
+    histogram;
 
     constructor() {
         this.model = new Model();
         this.controller = new Controller(this, this.model);
         this.setUpSvg();
-        this.backgroundMap = new BackgroundMap(this.svg, this.controller);
-        this.point = new Points(this.svg, this.controller);
-        this.sizeLegend = new SizeLegend(this.svg, this.controller);
-        this.colorLegend = new ColorLegend(this.svg, this.controller);
+        this.backgroundMap = new BackgroundMap(this.mainSvg, this.controller);
+        this.point = new Points(this.mainSvg, this.controller);
+        this.sizeLegend = new SizeLegend(this.mainSvg, this.controller);
+        this.colorLegend = new ColorLegend(this.mainSvg, this.controller);
+        this.histogram = new Histogram(this.histogramSvg, this.controller);
     }
 
     setUpSvg() {
-        this.svg = d3.select(View.divClass)
+        this.mainSvg = d3.select(View.divClass)
             .append("svg")
             .attr("width", View.svgWidth)
             .attr("height", View.svgHeight)
@@ -44,6 +48,11 @@ class View {
                 this.backgroundMap.zoom();
                 this.sizeLegend.zoom();
             }));
+        this.histogramSvg = d3.select(".col-4")
+            .append("svg")
+            .attr("width", View.svgWidth)
+            .attr("height", View.histogramSvgHeight)
+            .attr("style", "background-color:#f0f0f0")
     }
 
     setUpBackGroundMap() {
@@ -62,6 +71,7 @@ class View {
             this.point.callbackDrawPoints(points);
             this.sizeLegend.drawSizeLegend();
             this.colorLegend.updateColor();
+            this.histogram.callbackDrawHistogram(points);
         });
     }
 
@@ -69,6 +79,7 @@ class View {
         this.point.erase();
         this.sizeLegend.erase();
         this.colorLegend.resetColor();
+        this.histogram.erase();
     }
 
     selectDataSet(dataSet) {
