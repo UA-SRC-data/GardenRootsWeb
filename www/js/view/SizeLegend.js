@@ -51,11 +51,11 @@ class SizeLegend {
 
     zoom = () => {
         this.legendG.attr("transform", "scale(" + d3.event.transform.k + ")")
-        this.svg.selectAll(".legendpoints")
+        this.legendG.selectAll(".legendpoints")
             .attr("stroke-width", function (d) {
                 return (0.5) / d3.event.transform.k;
             });
-        this.svg.selectAll(".legendlabels")
+        this.legendG.selectAll(".legendlabels")
             .attr("y", function (d) {
                 return 7 / d3.event.transform.k
             })
