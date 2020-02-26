@@ -41,7 +41,7 @@ class ColorLegend {
     updateColor = () => {
         this.scaleG.selectAll(".scaleRects")
             .attr("fill", (d, i) => {
-                if (this.controller.isCurrentMineralAvailableInCurrentDataSet()) {
+                if (this.controller.isCurrentContaminantAvailableInCurrentDataSet()) {
                     return ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4', '#0c2c84'][i];
                 } else {
                     let linearColor = d3.scaleLinear()
@@ -51,15 +51,19 @@ class ColorLegend {
                 }
             });
 
-        /*
         this.scaleG.selectAll(".scalelabels")
-            .text(function(d, i) {
-                var top = refs.hasOwnProperty(contaminant) ? refs[contaminant] : maxes[contaminant];
-                var rounded = Math.ceil(top);
+            .text((d, i) => {//isCurrentContaminantAvailableInCurrentDataSet
+                let top;
+                if (this.controller.isCurrentContaminantAvailableInCurrentDataSet()){
+                    top = this.controller.getTheRefValueOfCurrentContaminantInCurrentDataSet();
+                }else {
+                    top = this.controller.getTheMaxValueOfCurrentContaminantInCurrentDataSet();
+                }
+                let rounded = Math.ceil(top);
                 if (i < 5)
                     return (rounded/4) * i;
                 else
-                    return units[globalDataset];
-            });*/
+                    return this.controller.getTheUnitForCurrentDataSet();
+            });
     };
 }

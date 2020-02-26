@@ -9,7 +9,7 @@ class Model {
     };
 
     //todo maybe should be read from json
-    static minerals = {
+    static contaminants = {
         NULL: undefined,
         Beryllium: "Beryllium",
         Sodium: "Sodium",
@@ -67,8 +67,40 @@ class Model {
         "garden": Model.SRLS
     };
 
+    static maxes = {
+        "Beryllium": 2.0385893966666666,
+        "Sodium": 2320.69,
+        "Magnesium": 19595.42,
+        "Aluminium": 14621,
+        "Potassium": 5234,
+        "Calcium": 168491.945,
+        "Vanadium": 42.620000000000005,
+        "Chromium": 55.769999999999996,
+        "Manganese": 2087.1447099,
+        "Iron": 38754.35317433332,
+        "Cobalt": 16.205913156200005,
+        "Nickel": 35.004999999999995,
+        "Copper": 649.255,
+        "Zinc": 816.5,
+        "Arsenic": 74.75503407046666,
+        "Selenium": 9.64,
+        "Molybdenum": 3.0700000000000003,
+        "Silver": 0.8240000000000001,
+        "Cadmium": 4.475,
+        "Tin": 55.410000000000004,
+        "Antimony": 0.33599999999999997,
+        "Barium": 988.4449999999999,
+        "Lead": 498.85
+    };
+
     static colors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4'];
     static maxColor = '#0c2c84';
+
+    static units = {
+        "water": "ug/L",
+        "yard": "ug/mg",
+        "garden": "ug/mg"
+    };
 
     static backGroundMapPath = "./lib/counties-and-roads.json";
 
@@ -81,17 +113,17 @@ class Model {
     };
 
 
-    // keep recording current data set and mineral
+    // keep recording current data set and contaminant
     currentDataSet;
-    currentMineral;
+    currentContaminant;
 
     // other Model objects
-    // a dictionary that maps minerals to their color scales
+    // a dictionary that maps contaminant to their color scales
     dataSets = {};
 
     constructor() {
         this.currentDataSet = Model.dataSets.NULL;
-        this.currentMineral = Model.minerals.NULL;
+        this.currentContaminant = Model.contaminants.NULL;
     }
 
     getCurrentDataSet() {
@@ -106,25 +138,22 @@ class Model {
             return;
         }
         this.currentDataSet = newSet;
-        //todo clean other clean mineral
+        //todo clean other clean contaminant
     }
 
 
-
-
-    getCurrentMineral() {
-        return this.currentMineral;
+    getCurrentContaminant() {
+        return this.currentContaminant;
     }
 
-    setCurrentMineral(newMineral) {
-        if (newMineral === this.currentMineral) {
+    setCurrentContaminant(newContaminant) {
+        if (newContaminant === this.currentContaminant) {
             return;
         }
-        if (!Model.minerals.hasOwnProperty(newMineral)) {
+        if (!Model.contaminants.hasOwnProperty(newContaminant)) {
             return;
         }
-        this.currentMineral = newMineral;
-        //todo clean other
+        this.currentContaminant = newContaminant;
     }
 
     getBackGroundMapObj() {
@@ -141,10 +170,17 @@ class Model {
         return setObj;
     }
 
-    getDataPointObj(){
-        let setObj = this.getDataSetObj();
-        return setObj.getDataPointObj(this.currentMineral);
+    isCurrentDataSetReady() {
+        return this.dataSets.hasOwnProperty(this.currentDataSet);
     }
 
+    getDataPointObj() {
+        let setObj = this.getDataSetObj();
+        return setObj.getDataPointObj(this.currentContaminant);
+    }
+
+    isCurrentDataPointReady() {
+        return this.isCurrentDataSetReady() && this.dataSets[this.currentDataSet].dataPoints.hasOwnProperty(this.currentContaminant);
+    }
 
 }
