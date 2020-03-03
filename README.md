@@ -1,6 +1,6 @@
 This is still under development.
 -----------------------------------------------
-# How to Lunch This
+# How to Launch This
 A simple python server is used here.
 1. make sure you have python3  
 **Linux and macOS:** to check the version type `python --version`<sup>[1](#myfootnote1)</sup> in your terminal  
