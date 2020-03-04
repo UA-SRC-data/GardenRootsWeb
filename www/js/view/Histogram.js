@@ -11,13 +11,20 @@ class Histogram {
         this.controller = controller;
     }
 
-    drawYScale = (groupedData) => {
-        let yScale = d3.scaleLinear().domain([0, Math.max(...groupedData)]).range([500, 100]);
+    drawAxis = (xScale, yScale) => {
         this.layer.append("g").attr("transform", "translate(40, 0)").call(d3.axisLeft(yScale));
-        return yScale;
+        this.layer.append("g").attr("transform", "translate(0, 510)").call(d3.axisBottom(xScale).tickValues(xScale.domain()));
     };
 
-    drawXScale = (indexScale) => {
+    generateScales = (data) => {
+        let max = Math.max(...data);
+        let groupedData = [0, 0, 0, 0, 0, 0];
+        let indexScale = d3.scaleQuantize().domain([0, max]).range([0, 1, 2, 3, 4, 5]);
+        for (let i = 0; i < data.length; i++) {
+            groupedData[indexScale(data[i])]++;
+        }
+        let yScale = d3.scaleLinear().domain([0, Math.max(...groupedData)]).range([500, 100]);
+        let heightScale = d3.scaleLinear().domain([0, Math.max(...groupedData)]).range([0, 400]);
         let xScale = d3.scaleLinear()
             .domain([0,
                 indexScale.invertExtent(0)[1],
@@ -33,31 +40,31 @@ class Histogram {
                 Histogram.step * 4 + Histogram.xOffset,
                 Histogram.step * 5 + Histogram.xOffset,
                 Histogram.step * 6 + Histogram.xOffset]);
-        this.layer.append("g").attr("transform", "translate(0, 510)").call(d3.axisBottom(xScale).tickValues(xScale.domain()));
-        return xScale;
+        return {
+            indexScale : indexScale,
+            heightScale : heightScale,
+            xScale : xScale,
+            yScale : yScale
+        }
     };
 
-    generateGroupedData = (data) => {
-        let max = Math.max(...data);
+
+    generateGroupedData = (data, scaleSet) => {
         let groupedData = [0, 0, 0, 0, 0, 0];
-        let indexScale = d3.scaleQuantize().domain([0, max]).range([0, 1, 2, 3, 4, 5]);
         for (let i = 0; i < data.length; i++) {
-            groupedData[indexScale(data[i])]++;
+            groupedData[scaleSet.indexScale(data[i])]++;
         }
-        let xScale = this.drawXScale(indexScale);
-        let yScale = this.drawYScale(groupedData);
-        let heightScale = d3.scaleLinear().domain([0, Math.max(...groupedData)]).range([0, 400]);
 
         return groupedData.map((d, i)=>{
             return {
                 index: i,
                 numberOfPoint: d,
                 x: Histogram.xOffset + i * Histogram.step,
-                y: yScale(d),
+                y: scaleSet.yScale(d),
                 width: Histogram.step,
-                height: heightScale(d),
-                range: indexScale.invertExtent(i),
-                defaultColor: this.controller.calculateColor(indexScale.invertExtent(i)[1])
+                height: scaleSet.heightScale(d),
+                range: scaleSet.indexScale.invertExtent(i),
+                defaultColor: this.controller.calculateColor(scaleSet.indexScale.invertExtent(i)[1])
             };
         })
 
@@ -71,7 +78,10 @@ class Histogram {
         data.sort((a, b) => {
             return a - b;
         });
-        let groupedData = this.generateGroupedData(data);
+
+        let scaleSet  = this.generateScales(data);
+        let groupedData = this.generateGroupedData(data, scaleSet);
+        this.drawAxis(scaleSet.xScale, scaleSet.yScale);
 
         this.layer
             .selectAll("rect")
