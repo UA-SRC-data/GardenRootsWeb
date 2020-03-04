@@ -4,7 +4,7 @@ class Histogram {
     dataPointPrompt;
     xOffset = 50;
     step = 50;
-    yOffset = 5;
+    selected = new Set();
 
     constructor(svg, controller) {
         this.layer = svg.append("g");
@@ -68,7 +68,43 @@ class Histogram {
                 return this.controller.calculateColor(indexScale.invertExtent(i)[1]);
             });
         this.layer.append("g").attr("transform", "translate(40, 0)").call(d3.axisLeft(yScale));
-        this.layer.append("g").attr("transform","translate(0, 510)").call(d3.axisBottom(xScale).tickValues(xScale.domain()));
+        this.layer.append("g").attr("transform", "translate(0, 510)").call(d3.axisBottom(xScale).tickValues(xScale.domain()));
+    };
+
+    boundToMap = (callback) => {
+        let self = this;
+        this.layer
+            .selectAll("rect")
+            .on("click", function () {
+                if (self.selected.has(this)) {
+                    self.selected.delete(this);
+                } else {
+                    self.selected.add(this);
+                }
+                self.updateSelectedRect();
+            });
+
+    };
+
+    unBoundToMap = () => {
+        //todo unbound.
+    };
+
+
+    updateSelectedRect = () => {
+        if (this.selected.size===0){
+            this.layer.selectAll("rect").style("opacity", 1);
+            return;
+        }
+        this.layer.selectAll("rect").style("opacity", 0.3);
+        this.selected.forEach((v) => {
+            d3.select(v).style("opacity", 1);
+        })
+    };
+
+    isSelected = (point) => {
+
+
     };
 
     erase = () => {
