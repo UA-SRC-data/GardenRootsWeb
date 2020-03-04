@@ -14,6 +14,18 @@ class Histogram {
     drawAxis = (xScale, yScale) => {
         this.layer.append("g").attr("transform", "translate(40, 0)").call(d3.axisLeft(yScale));
         this.layer.append("g").attr("transform", "translate(0, 510)").call(d3.axisBottom(xScale).tickValues(xScale.domain()));
+        this.layer
+            .append("text")
+            .attr("x", -350)
+            .attr("y", 15)
+            .attr("transform", "rotate(-90)")
+            .text("Number of Point");
+
+        this.layer
+            .append("text")
+            .attr("x", 100)
+            .attr("y", 550)
+            .text("Amount of Contaminants ("+ this.controller.getTheUnitForCurrentDataSet()+")" )
     };
 
     generateScales = (data) => {
