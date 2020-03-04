@@ -86,7 +86,7 @@ class Histogram {
 
     };
 
-    unBoundToMap = () => {
+    unBoundToMap = (value) => {
         //todo unbound.
     };
 
