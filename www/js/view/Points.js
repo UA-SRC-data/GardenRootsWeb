@@ -30,6 +30,13 @@ class Points {
         this.dataPointPrompt.bound();
     };
 
+    update = (filter, callBack) => {
+        let filteredPoints = this.layer
+            .selectAll("circle")
+            .filter(filter);
+        callBack(filteredPoints);
+    };
+
     zoom = () => {
         this.layer.attr("transform", d3.event.transform);
     };

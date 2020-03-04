@@ -72,7 +72,7 @@ class View {
             this.sizeLegend.drawSizeLegend();
             this.colorLegend.updateColor();
             this.histogram.callbackDrawHistogram(points);
-            this.histogram.boundToMap(()=>{});
+            this.histogram.boundToMap(this.point.update);
         });
     }
 

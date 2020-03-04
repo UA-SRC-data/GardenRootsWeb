@@ -4,7 +4,7 @@ class Histogram {
 
     layer;
     controller;
-    selected = new Set();
+    selected;
 
     constructor(svg, controller) {
         this.layer = svg.append("g");
@@ -41,10 +41,10 @@ class Histogram {
                 Histogram.step * 5 + Histogram.xOffset,
                 Histogram.step * 6 + Histogram.xOffset]);
         return {
-            indexScale : indexScale,
-            heightScale : heightScale,
-            xScale : xScale,
-            yScale : yScale
+            indexScale: indexScale,
+            heightScale: heightScale,
+            xScale: xScale,
+            yScale: yScale
         }
     };
 
@@ -55,7 +55,7 @@ class Histogram {
             groupedData[scaleSet.indexScale(data[i])]++;
         }
 
-        return groupedData.map((d, i)=>{
+        return groupedData.map((d, i) => {
             return {
                 index: i,
                 numberOfPoint: d,
@@ -79,7 +79,7 @@ class Histogram {
             return a - b;
         });
 
-        let scaleSet  = this.generateScales(data);
+        let scaleSet = this.generateScales(data);
         let groupedData = this.generateGroupedData(data, scaleSet);
         this.drawAxis(scaleSet.xScale, scaleSet.yScale);
 
@@ -88,27 +88,43 @@ class Histogram {
             .data(groupedData)
             .enter()
             .append("rect")
-            .attr("x", d=>d.x)
-            .attr("y", d=>d.y)
-            .attr("width",  d=>d.width)
-            .attr("height", d=>d.height)
+            .attr("x", d => d.x)
+            .attr("y", d => d.y)
+            .attr("width", d => d.width)
+            .attr("height", d => d.height)
             .attr("stroke", "black")
             .attr("stroke-width", "2px")
-            .attr("fill", d=>d.defaultColor);
+            .attr("fill", d => d.defaultColor);
     };
 
     boundToMap = (callback) => {
+        this.selected = new Set();
         let self = this;
+        let resetFilter = (value) =>{
+            return true;
+        };
+        let resetColor = (points) =>{
+            points.style("opacity", 1)
+        };
+        let filter = (value) => {
+            return !this.isSelected(this.controller.getSampleAverage(value));
+        };
+        let newColor = (points) => {
+            points.style("opacity", 0)
+        };
         this.layer
             .selectAll("rect")
             .on("click", function () {
+                callback(resetFilter, resetColor);
                 if (self.selected.has(this)) {
                     self.selected.delete(this);
                 } else {
                     self.selected.add(this);
                 }
                 self.updateSelectedRect();
-                callback()
+                if (self.selected.size!==0) {
+                    callback(filter, newColor)
+                }
             });
     };
 
@@ -124,14 +140,20 @@ class Histogram {
             this.layer.selectAll("rect").style("opacity", 1);
             return;
         }
-        this.layer.selectAll("rect").style("opacity", 0.3);
+        this.layer.selectAll("rect").style("opacity", 0.1);
         this.selected.forEach((v) => {
             d3.select(v).style("opacity", 1);
         })
     };
 
-    isSelected = (point) => {
-
+    isSelected = (value) => {
+        for (let e of this.selected) {
+            let range = d3.select(e).data()[0].range;
+            if (range[0]-0.1 <= value && value <= range[1]+0.1) {
+                return true;
+            }
+        }
+        return false;
 
     };
 
