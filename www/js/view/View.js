@@ -29,7 +29,7 @@ class View {
 
     constructor() {
         this.model = new Model();
-        this.controller = new Controller(this, this.model);
+        this.controller = new Controller(this.model);
         this.setUpSvg();
         this.backgroundMap = new BackgroundMap(this.mainSvg, this.controller);
         this.point = new Points(this.mainSvg, this.controller);
