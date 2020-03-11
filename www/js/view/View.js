@@ -56,7 +56,7 @@ class View {
             .attr("height", View.svgHeight)
             .call(View.zoom.on("zoom", () => {
                 this.point.zoom();
-                this.backgroundMap.zoom();
+                this.background.zoom();
                 this.sizeLegend.zoom();
             }));
         this.histogramSvg = d3.select(".col-4")
@@ -69,7 +69,7 @@ class View {
     setUpBackGroundMap() {
         // -------------------------------------vvvvv has to be done in this way. to avoid the problem of "this" keyword
         this.controller.setUpBackGroundMap((data) => {
-            this.backgroundMap.callbackDrawBackGroundMap(data)
+            this.background.callbackDrawBackGroundMap(data)
         });
     }
 
