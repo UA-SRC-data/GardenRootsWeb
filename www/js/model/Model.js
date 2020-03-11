@@ -157,7 +157,7 @@ class Model {
     }
 
     getBackGroundMapObj() {
-        return new backgroundMap(Model.backGroundMapPath);
+        return new BackGroundMap(Model.backGroundMapPath);
     }
 
     getDataSetObj() {

@@ -1,4 +1,4 @@
-class BackgroundMap {
+class BackGround {
     layer;
     controller;
 

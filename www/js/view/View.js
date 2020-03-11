@@ -1,7 +1,18 @@
 //todo color scale restructure
 //todo callback for cleaning
-
 //todo what is ref????
+
+/**
+ * This is the class that manages all other view components.
+ *
+ * @property {Controller} controller        - a instance of controller
+ * @property {Model} model                  - a instance of model
+ * @property {Object} mainSvg
+ * @property {Object} histogramSvg
+ * @property point
+ * @property backgroundMap
+ * @property sizeLegend
+ */
 class View {
 
     static projection = d3.geoAlbersUsa().scale(4500).translate([1750, 100]);
@@ -22,7 +33,7 @@ class View {
     mainSvg;
     histogramSvg;
     point;
-    backgroundMap;
+    background;
     sizeLegend;
     colorLegend;
     histogram;
@@ -31,7 +42,7 @@ class View {
         this.model = new Model();
         this.controller = new Controller(this.model);
         this.setUpSvg();
-        this.backgroundMap = new BackgroundMap(this.mainSvg, this.controller);
+        this.background = new BackGround(this.mainSvg, this.controller);
         this.point = new Points(this.mainSvg, this.controller);
         this.sizeLegend = new SizeLegend(this.mainSvg, this.controller);
         this.colorLegend = new ColorLegend(this.mainSvg, this.controller);

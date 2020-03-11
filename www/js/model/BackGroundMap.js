@@ -1,4 +1,4 @@
-class backgroundMap{
+class BackGroundMap{
 
     path;
     jsonData;
