@@ -1,17 +1,56 @@
+/**
+ * These types are defined to help ide check code and do code completion.
+ * @typedef {{heightScale: Object, xScale: Object, yScale: Object, indexScale: Object}} ScaleSet
+ *
+ * @typedef {{index: Number,
+ *            numberOfPoint: Number,
+ *            x: Number,
+ *            y: Number,
+ *            width: Number,
+ *            height: Number,
+ *            range: Number[],
+ *            defaultColor: String }[]} GroupedData
+ */
+
+
+
+
+/**
+ * This class depicts the histogram
+ */
 class Histogram {
+    /** @type {Number} */
     static xOffset = 50;
+    /** @type {Number} */
     static step = 50;
 
+    /**@member {D3Selection} layer - a instance of controller - the svg dom for background map*/
     layer;
+    /** @member {Controller} controller - the controller */
     controller;
+    /** @member {Set.<D3Selection>} selected */
     selected;
+    /** @member {Boolean} hasBeenBound */
+    hasBeenBound;
 
+    /**
+     * This is the constructor
+     * @param {D3Selection} svg - the main svg dom
+     * @param {Controller} controller - a instance of controller object
+     */
     constructor(svg, controller) {
         this.layer = svg.append("g");
         this.controller = controller;
+        this.hasBeenBound = false;
     }
 
-    drawAxis = (xScale, yScale) => {
+    /**
+     * This function draw the x, y axes
+     *
+     * @param {Object} xScale
+     * @param {Object} yScale
+     */
+    drawAxes = (xScale, yScale) => {
         this.layer.append("g").attr("transform", "translate(40, 0)").call(d3.axisLeft(yScale));
         this.layer.append("g").attr("transform", "translate(0, 510)").call(d3.axisBottom(xScale).tickValues(xScale.domain()));
         this.layer
@@ -28,6 +67,14 @@ class Histogram {
             .text("Amount of Contaminants ("+ this.controller.getTheUnitForCurrentDataSet()+")" )
     };
 
+
+
+    /**
+     * This function generates necessary scales
+     *
+     * @param {Number[]} data - a array of average numbers
+     * @return {ScaleSet}
+     */
     generateScales = (data) => {
         let max = Math.max(...data);
         let groupedData = [0, 0, 0, 0, 0, 0];
@@ -61,6 +108,14 @@ class Histogram {
     };
 
 
+    /**
+     * This function groups the data into 6 small ground
+     * and calculates necessary info associated with each group
+     *
+     * @param {Number[]} data
+     * @param {ScaleSet} scaleSet
+     * @return {GroupedData}
+     */
     generateGroupedData = (data, scaleSet) => {
         let groupedData = [0, 0, 0, 0, 0, 0];
         for (let i = 0; i < data.length; i++) {
@@ -82,7 +137,13 @@ class Histogram {
 
     };
 
+    /**
+     * This is a callback function for drawing a histogram.
+     *
+     * @param {JSON} points
+     */
     callbackDrawHistogram = (points) => {
+        // preprocess the data
         let data = [];
         for (let i = 0; i < points.length; i++) {
             data.push(this.controller.getSampleAverage(points[i]));
@@ -91,10 +152,12 @@ class Histogram {
             return a - b;
         });
 
+        // call function to process data further
         let scaleSet = this.generateScales(data);
         let groupedData = this.generateGroupedData(data, scaleSet);
-        this.drawAxis(scaleSet.xScale, scaleSet.yScale);
+        this.drawAxes(scaleSet.xScale, scaleSet.yScale);
 
+        // add rect to the map.
         this.layer
             .selectAll("rect")
             .data(groupedData)
@@ -109,9 +172,33 @@ class Histogram {
             .attr("fill", d => d.defaultColor);
     };
 
+
+    /**
+     * This callback type is called `updateCircle`
+     * It should receive a list of points
+     * @see Points#update
+     * @see circleFilter
+     * @see updatePoints
+     *
+     * @callback updateCircle
+     * @param {circleFilter} filter
+     * @param {updatePoints} callBack
+     */
+
+    /**
+     * Call this function to bound the histogram to circle so that
+     * when user clicks on rect, the circle in the map can de updated.
+     *
+     * @param {updateCircle} callback
+     */
     boundToMap = (callback) => {
+        if (!this.hasBeenBound){
+            // todo throw error
+            return;
+        }
+        this.hasBeenBound = true;
         this.selected = new Set();
-        let self = this;
+        let self = this; // this is saved in self
         let resetFilter = (value) =>{
             return true;
         };
@@ -126,12 +213,12 @@ class Histogram {
         };
         this.layer
             .selectAll("rect")
-            .on("click", function () {
-                callback(resetFilter, resetColor);
-                if (self.selected.has(this)) {
-                    self.selected.delete(this);
+            .on("click", function () { // because we are going to use this to get the D3 selection
+                callback(resetFilter, resetColor); // reset selection
+                if (self.selected.has(this)) { // if the current rect is already selected
+                    self.selected.delete(this);// then this click is seen as cancelling the previous selection
                 } else {
-                    self.selected.add(this);
+                    self.selected.add(this); // otherwise, select it
                 }
                 self.updateSelectedRect();
                 if (self.selected.size!==0) {
@@ -140,13 +227,20 @@ class Histogram {
             });
     };
 
+    /**
+     * This function unbound this histogram to the map
+     */
     unBoundToMap = () => {
         this.layer
             .selectAll("rect")
-            .on("click", null)
+            .on("click", null);
+        this.hasBeenBound = false;
     };
 
 
+    /**
+     * This function actually reduces the opacity of unselected rectangles.
+     */
     updateSelectedRect = () => {
         if (this.selected.size === 0) {
             this.layer.selectAll("rect").style("opacity", 1);
@@ -158,9 +252,16 @@ class Histogram {
         })
     };
 
+    /**
+     * This function check if a value is in the ranges of selected rectangles.
+     *
+     * @param {Number} value
+     * @return {boolean}
+     */
     isSelected = (value) => {
         for (let e of this.selected) {
             let range = d3.select(e).data()[0].range;
+            // allow 0.1 as floating point calculation may not produce the precise value.
             if (range[0]-0.1 <= value && value <= range[1]+0.1) {
                 return true;
             }
@@ -169,6 +270,9 @@ class Histogram {
 
     };
 
+    /**
+     * This function erase the histogram.
+     */
     erase = () => {
         this.layer.selectAll("rect").remove();
         this.layer.selectAll("g").remove();
