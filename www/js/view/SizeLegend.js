@@ -2,14 +2,14 @@
  * This is the size legend class
  */
 class SizeLegend {
-    /** @member {Object} legendG - the svg dom for size legend */
+    /** @member {D3Selection} legendG - the svg dom for size legend */
     legendG;
     /** @member {Controller} controller - the controller */
     controller;
 
     /**
      * This is the constructor
-     * @param {Object} svg - the main svg dom
+     * @param {D3Selection} svg - the main svg dom
      * @param {Controller} controller - a instance of controller object
      */
     constructor(svg, controller) {
