@@ -77,7 +77,7 @@ class Histogram {
      */
     generateScales = (data) => {
         let max = Math.max(...data);
-        let groupedData = [0, 0, 0, 0, 0, 0];
+        let groupedData = [0, 0, 0, 0, 0, 0]; //todo duplicated code
         let indexScale = d3.scaleQuantize().domain([0, max]).range([0, 1, 2, 3, 4, 5]);
         for (let i = 0; i < data.length; i++) {
             groupedData[indexScale(data[i])]++;
@@ -111,13 +111,14 @@ class Histogram {
     /**
      * This function groups the data into 6 small ground
      * and calculates necessary info associated with each group
+     * @see controller#calculateColor
      *
      * @param {Number[]} data
      * @param {ScaleSet} scaleSet
      * @return {GroupedData}
      */
     generateGroupedData = (data, scaleSet) => {
-        let groupedData = [0, 0, 0, 0, 0, 0];
+        let groupedData = [0, 0, 0, 0, 0, 0];//todo duplicated code
         for (let i = 0; i < data.length; i++) {
             groupedData[scaleSet.indexScale(data[i])]++;
         }
@@ -139,6 +140,10 @@ class Histogram {
 
     /**
      * This is a callback function for drawing a histogram.
+     * @see controller#getSampleAverage
+     * @see Histogram#generateScales
+     * @see Histogram#generateGroupedData
+     * @see Histogram#drawAxes
      *
      * @param {JSON} points
      */
@@ -188,6 +193,8 @@ class Histogram {
     /**
      * Call this function to bound the histogram to circle so that
      * when user clicks on rect, the circle in the map can de updated.
+     * @see Histogram#updateSelectedRect
+     * @see Histogram#selected
      *
      * @param {updateCircle} callback
      */
