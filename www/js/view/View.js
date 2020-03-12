@@ -4,13 +4,14 @@
 
 /**
  * These types are defined to help ide check code and do code completion.
- * @typedef D3Function
- * @type {Function}
+ * @callback D3Function
+ * @param {Object} [a]
+ * @param {Object} [b]
  * @return {D3Selection}
- *
- *
+ */
+
+/**
  * @typedef D3Selection
- * @type {Object}
  * @property {D3Function} select
  * @property {D3Function} selectAll
  * @property {D3Function} append
@@ -196,7 +197,7 @@ class View {
         document.getElementById(View.contaminantSelectorId).innerHTML = contaminant;
         this.erasePreviousDrawing();
         this.controller.setCurrentContaminant(contaminant);
-        if (!this.controller.isCurrentDataSetNull()){
+        if (!this.controller.isCurrentDataSetNull()) {
             this.drawDataPointsAndLegends();
         }
     }

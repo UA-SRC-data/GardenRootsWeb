@@ -1,7 +1,9 @@
 /**
  * These types are defined to help ide check code and do code completion.
  * @typedef {{heightScale: Object, xScale: Object, yScale: Object, indexScale: Object}} ScaleSet
- *
+ */
+
+/**
  * @typedef {{index: Number,
  *            numberOfPoint: Number,
  *            x: Number,
@@ -11,8 +13,6 @@
  *            range: Number[],
  *            defaultColor: String }[]} GroupedData
  */
-
-
 
 
 /**
