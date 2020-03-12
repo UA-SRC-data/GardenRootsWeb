@@ -192,7 +192,7 @@ class Histogram {
      * @param {updateCircle} callback
      */
     boundToMap = (callback) => {
-        if (!this.hasBeenBound){
+        if (this.hasBeenBound){
             // todo throw error
             return;
         }
