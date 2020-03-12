@@ -5,15 +5,6 @@
 /**
  * This class manages all other view components.
  *
- * @property {Controller} controller        - a instance of controller
- * @property {Model} model                  - a instance of model
- * @property {Object} mainSvg               - the svg dom
- * @property {Object} histogramSvg          - the histogram dom
- * @property {Points} point                 - a instance of Points
- * @property {BackGround} background        - a instance of BackGround
- * @property {SizeLegend} sizeLegend        - a instance of SizeLegend
- * @property {ColorLegend} colorLegend      - a instance of ColorLegend
- * @property {Histogram} histogram          - a instance of Histogram
  */
 class View {
 
@@ -30,15 +21,25 @@ class View {
     static histogramSvgHeight = 600;
     static viewInstance = undefined;
 
+    /** @member {Controller} controller - a instance of controller */
     controller;
+    /** @member {Model} model - a instance of model*/
     model;
+    /** @member {Object} mainSvg - the svg dom*/
     mainSvg;
+    /** @member {Object} histogramSvg - the histogram dom*/
     histogramSvg;
+    /** @member {Points} point - a instance of Points*/
     point;
+    /** @member {BackGround} background - a instance of BackGround*/
     background;
+    /** @member {SizeLegend} sizeLegend - a instance of SizeLegend*/
     sizeLegend;
+    /** @member {ColorLegend} colorLegend - a instance of ColorLegend*/
     colorLegend;
+    /** @member {Histogram} histogram- a instance of Histogram*/
     histogram;
+
 
     /**
      * This is the constructor
