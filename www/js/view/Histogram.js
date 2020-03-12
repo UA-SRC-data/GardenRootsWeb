@@ -172,6 +172,7 @@ class Histogram {
     erase = () => {
         this.layer.selectAll("rect").remove();
         this.layer.selectAll("g").remove();
+        this.layer.selectAll("text").remove();
     }
 
 
