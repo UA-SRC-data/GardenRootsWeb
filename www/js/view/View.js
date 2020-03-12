@@ -5,7 +5,7 @@
 /**
  * These types are defined to help ide check code and do code completion.
  * @typedef D3Function
- * @type {function}
+ * @type {Function}
  * @return {D3Selection}
  *
  *
