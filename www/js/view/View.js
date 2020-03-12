@@ -3,6 +3,18 @@
 //todo what is ref????
 
 /**
+ * This type is defined to help ide check code and do code completion.
+ * @typedef D3Selection
+ * @type {Object}
+ * @property {function} select
+ * @property {function} selectAll
+ * @property {function} append
+ * @property {function} attr
+ * @property {function} style
+ */
+
+
+/**
  * This class manages all other view components.
  * @see Controller
  * @see Model
@@ -36,9 +48,9 @@ class View {
     controller;
     /** @member {Model} model - a instance of model*/
     model;
-    /** @member {Object} mainSvg - the svg dom*/
+    /** @member {D3Selection} mainSvg - the svg dom*/
     mainSvg;
-    /** @member {Object} histogramSvg - the histogram dom*/
+    /** @member {D3Selection} histogramSvg - the histogram dom*/
     histogramSvg;
     /** @member {Points} point - a instance of Points*/
     point;
