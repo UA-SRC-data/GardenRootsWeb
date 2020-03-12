@@ -2,7 +2,7 @@
  * This is the size legend class
  */
 class SizeLegend {
-    /** @member {D3Selection} legendG - the svg dom for size legend */
+    /** @member {D3Selection} legendG - the svg group for size legend */
     legendG;
     /** @member {Controller} controller - the controller */
     controller;
