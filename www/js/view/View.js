@@ -4,21 +4,30 @@
 
 /**
  * This class manages all other view components.
- *
  */
 class View {
 
+    /** @type {Object}*/
     static projection = d3.geoAlbersUsa().scale(4500).translate([1750, 100]);
+    /** @type {Object}*/
     static geoPath = d3.geoPath().projection(View.projection);
+    /** @type {Object}*/
     static zoom = d3.zoom();
 
+    /** @type {String}*/
     static svgWidth = "100%";
+    /** @type {String}*/
     static svgHeight = "100vh";
+    /** @type {String}*/
     static divClass = ".mapCanvas";
+    /** @type {String}*/
     static setSelectorId = "dataset";
+    /** @type {String}*/
     static contaminantSelectorId = "contaminant";
 
+    /** @type {Number}*/
     static histogramSvgHeight = 600;
+    /** @type {View}*/
     static viewInstance = undefined;
 
     /** @member {Controller} controller - a instance of controller */
