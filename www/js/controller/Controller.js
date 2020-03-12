@@ -1,17 +1,17 @@
 /**
  * This class is the controller for this data visualization.
  * All data accesses by view need to be done by calling functions in controller instead of directly call to model.
- * @property {Model} model                    - a model instance is passed through constructor.
- * @property {BackGroundMap} BackGroundMap    - a BackGroundMap instance
- * @property {DataSet} currentDataSet         - a instance of DataSet obj
- * @property {DataPoints} currentDataPoint    - a instance of DataPoint obj
  */
 class Controller {
 
-    model; // a model instance is passed through constructor.
-    backgroundMap; // a BackGroundMap instance
-    currentDataSet; // a instance of DataSet obj
-    currentDataPoint; // a instance of DataPoint obj
+    /** @member {Model} model  a model instance is passed through constructor */
+    model;
+    /** @member {BackGroundMap} BackGroundMap - a BackGroundMap instance */
+    backgroundMap;
+    /** @member {DataSet} currentDataSet - a instance of DataSet obj */
+    currentDataSet;
+    /** @member {DataPoints} currentDataPoint - a instance of DataPoint obj */
+    currentDataPoint;
 
     /**
      * this is the constructor of model
