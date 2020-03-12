@@ -102,7 +102,7 @@ class Controller {
      * @returns {boolean}
      */
     isCurrentDataSetNull() {
-        return this.currentDataSet === undefined;
+        return this.model.getCurrentDataSet() === Model.dataSets.NULL;
     }
 
     /**
