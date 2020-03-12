@@ -1,13 +1,28 @@
+/**
+ * This class depicts the background map
+ */
 class BackGround {
+    /** @member {D3Selection} layer - a instance of controller - the svg dom for background map*/
     layer;
+    /** @member {Controller} controller - the controller */
     controller;
 
+    /**
+     * This is the constructor
+     * @param {D3Selection} svg - the main svg dom
+     * @param {Controller} controller - a instance of controller object
+     */
     constructor(svg, controller) {
         this.layer = svg.append("g");
         this.controller = controller;
     }
 
-    // this function has to be done in this way( (...)=> {...}) to avoid the problem of 'this' key word
+    /**
+     * This function is a callback function for drawing circles on map.
+     * This function has to be done in this way( (...)=> {...}) to avoid the problem of 'this' key word.
+     *
+     * @param data
+     */
     callbackDrawBackGroundMap = (data) => {
         //draw the map
         this.layer.selectAll("path")
@@ -28,6 +43,10 @@ class BackGround {
             .attr('fill', 'transparent');
     };
 
+    /**
+     * This function is called when user zoom in or out,
+     * and it resizes the background map.
+     */
     zoom = () => {
         this.layer.attr("transform", d3.event.transform);
         this.layer.selectAll(".garden")
