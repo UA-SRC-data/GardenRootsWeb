@@ -137,7 +137,7 @@ class Controller {
      * This function returns a list of numbers for making legend points
      * @see DataSet#getLegendPoints
      *
-     * @returns {Number[]} a series of numbers
+     * @returns {Object.<String, number>[]} a series of numbers
      */
     getLegendPoints() {//size legend
         if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
