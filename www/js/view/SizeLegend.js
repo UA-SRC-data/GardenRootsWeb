@@ -4,7 +4,7 @@
 class SizeLegend {
     /** @member {Object} legendG - the svg dom for size legend */
     legendG;
-    /*** @member {Controller} controller - the controller */
+    /** @member {Controller} controller - the controller */
     controller;
 
     /**
