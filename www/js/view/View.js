@@ -4,6 +4,8 @@
 
 /**
  * This class manages all other view components.
+ * @see Controller
+ * @see Model
  */
 class View {
 
@@ -52,6 +54,12 @@ class View {
 
     /**
      * This is the constructor
+     * @see View#setUpSvg
+     * @see BackGround
+     * @see Points
+     * @see SizeLegend
+     * @see ColorLegend
+     * @see Histogram
      */
     constructor() {
         this.model = new Model();
@@ -87,6 +95,8 @@ class View {
 
     /**
      * This function sets up the background map
+     * @see Controller#setUpBackGroundMap
+     * @see BackGround#callbackDrawBackGroundMap
      */
     setUpBackGroundMap() {
         // -------------------------------------vvvvv has to be done in this way. to avoid the problem of "this" keyword
@@ -97,6 +107,7 @@ class View {
 
     /**
      * This function sets up the color legend with white color
+     * @see ColorLegend#setUpWhiteColor
      */
     setUpWhiteColorLegend() {
         this.colorLegend.setUpWhiteColor();
@@ -104,6 +115,13 @@ class View {
 
     /**
      * This function calls all other function to draw data points and all legends.
+     * @see Controller#setUpPoints
+     * @see Points#callbackDrawPoints
+     * @see SizeLegend#drawSizeLegend
+     * @see ColorLegend#updateColor
+     * @see Histogram#callbackDrawHistogram
+     * @see Histogram#boundToMap
+     * @see Points#update
      */
     drawDataPointsAndLegends() {
         this.controller.setUpPoints((points) => {
@@ -117,6 +135,10 @@ class View {
 
     /**
      * This function cleans up all previous drawing.
+     * @see Points#erase
+     * @see SizeLegend#erase
+     * @see ColorLegend#resetColor
+     * @see Histogram#erase
      */
     erasePreviousDrawing() {
         this.point.erase();
@@ -130,7 +152,8 @@ class View {
      * It calls other functions to erase the points and legend,
      * but it does not call function to redraw them
      * because contaminant has also to be selected.
-     *
+     * @see View#erasePreviousDrawing
+     * @see Controller#setCurrentDataSet
      *
      * @param {String} dataSet  - the name of the data set
      */
@@ -144,12 +167,15 @@ class View {
      * This function is called when suer selects a new contaminant.
      * It erase previous points and legend
      * It only draws new data points and legend when data set is selected.
+     * @see View#erasePreviousDrawing
+     * @see Controller#setCurrentContaminant
+     * @see Controller#isCurrentDataSetNull
+     * @see View#drawDataPointsAndLegends
      *
      * @param {String} contaminant
      */
     selectContaminant(contaminant) {
         document.getElementById(View.contaminantSelectorId).innerHTML = contaminant;
-        // todo need to figure out what to do when dataset changed and not changed
         this.erasePreviousDrawing();
         this.controller.setCurrentContaminant(contaminant);
         if (!this.controller.isCurrentDataSetNull()){
@@ -159,6 +185,8 @@ class View {
 
     /**
      * Call this function to lunch this visualization
+     * @see View#setUpBackGroundMap
+     * @see View#setUpWhiteColorLegend
      */
     static lunch() {
         View.viewInstance = new View();
@@ -168,6 +196,7 @@ class View {
 
     /**
      * This function is called when user selects data set.
+     * @see View#selectDataSet
      *
      * @param {String} dataSet
      */
@@ -180,6 +209,7 @@ class View {
 
     /**
      * This function is called when user selects contaminant.
+     * @see View#selectContaminant
      *
      * @param {String} contaminant
      */
