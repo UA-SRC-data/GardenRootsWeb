@@ -1,13 +1,29 @@
+/**
+ * This class depicts the prompt.
+ */
 class DataPointPrompt {
+    /** @type {number} */
     static colNumber = 10;
+    /** @type {number} */
     static lineHeight = 18;
+    /** @type {number} */
     static width = 200;
+    /** @type {number} */
     static height = 120;
 
+    /** @member {D3Selection} layer - the svg dom for background map*/
     layer;
+    /** @member {Controller} controller - the controller */
     controller;
+    /** @member {D3Selection} tooltip - the svg dom for prompt*/
     tooltip;
 
+    /**
+     * This is the constructor.
+     *
+     * @param {D3Selection} layer - the main svg dom
+     * @param {Controller} controller - a instance of controller object
+     */
     constructor(layer, controller) {
         this.layer = layer;
         this.controller = controller;
@@ -16,7 +32,13 @@ class DataPointPrompt {
             .style("opacity", 0);
     }
 
-    bound() {
+    /**
+     * This function bounds mouse event to each circles.
+     * @see DataPointPrompt#resizeCircle
+     * @see DataPointPrompt#hidePrompt
+     * @see DataPointPrompt#showPrompt
+     */
+    boundMouseEventToPoints() {
         // need to preserve context.
         let resizeCircle = this.resizeCircle;
         let hidePrompt = this.hidePrompt;
@@ -34,6 +56,15 @@ class DataPointPrompt {
             });
     }
 
+    /**
+     * This function resizes circles.
+     * A circle should be bigger when mouse is on it
+     * @see Controller#getNumberOfSamplePoint
+     *
+     * @param {D3Selection} dom
+     * @param {JSON} d
+     * @param {Number} [offset=0]
+     */
     resizeCircle = (dom, d, offset) => {
         if (offset === undefined) {
             offset = 0;
@@ -44,12 +75,23 @@ class DataPointPrompt {
             .attr("r", this.controller.getNumberOfSamplePoint(d) + offset);
     };
 
+    /**
+     * This function is a callback function that hides the prompt
+     */
     hidePrompt = () => {
         this.tooltip.transition()
             .duration(50)
             .style("opacity", 0);
     };
 
+    /**
+     * This function is a callback function that shows the prompt
+     * @see DataPointPrompt#addAverageInfo
+     * @see DataPointPrompt#addMedianInfo
+     * @see DataPointPrompt#addExceedingSampleInfo
+     *
+     * @param {JSON} d
+     */
     showPrompt = (d) => {
         this.tooltip.transition()
             .duration(150)
@@ -76,6 +118,12 @@ class DataPointPrompt {
         this.addExceedingSampleInfo(histSvg, textY, d);
     };
 
+    /**
+     * This function adds the dot map to the prompt
+     *
+     * @param {D3Selection} histSvg
+     * @param {JSON} d
+     */
     addDotMap = (histSvg, d) => {
         //get the values and sort them directly
         let protData = this.controller.getAllSampleData(d);
@@ -99,6 +147,13 @@ class DataPointPrompt {
             });
     };
 
+    /**
+     * This function adds the average number to the prompt.
+     *
+     * @param {D3Selection} histSvg
+     * @param {Number} textY
+     * @param {JSON} d
+     */
     addAverageInfo = (histSvg, textY, d) => {
         histSvg.append("text")
             .attr("x", 10)
@@ -109,6 +164,13 @@ class DataPointPrompt {
             });
     };
 
+    /**
+     * This function adds the median number to the prompt.
+     *
+     * @param {D3Selection} histSvg
+     * @param {Number} textY
+     * @param {JSON} d
+     */
     addMedianInfo = (histSvg, textY, d) => {
         histSvg.append("text")
             .attr("x", 10)
@@ -119,6 +181,13 @@ class DataPointPrompt {
             });
     };
 
+    /**
+     * This function adds the info of exceeding samples to the prompt.
+     *
+     * @param {D3Selection} histSvg
+     * @param {Number} textY
+     * @param {JSON} d
+     */
     addExceedingSampleInfo = (histSvg, textY, d) => {
         histSvg.append("text")
             .attr("x", 10)

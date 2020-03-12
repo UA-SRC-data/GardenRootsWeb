@@ -42,7 +42,7 @@ class Points {
             .attr("fill", (d) => {
                 return this.controller.calculateColor(d)
             });
-        this.dataPointPrompt.bound();
+        this.dataPointPrompt.boundMouseEventToPoints();
     };
 
     /**
