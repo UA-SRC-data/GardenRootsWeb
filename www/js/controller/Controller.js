@@ -97,6 +97,15 @@ class Controller {
     }
 
     /**
+     * This function checks whether currentDataSet has already been set.
+     *
+     * @returns {boolean}
+     */
+    isCurrentDataSetNull() {
+        return this.currentDataSet === undefined;
+    }
+
+    /**
      * This function calculates the size of given data point which is actually the number of points in the area
      * @see DataSet#calculateSize
      *
