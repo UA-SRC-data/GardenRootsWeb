@@ -3,14 +3,20 @@
 //todo what is ref????
 
 /**
- * This type is defined to help ide check code and do code completion.
+ * These types are defined to help ide check code and do code completion.
+ * @typedef D3Function
+ * @type {function}
+ * @return {D3Selection}
+ *
+ *
  * @typedef D3Selection
  * @type {Object}
- * @property {function} select
- * @property {function} selectAll
- * @property {function} append
- * @property {function} attr
- * @property {function} style
+ * @property {D3Function} select
+ * @property {D3Function} selectAll
+ * @property {D3Function} append
+ * @property {D3Function} attr
+ * @property {D3Function} style
+ * @property {D3Function} filter
  */
 
 
