@@ -58,6 +58,10 @@ class ColorLegend {
 
     /**
      * This function updates the color of color legend.
+     * @see controller#isCurrentContaminantAvailableInCurrentDataSet
+     * @see controller#getTheRefValueOfCurrentContaminantInCurrentDataSet
+     * @see controller#getTheMaxValueOfCurrentContaminantInCurrentDataSet
+     * @see controller#getTheUnitForCurrentDataSet
      */
     updateColor = () => {
         // update the color.
