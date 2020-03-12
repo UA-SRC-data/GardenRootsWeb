@@ -3,15 +3,17 @@
 //todo what is ref????
 
 /**
- * This is the class that manages all other view components.
+ * This class manages all other view components.
  *
  * @property {Controller} controller        - a instance of controller
  * @property {Model} model                  - a instance of model
- * @property {Object} mainSvg
- * @property {Object} histogramSvg
- * @property point
- * @property backgroundMap
- * @property sizeLegend
+ * @property {Object} mainSvg               - the svg dom
+ * @property {Object} histogramSvg          - the histogram dom
+ * @property {Points} point                 - a instance of Points
+ * @property {BackGround} background        - a instance of BackGround
+ * @property {SizeLegend} sizeLegend        - a instance of SizeLegend
+ * @property {ColorLegend} colorLegend      - a instance of ColorLegend
+ * @property {Histogram} histogram          - a instance of Histogram
  */
 class View {
 
@@ -38,6 +40,9 @@ class View {
     colorLegend;
     histogram;
 
+    /**
+     * This is the constructor
+     */
     constructor() {
         this.model = new Model();
         this.controller = new Controller(this.model);
@@ -49,6 +54,10 @@ class View {
         this.histogram = new Histogram(this.histogramSvg, this.controller);
     }
 
+    /**
+     * This function sets up all svg in the dom tree,
+     * which are the one for the main graph and the one for histogram.
+     */
     setUpSvg() {
         this.mainSvg = d3.select(View.divClass)
             .append("svg")
@@ -66,6 +75,9 @@ class View {
             .attr("style", "background-color:#f0f0f0")
     }
 
+    /**
+     * This function sets up the background map
+     */
     setUpBackGroundMap() {
         // -------------------------------------vvvvv has to be done in this way. to avoid the problem of "this" keyword
         this.controller.setUpBackGroundMap((data) => {
@@ -73,10 +85,16 @@ class View {
         });
     }
 
+    /**
+     * This function sets up the color legend with white color
+     */
     setUpWhiteColorLegend() {
         this.colorLegend.setUpWhiteColor();
     }
 
+    /**
+     * This function calls all other function to draw data points and all legends.
+     */
     drawDataPointsAndLegends() {
         this.controller.setUpPoints((points) => {
             this.point.callbackDrawPoints(points);
@@ -87,6 +105,9 @@ class View {
         });
     }
 
+    /**
+     * This function cleans up all previous drawing.
+     */
     erasePreviousDrawing() {
         this.point.erase();
         this.sizeLegend.erase();
@@ -94,26 +115,52 @@ class View {
         this.histogram.erase();
     }
 
+    /**
+     * This function is called when user selects a new data set.
+     * It calls other functions to erase the points and legend,
+     * but it does not call function to redraw them
+     * because contaminant has also to be selected.
+     *
+     *
+     * @param {String} dataSet  - the name of the data set
+     */
     selectDataSet(dataSet) {
         document.getElementById(View.setSelectorId).innerHTML = dataSet;
         this.erasePreviousDrawing();
         this.controller.setCurrentDataSet(dataSet);
     }
 
+    /**
+     * This function is called when suer selects a new contaminant.
+     * It erase previous points and legend
+     * It only draws new data points and legend when data set is selected.
+     *
+     * @param {String} contaminant
+     */
     selectContaminant(contaminant) {
         document.getElementById(View.contaminantSelectorId).innerHTML = contaminant;
         // todo need to figure out what to do when dataset changed and not changed
         this.erasePreviousDrawing();
         this.controller.setCurrentContaminant(contaminant);
-        this.drawDataPointsAndLegends();
+        if (!this.controller.isCurrentDataSetNull()){
+            this.drawDataPointsAndLegends();
+        }
     }
 
+    /**
+     * Call this function to lunch this visualization
+     */
     static lunch() {
         View.viewInstance = new View();
         View.viewInstance.setUpBackGroundMap();
         View.viewInstance.setUpWhiteColorLegend();
     }
 
+    /**
+     * This function is called when user selects data set.
+     *
+     * @param {String} dataSet
+     */
     static selectDataSet(dataSet) {
         if (View.viewInstance === undefined) {
             //todo throw error
@@ -121,6 +168,11 @@ class View {
         View.viewInstance.selectDataSet(dataSet);
     }
 
+    /**
+     * This function is called when user selects contaminant.
+     *
+     * @param {String} contaminant
+     */
     static selectContaminant(contaminant) {
         if (View.viewInstance === undefined) {
             //todo throw error
