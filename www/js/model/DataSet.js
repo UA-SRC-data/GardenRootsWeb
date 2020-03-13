@@ -1,26 +1,50 @@
+/**
+ * This callback type is called `getDataCallback`
+ * It is supposed to visualize the data on map
+ *
+ * @callback getDataCallback
+ * @param {dataPointWithAssociatedInfo} data
+ */
+
+
+
+
+
+
+
+
+
+
 class DataSet {
 
     name;
-    jsonData;
     dataPath;
     refValues;
-    dataPoints = {};
+    /**@type {(?|DataPoint)[]}  */
+    dataPoints = [];
+    LegendSample = [20, 10, 5, 2, 1];
 
-    constructor(setName, setPath, availableContaminants) {
+    colorScales;
+    sizeScales;
+
+    constructor(setName, setPath, refValues) {
         this.name = setName;
-        this.refValues = availableContaminants;
+        this.refValues = refValues;
         this.dataPath = setPath;
-
+        this.colorScales = new ColorScales(refValues);
+        this.sizeScales = new SizeScales();
     }
 
-    setUpPoints(callback) {
-        if (this.jsonData === undefined) {
+    setUpPoints(contaminant, callback) {
+        if (this.dataPoints.length === 0) {
             d3.json(this.dataPath).then((data) => {
-                this.jsonData = data;
-                callback(data);
+                for (let i=0; i<data; i++){// todo color scale
+                    this.dataPoints.push(new DataPoint(data[i], this.colorScales, this.sizeScales))
+                }
+                callback(this.dataPoints.map(point=>point.getData(contaminant)).filter(x=>x !== null));
             })
         } else {
-            callback(this.jsonData);
+            callback(this.dataPoints.map(point=>point.getData(contaminant)).filter(x=>x !== null));
         }
     }
 
@@ -32,86 +56,26 @@ class DataSet {
         return Model.maxes[contaminant];
     }
 
-    getColorScale(contaminant) {
-        if (this.refValues.hasOwnProperty(contaminant)) {
-            let colorScale = d3.scaleLinear().domain([0, this.refValues[contaminant]]).range(Model.colors);
-            return (value) => {
-                if (value > this.refValues[contaminant]) {
-                    return Model.maxColor;
-                } else {
-                    return colorScale(value);
-                }
-            };
-        }
-        return d3.scaleLinear().domain([0, this.getMaxValues(contaminant)]).range(["white", "purple"]);
-    }
-
-    getDataPointObj(contaminant) {
-        if (!this.dataPoints.hasOwnProperty(contaminant)) {
-            this.dataPoints[contaminant] =
-                new DataPoints(this.name, contaminant, this.getColorScale(contaminant),
-                    d3.scaleLinear().domain([1, 5]).range([1, 5])) //because we are just using the number of point.
-        }
-        return this.dataPoints[contaminant];
-    }
-
     calculateSize(contaminant, value) {
-        if (!this.dataPoints.hasOwnProperty(contaminant)) {
-            // todo throw error
-        }
-        return this.dataPoints[contaminant].calculateSize(value);
+        this.sizeScales.calculateSize(contaminant, value);
     }
 
     calculateColor(contaminant, value) {
-        if (!this.dataPoints.hasOwnProperty(contaminant)) {
-            // todo throw error
-        }
-        return this.dataPoints[contaminant].calculateColor(value);
-    }
-
-    getLegendPoints(contaminant) {
-        if (!this.dataPoints.hasOwnProperty(contaminant)) {
-            // todo throw error
-        }
-        return this.dataPoints[contaminant].getLegendPoints();
-    }
-
-    getNumberOfSamplePoint(contaminant, value) {
-        if (!this.dataPoints.hasOwnProperty(contaminant)) {
-            // todo throw error
-        }
-        return this.dataPoints[contaminant].getNumberOfSamplePoint(value);
-    }
-
-    getAllSampleData(contaminant, value){
-        if (!this.dataPoints.hasOwnProperty(contaminant)) {
-            // todo throw error
-        }
-        return this.dataPoints[contaminant].getAllSampleData(value);
-    }
-
-    getSampleAverage(contaminant, value){
-        if (!this.dataPoints.hasOwnProperty(contaminant)) {
-            // todo throw error
-        }
-        return this.dataPoints[contaminant].getSampleAverage(value);
-    }
-
-    getSampleMedian(contaminant, value){
-        if (!this.dataPoints.hasOwnProperty(contaminant)) {
-            // todo throw error
-        }
-        return this.dataPoints[contaminant].getSampleMedian(value);
-    }
-
-    getSampleExceed(contaminant, value){
-        if (!this.dataPoints.hasOwnProperty(contaminant)) {
-            // todo throw error
-        }
-        return this.dataPoints[contaminant].getSampleExceed(value);
+        this.colorScales.calculateColor(contaminant, value);
     }
 
     isContaminantAvailable(contaminant){
         return this.refValues.hasOwnProperty(contaminant);
+    }
+
+    getLegendPoints(contaminant){
+        let data=[];
+        for (let i=0; i<this.LegendSample.length; i++){
+            data.push({
+                sample: this.LegendSample[i],
+                r:this.sizeScales.calculateSize(contaminant, this.LegendSample[i])
+            })
+        }
+        return data;
     }
 }
