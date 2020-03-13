@@ -7,10 +7,10 @@ class SizeScales{
     constructor() {
     }
 
-    getSizeScale(contaminant) {
+    calculateSize(contaminant, value) {
         if (!this.scales.hasOwnProperty(contaminant)){
             this.scales[contaminant] = d3.scaleLinear().domain(SizeScales.defaultDomain).range(SizeScales.defaultRange);
         }
-        return this.scales[contaminant];
+        return this.scales[contaminant](value);
     }
 }
