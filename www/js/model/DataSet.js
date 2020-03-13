@@ -96,7 +96,7 @@ class DataSet {
      *
      * @param {string} contaminant
      * @param {number} value
-     * @return {number}
+     * @return {string}
      */
     calculateColor(contaminant, value) {
         return this.colorScales.calculateColor(contaminant, value);
