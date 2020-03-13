@@ -58,7 +58,7 @@ class DataPoint{
      * This function produces the data that is necessary for view
      *
      * @param {String} contaminant
-     * @return {?dataPointWithAssociatedInfo}
+     * @return {(null | dataPointWithAssociatedInfo)}
      */
     getData(contaminant){
         let contaminantSamples = this.data.samples[contaminant].filter((v)=> v!==null);
