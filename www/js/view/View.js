@@ -28,7 +28,7 @@
  */
 class View {
 
-    /** @type {Object}*/
+    /** @type {Function}*/
     static projection = d3.geoAlbersUsa().scale(4500).translate([1750, 100]);
     /** @type {Object}*/
     static geoPath = d3.geoPath().projection(View.projection);
