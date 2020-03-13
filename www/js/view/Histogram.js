@@ -178,15 +178,18 @@ class Histogram {
 
 
     /**
-     * This callback type is called `updateCircle`
-     * It should receive a list of points
-     * @see Points#update
-     * @see circleFilter
-     * @see updatePoints
+     * This callback type is called `eraseCallback`
+     * It erases all circles in the map
      *
-     * @callback updateCircle
-     * @param {circleFilter} filter
-     * @param {updatePoints} callBack
+     * @callback eraseCallback
+     */
+
+    /**
+     * This callback type is called `setUpPointsCallback`
+     * It erases all circles in the map
+     *
+     * @callback setUpPointsCallback
+     * @param {dataPointWithAssociatedInfo[]}
      */
 
     /**
@@ -195,9 +198,10 @@ class Histogram {
      * @see Histogram#updateSelectedRect
      * @see Histogram#selected
      *
-     * @param {updateCircle} callback
+     * @param {eraseCallback} eraseCallback
+     * @param {setUpPointsCallback} setUpPointsCallback
      */
-    boundToMap = (callback) => {
+    boundToMap = (eraseCallback, setUpPointsCallback) => {
         if (this.hasBeenBound){
             // todo throw error
             return;
@@ -205,22 +209,13 @@ class Histogram {
         this.hasBeenBound = true;
         this.selected = new Set();
         let self = this; // this is saved in self
-        let resetFilter = () =>{
-            return true;
-        };
-        let resetColor = (points) =>{
-            points.style("opacity", 1)
-        };
-        let filter = (value) => {
-            return !this.isSelected(value.average);
-        };
-        let newColor = (points) => {
-            points.style("opacity", 0)
+        let filter = (value) => {//todo modify
+            return this.isSelected(value);
         };
         this.layer
             .selectAll("rect")
             .on("click", function () { // because we are going to use this to get the D3 selection
-                callback(resetFilter, resetColor); // reset selection
+                self.updatePoints(eraseCallback, setUpPointsCallback); // reset selection
                 if (self.selected.has(this)) { // if the current rect is already selected
                     self.selected.delete(this);// then this click is seen as cancelling the previous selection
                 } else {
@@ -228,7 +223,7 @@ class Histogram {
                 }
                 self.updateSelectedRect();
                 if (self.selected.size!==0) {
-                    callback(filter, newColor)
+                    self.updatePoints(eraseCallback, setUpPointsCallback, filter);
                 }
             });
     };
@@ -241,6 +236,11 @@ class Histogram {
             .selectAll("rect")
             .on("click", null);
         this.hasBeenBound = false;
+    };
+
+    updatePoints = (eraseCallback, setUpPointsCallback, filter) => {
+        eraseCallback();
+        this.controller.setUpPoints((point)=>{setUpPointsCallback(point)}, filter)
     };
 
 
@@ -273,7 +273,6 @@ class Histogram {
             }
         }
         return false;
-
     };
 
     /**
@@ -283,6 +282,7 @@ class Histogram {
         this.layer.selectAll("rect").remove();
         this.layer.selectAll("g").remove();
         this.layer.selectAll("text").remove();
+        this.unBoundToMap()
     }
 
 
