@@ -22,7 +22,7 @@ class Points {
 
     /**
      * This is a callback function that draws circles (Points) on the map
-     * @param points
+     * @param {dataPointWithAssociatedInfo[]} points
      */
     callbackDrawPoints = (points) => {
         this.layer
@@ -34,14 +34,10 @@ class Points {
             .attr("transform", function (d) {
                 return "translate(" + View.projection(d.coordinates) + ")";
             })
-            .attr("r", (d) => {
-                return this.controller.calculateSize(d)
-            })
+            .attr("r", (d) => d.size)
             .attr("stroke", "black")
             .attr("stroke-width", 0.5)
-            .attr("fill", (d) => {
-                return this.controller.calculateColor(d)
-            });
+            .attr("fill", (d) => d.color);
         this.dataPointPrompt.boundMouseEventToPoints();
     };
 
