@@ -10,8 +10,6 @@ class Controller {
     backgroundMap;
     /** @member {DataSet} currentDataSet - a instance of DataSet obj */
     currentDataSet;
-    /** @member {DataPoints} currentDataPoint - a instance of DataPoint obj */
-    currentDataPoint;
 
     /**
      * this is the constructor of model
@@ -21,7 +19,6 @@ class Controller {
         this.model = model;
         this.backgroundMap = undefined;
         this.currentDataSet = undefined;
-        this.currentDataPoint = undefined;
     }
 
     /**
@@ -51,20 +48,18 @@ class Controller {
      * It should receive a list of points
      *
      * @callback setUpPointCallback
-     * @param {JSON} data
+     * @param {dataPointWithAssociatedInfo[]} data
      */
 
     /**
      * This function sets up the data points (circles) in the map
      * @see Model#getDataSetObj
-     * @see Model#getDataPointObj
      * @see DataSet#setUpPoints
      *
      * @param {setUpPointCallback} callBack
      */
     setUpPoints(callBack) {
         this.currentDataSet = this.model.getDataSetObj();
-        this.currentDataPoint = this.model.getDataPointObj();
         this.currentDataSet.setUpPoints(callBack);
     }
 
@@ -109,11 +104,11 @@ class Controller {
      * This function calculates the size of given data point which is actually the number of points in the area
      * @see DataSet#calculateSize
      *
-     * @param {JSON} value
-     * @returns {Number} size of the circle. A.k.a the number of points in the area.
+     * @param {number} value
+     * @returns {number} size of the circle. A.k.a the number of points in the area.
      */
     calculateSize(value) {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
+        if (this.currentDataSet === undefined) {
             // todo throw error
         }
         return this.currentDataSet.calculateSize(this.model.getCurrentContaminant(), value);
@@ -123,11 +118,11 @@ class Controller {
      * This function calculates the color of given data point.
      * @see DataSet#calculateColor
      *
-     * @param {JSON} value
-     * @returns {String} a string of color that could be the name of the color or RGB in hex
+     * @param {number} value
+     * @returns {string} a string of color that could be the name of the color or RGB in hex
      */
     calculateColor(value) {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
+        if (this.currentDataSet === undefined) {
             // todo throw error
         }
         return this.currentDataSet.calculateColor(this.model.getCurrentContaminant(), value);
@@ -137,10 +132,10 @@ class Controller {
      * This function returns a list of numbers for making legend points
      * @see DataSet#getLegendPoints
      *
-     * @returns {Object.<String, number>[]} a series of numbers
+     * @returns {Object.<string, number>[]} a series of numbers
      */
     getLegendPoints() {//size legend
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
+        if (this.currentDataSet === undefined) {
             // todo throw error
         }
         return this.currentDataSet.getLegendPoints(this.model.getCurrentContaminant());
@@ -154,80 +149,10 @@ class Controller {
      * @returns {Boolean} true, if the current data set contains the contaminant. Otherwise, false
      */
     isCurrentContaminantAvailableInCurrentDataSet() {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
+        if (this.currentDataSet === undefined) {
             // todo throw error
         }
         return this.currentDataSet.isContaminantAvailable(this.model.getCurrentContaminant());
-    }
-
-    /**
-     * This function returns the number of samples in the given data point.
-     * @see DataSet#getNumberOfSamplePoint
-     *
-     * @param {JSON} value
-     * @returns {Number} e number of samples in the given data point.
-     */
-    getNumberOfSamplePoint(value) {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
-            // todo throw error
-        }
-        return this.currentDataSet.getNumberOfSamplePoint(this.model.getCurrentContaminant(), value)
-    }
-
-    /**
-     * This function returns the all samples of the current contaminant in the given data point.
-     * @see DataSet#getAllSampleData
-     *
-     * @param {JSON} value
-     * @returns {Number[]}
-     */
-    getAllSampleData(value) {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
-            // todo throw error
-        }
-        return this.currentDataSet.getAllSampleData(this.model.getCurrentContaminant(), value)
-    }
-
-    /**
-     * This function returns the average of the current contaminant in the given data point
-     * @see DataSet#getSampleAverage
-     *
-     * @param {JSON} value
-     * @returns {Number} the average value
-     */
-    getSampleAverage(value) {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
-            // todo throw error
-        }
-        return this.currentDataSet.getSampleAverage(this.model.getCurrentContaminant(), value)
-    }
-
-    /**
-     * This function returns the median of the current contaminant in the given data point.
-     * @see DataSet#getSampleMedian
-     *
-     * @param {JSON} value
-     * @returns {Number} the median value
-     */
-    getSampleMedian(value) {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
-            // todo throw error
-        }
-        return this.currentDataSet.getSampleMedian(this.model.getCurrentContaminant(), value)
-    }
-
-    /**
-     * This function calculates the exceeding value.
-     * @see DataSet#getSampleExceed
-     *
-     * @param value
-     * @returns {Number}
-     */
-    getSampleExceed(value) {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
-            // todo throw error
-        }
-        return this.currentDataSet.getSampleExceed(this.model.getCurrentContaminant(), value)
     }
 
     /**
@@ -237,7 +162,7 @@ class Controller {
      * @returns {Number}
      */
     getTheMaxValueOfCurrentContaminantInCurrentDataSet() {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
+        if (this.currentDataSet === undefined) {
             // todo throw error
         }
         return this.currentDataSet.getMaxValues(this.model.getCurrentContaminant());
@@ -250,7 +175,7 @@ class Controller {
      * @returns {Number} - the ref value
      */
     getTheRefValueOfCurrentContaminantInCurrentDataSet() {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
+        if (this.currentDataSet === undefined) {
             // todo throw error
         }
         return this.currentDataSet.getRefValue(this.model.getCurrentContaminant());
@@ -263,7 +188,7 @@ class Controller {
      * @returns {String} - s string of unit
      */
     getTheUnitForCurrentDataSet() {
-        if (this.currentDataSet === undefined || this.currentDataPoint === undefined) {
+        if (this.currentDataSet === undefined) {
             // todo throw error
         }
         return Model.units[this.model.getCurrentDataSet()];
