@@ -1,6 +1,6 @@
 /**
  * These types are defined to help ide check code and do code completion.
- * @typedef {{heightScale: Object, xScale: Object, yScale: Object, indexScale: Object}} ScaleSet
+ * @typedef {{heightScale: Object|Function, xScale: Object|Function, yScale: Object|Function, indexScale: Object|Function}} ScaleSet
  */
 
 /**
@@ -140,18 +140,17 @@ class Histogram {
 
     /**
      * This is a callback function for drawing a histogram.
-     * @see controller#getSampleAverage
      * @see Histogram#generateScales
      * @see Histogram#generateGroupedData
      * @see Histogram#drawAxes
      *
-     * @param {JSON} points
+     * @param {dataPointWithAssociatedInfo[]} points
      */
     callbackDrawHistogram = (points) => {
         // preprocess the data
         let data = [];
         for (let i = 0; i < points.length; i++) {
-            data.push(this.controller.getSampleAverage(points[i]));
+            data.push(points[i].average);
         }
         data.sort((a, b) => {
             return a - b;
@@ -206,14 +205,14 @@ class Histogram {
         this.hasBeenBound = true;
         this.selected = new Set();
         let self = this; // this is saved in self
-        let resetFilter = (value) =>{
+        let resetFilter = () =>{
             return true;
         };
         let resetColor = (points) =>{
             points.style("opacity", 1)
         };
         let filter = (value) => {
-            return !this.isSelected(this.controller.getSampleAverage(value));
+            return !this.isSelected(value.average);
         };
         let newColor = (points) => {
             points.style("opacity", 0)
