@@ -18,6 +18,9 @@
  * @property {D3Function} attr
  * @property {D3Function} style
  * @property {D3Function} filter
+ * @property {D3Function} transition
+ * @property {D3Function} html
+ *
  */
 
 
