@@ -64,7 +64,7 @@ class DataSet {
      * This function returns the refValue of given contaminant.
      *
      * @param {string} contaminant
-     * @return {{string: number}}
+     * @return {number}
      */
     getRefValue(contaminant){
         return this.refValues[contaminant];
