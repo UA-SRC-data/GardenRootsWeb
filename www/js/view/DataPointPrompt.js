@@ -59,10 +59,9 @@ class DataPointPrompt {
     /**
      * This function resizes circles.
      * A circle should be bigger when mouse is on it
-     * @see Controller#getNumberOfSamplePoint
      *
      * @param {D3Selection} dom
-     * @param {JSON} d
+     * @param {dataPointWithAssociatedInfo} d
      * @param {Number} [offset=0]
      */
     resizeCircle = (dom, d, offset) => {
@@ -72,7 +71,7 @@ class DataPointPrompt {
         d3.select(dom)
             .transition()
             .duration(150)
-            .attr("r", this.controller.getNumberOfSamplePoint(d) + offset);
+            .attr("r", d.size+ offset);
     };
 
     /**
@@ -90,7 +89,7 @@ class DataPointPrompt {
      * @see DataPointPrompt#addMedianInfo
      * @see DataPointPrompt#addExceedingSampleInfo
      *
-     * @param {JSON} d
+     * @param {dataPointWithAssociatedInfo} d
      */
     showPrompt = (d) => {
         this.tooltip.transition()
@@ -101,7 +100,7 @@ class DataPointPrompt {
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY) + "px");
 
-        let rowNumber = Math.ceil(this.controller.getNumberOfSamplePoint(d) / DataPointPrompt.colNumber);
+        let rowNumber = Math.ceil(d.numPoints / DataPointPrompt.colNumber);
         let textY = DataPointPrompt.lineHeight * (rowNumber + 1);
 
         //set up the tooltip svg
@@ -122,11 +121,11 @@ class DataPointPrompt {
      * This function adds the dot map to the prompt
      *
      * @param {D3Selection} histSvg
-     * @param {JSON} d
+     * @param {dataPointWithAssociatedInfo} d
      */
     addDotMap = (histSvg, d) => {
         //get the values and sort them directly
-        let protData = this.controller.getAllSampleData(d);
+        let protData = d.samples;
         protData.sort((a, b) => {
             return a - b;
         });
@@ -152,7 +151,7 @@ class DataPointPrompt {
      *
      * @param {D3Selection} histSvg
      * @param {Number} textY
-     * @param {JSON} d
+     * @param {dataPointWithAssociatedInfo} d
      */
     addAverageInfo = (histSvg, textY, d) => {
         histSvg.append("text")
@@ -160,7 +159,7 @@ class DataPointPrompt {
             .attr("y", textY)
             .style("font-size", 14)
             .text(() => {
-                return "Average " + Number.parseFloat(this.controller.getSampleAverage(d)).toFixed(1) + " ug/mg";
+                return "Average " + Number(d.average).toFixed(1) + " ug/mg";
             });
     };
 
@@ -169,7 +168,7 @@ class DataPointPrompt {
      *
      * @param {D3Selection} histSvg
      * @param {Number} textY
-     * @param {JSON} d
+     * @param {dataPointWithAssociatedInfo} d
      */
     addMedianInfo = (histSvg, textY, d) => {
         histSvg.append("text")
@@ -177,7 +176,7 @@ class DataPointPrompt {
             .attr("y", textY + DataPointPrompt.lineHeight)
             .style("font-size", 14)
             .text(() => {
-                return "Median " + this.controller.getSampleMedian(d).toFixed(1) + " ug/mg";
+                return "Median " + d.median.toFixed(1) + " ug/mg";
             });
     };
 
@@ -186,7 +185,7 @@ class DataPointPrompt {
      *
      * @param {D3Selection} histSvg
      * @param {Number} textY
-     * @param {JSON} d
+     * @param {dataPointWithAssociatedInfo} d
      */
     addExceedingSampleInfo = (histSvg, textY, d) => {
         histSvg.append("text")
@@ -194,7 +193,7 @@ class DataPointPrompt {
             .attr("y", textY + 2 * DataPointPrompt.lineHeight)
             .style("font-size", 14)
             .text(() => {
-                let percentage = Math.ceil(this.controller.getSampleExceed(d));
+                let percentage = Math.ceil(d.exceed);
                 if (percentage === 0) {
                     return "No exceedances";
                 }
