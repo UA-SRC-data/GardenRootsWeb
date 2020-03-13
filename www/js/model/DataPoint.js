@@ -58,12 +58,16 @@ class DataPoint{
      * This function produces the data that is necessary for view
      *
      * @param {String} contaminant
+     * @param {function} [filter]
      * @return {(null | dataPointWithAssociatedInfo)}
      */
-    getData(contaminant){
+    getData(contaminant, filter){
         let contaminantSamples = this.data.samples[contaminant].filter((v)=> v!==null);
         if (contaminantSamples.length === 0) {
             return null;
+        }
+        if (filter !== undefined){
+            contaminantSamples = contaminantSamples.filter(filter);
         }
         let average = contaminantSamples.reduce((a, b) => a + b, 0) / contaminantSamples.length;
         return {

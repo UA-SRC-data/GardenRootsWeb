@@ -46,17 +46,18 @@ class DataSet {
      * This function collects data and calls the call back function to produce the visualization
      * @param {string} contaminant
      * @param {getDataCallback} callback
+     * @param {function} [filter]
      */
-    setUpPoints(contaminant, callback) {
+    setUpPoints(contaminant, callback, filter) {
         if (this.dataPoints.length === 0) {
             d3.json(this.dataPath).then((data) => {
                 for (let i=0; i<data.length; i++){
                     this.dataPoints.push(new DataPoint(data[i], this.colorScales, this.sizeScales))
                 }
-                callback(this.dataPoints.map(point=>point.getData(contaminant)).filter(x=>x !== null));
+                callback(this.dataPoints.map(point=>point.getData(contaminant, filter)).filter(x=>x !== null));
             })
         } else {
-            callback(this.dataPoints.map(point=>point.getData(contaminant)).filter(x=>x !== null));
+            callback(this.dataPoints.map(point=>point.getData(contaminant, filter)).filter(x=>x !== null));
         }
     }
 

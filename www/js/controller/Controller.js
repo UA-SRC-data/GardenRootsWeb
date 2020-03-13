@@ -57,10 +57,11 @@ class Controller {
      * @see DataSet#setUpPoints
      *
      * @param {setUpPointCallback} callBack
+     * @param {function} [filter]
      */
-    setUpPoints(callBack) {
+    setUpPoints(callBack,filter) {
         this.currentDataSet = this.model.getDataSetObj();
-        this.currentDataSet.setUpPoints(this.model.getCurrentContaminant(), callBack);
+        this.currentDataSet.setUpPoints(this.model.getCurrentContaminant(), callBack, filter);
     }
 
     /**
