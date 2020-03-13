@@ -60,7 +60,7 @@ class Controller {
      */
     setUpPoints(callBack) {
         this.currentDataSet = this.model.getDataSetObj();
-        this.currentDataSet.setUpPoints(callBack);
+        this.currentDataSet.setUpPoints(this.model.getCurrentContaminant(), callBack);
     }
 
     /**
