@@ -73,13 +73,13 @@ class DataPoint{
         return {
             coordinates: this.data.coordinates,
             samples: contaminantSamples,
-            numPoints: this.data.samples[contaminant].length,
-            average: contaminantSamples.reduce((a, b) => a + b, 0) / contaminantSamples.length,
+            numPoints: contaminantSamples.length,
+            average: average,
             median: this.getMedian(contaminantSamples),
             exceed: this.getExceed(contaminant, contaminantSamples),
             max: Math.max(...contaminantSamples),
             color: this.calculateColor(contaminant, average),
-            size: this.calculateSize(contaminant, this.data.samples[contaminant].length)
+            size: this.calculateSize(contaminant, contaminantSamples.length)
         };
     }
 
