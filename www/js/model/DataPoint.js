@@ -21,10 +21,10 @@
  */
 class DataPoint{
 
-    /** @member {Function}*/
-    colorScale;
-    /** @member {Function}*/
-    sizeScale;
+    /** @member {ColorScales}*/
+    colorScales;
+    /** @member {SizeScales}*/
+    sizeScales;
     /** @member {dataPoint} */
     data;
 
@@ -32,13 +32,13 @@ class DataPoint{
      * This is the constructor.
      *
      * @param {Object} rawData
-     * @param {Function} colorScale
-     * @param {Function} sizeScale
+     * @param {ColorScales} colorScales
+     * @param {SizeScales} sizeScales
      */
-    constructor(rawData, colorScale, sizeScale){
+    constructor(rawData, colorScales, sizeScales){
         this.data = this.processData(rawData);
-        this.colorScale = colorScale;
-        this.sizeScale = sizeScale;
+        this.colorScales = colorScales;
+        this.sizeScales = sizeScales;
     }
 
     /**
@@ -54,13 +54,11 @@ class DataPoint{
         }
     }
 
-
-
     /**
      * This function produces the data that is necessary for view
      *
      * @param {String} contaminant
-     * @return {dataPointWithAssociatedInfo | null}
+     * @return {?dataPointWithAssociatedInfo}
      */
     getData(contaminant){
         let contaminantSamples = this.data.samples[contaminant].filter((v)=> v!==null);
@@ -68,7 +66,6 @@ class DataPoint{
             return null;
         }
         let average = contaminantSamples.reduce((a, b) => a + b, 0) / contaminantSamples.length;
-        /** @type dataPointWithAssociatedInfo*/
         return {
             coordinates: this.data.coordinates,
             samples: contaminantSamples,
@@ -77,8 +74,8 @@ class DataPoint{
             median: this.getMedian(contaminantSamples),
             exceed: this.getExceed(contaminant, contaminantSamples),
             max: Math.max(...contaminantSamples),
-            color: this.calculateColor(average),
-            size: this.calculateSize(this.data.samples[contaminant].length)
+            color: this.calculateColor(contaminant, average),
+            size: this.calculateSize(contaminant, this.data.samples[contaminant].length)
         };
     }
 
@@ -115,20 +112,22 @@ class DataPoint{
     /**
      * This function calculates the color of circles.
      *
+     * @param {String} contaminant - a name of contaminant.
      * @param {number} value - the number of samples points in the area.
      * @return {number}
      */
-    calculateSize(value) {
-        return this.sizeScale(value)
+    calculateSize(contaminant, value) {
+        return this.sizeScales.calculateSize(contaminant, value)
     }
 
     /**
      * This function calculates the size of circles.
      *
+     * @param {String} contaminant - a name of contaminant
      * @param {number} value - the average of samples in the area.
      * @return {string}
      */
-    calculateColor(value){
-        return this.colorScale(value);
+    calculateColor(contaminant, value){
+        return this.colorScales.calculateColor(contaminant, value);
     }
 }
