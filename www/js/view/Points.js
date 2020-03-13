@@ -42,35 +42,6 @@ class Points {
     };
 
     /**
-     * This callback type is called `circleFilter`
-     *
-     * @callback circleFilter
-     * @param {JSON} value
-     * @return {Boolean}
-     */
-
-    /**
-     * This callback type is called `updatePoints`
-     *
-     * @callback updatePoints
-     * @param {D3Selection} value
-     */
-
-    /**
-     * This is a callback function that is called when user selects a range of data in histogram
-     * @see Histogram
-     *
-     * @param {circleFilter} filter
-     * @param {updatePoints} callBack
-     */
-    update = (filter, callBack) => {
-        let filteredPoints = this.layer
-            .selectAll("circle")
-            .filter(filter);
-        callBack(filteredPoints);
-    };
-
-    /**
      * This function is called when user zoom in or out.
      */
     zoom = () => {
@@ -87,6 +58,4 @@ class Points {
                 return (0.5) / d3.event.transform.k;
             });
     }
-
-
 }
