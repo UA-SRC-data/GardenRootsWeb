@@ -13,11 +13,11 @@ class ColorScales{
         this.refValues = refValues;
     }
 
-    getColorScale(contaminant) {
+    calculateColor(contaminant, value) {
         if (!this.scales.hasOwnProperty(contaminant)){
             this.scales[contaminant] = this.generateColorScale(contaminant);
         }
-        return this.scales[contaminant];
+        return this.scales[contaminant](value);
     }
 
     generateColorScale(contaminant) {
