@@ -1,6 +1,10 @@
+/**
+ * This class manages other classes under model directory
+ */
 class Model {
     //todo maybe should be read from json
-    //to maybe take this into a object.
+    //todo maybe take this into a object.
+    /** @type {{yard: string, NULL: undefined, garden: string, water: string}}*/
     static dataSets = {
         NULL: undefined,
         yard: "Soil Yard",
@@ -9,6 +13,12 @@ class Model {
     };
 
     //todo maybe should be read from json
+    /**
+     * @type {{Cadmium: string, Barium: string, NULL: undefined, Calcium: string,
+     * Arsenic: string, Iron: string, Cobalt: string, Molybdenum: string, Zinc: string,
+     * Sodium: string, Beryllium: string, Chromium: string, Lead: string, Nickel: string,
+     * Selenium: string, Copper: string, Potassium: string, Manganese: string}}*
+     */
     static contaminants = {
         NULL: undefined,
         Beryllium: "Beryllium",
@@ -30,6 +40,12 @@ class Model {
         Lead: "Lead"
     };
 
+    /**
+     * @type {{Cadmium: number, Barium: number, Arsenic: number, Aluminum: number,
+     * Vanadium: number, Cobalt: number, Molybdenum: number, Zinc: number, Silver: number,
+     * Beryllium: number, Chromium: number, Tin: number, Lead: number, Nickel: number,
+     * Selenium: number, Copper: number}}
+     */
     static SRLS = {
         "Beryllium": 150,
         "Aluminum": 77000,
@@ -49,6 +65,11 @@ class Model {
         "Lead": 400,
     };
 
+    /**
+     * @type {{Cadmium: number, Barium: number, Arsenic: number,
+     * Beryllium: number, Chromium: number, Lead: number, Antimony: number,
+     * Selenium: number, Copper: number}}
+     */
     static MCLS = {
         "Beryllium": 4,
         "Chromium": 100,
@@ -61,12 +82,37 @@ class Model {
         "Lead": 15
     };
 
+    /**
+     * @type {{yard: {Cadmium: number, Barium: number, Arsenic: number,
+     * Aluminum: number, Vanadium: number, Cobalt: number,
+     * Molybdenum: number, Zinc: number, Silver: number,
+     * Beryllium: number, Chromium: number, Tin: number,
+     * Lead: number, Nickel: number, Selenium: number,
+     * Copper: number},
+     * garden: {Cadmium: number, Barium: number,
+     * Arsenic: number, Aluminum: number, Vanadium: number,
+     * Cobalt: number, Molybdenum: number, Zinc: number,
+     * Silver: number, Beryllium: number, Chromium: number,
+     * Tin: number, Lead: number, Nickel: number, Selenium: number,
+     * Copper: number},
+     * water: {Cadmium: number, Barium: number, Arsenic: number,
+     * Beryllium: number, Chromium: number, Lead: number, Antimony: number,
+     * Selenium: number, Copper: number}}}
+     */
     static allRefs = {
         "water": Model.MCLS,
         "yard": Model.SRLS,
         "garden": Model.SRLS
     };
 
+    /**
+     * @type {{Cadmium: number, Barium: number, Calcium: number, Arsenic: number,
+     * Vanadium: number, Antimony: number, Aluminium: number, Iron: number,
+     * Cobalt: number, Molybdenum: number, Zinc: number, Silver: number,
+     * Sodium: number, Beryllium: number, Chromium: number, Tin: number,
+     * Lead: number, Nickel: number, Magnesium: number, Selenium: number,
+     * Copper: number, Potassium: number, Manganese: number}}
+     */
     static maxes = {
         "Beryllium": 2.0385893966666666,
         "Sodium": 2320.69,
@@ -93,20 +139,27 @@ class Model {
         "Lead": 498.85
     };
 
+    /** @type {string[]} */
     static colors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4'];
+    /** @type {string} */
     static maxColor = '#0c2c84';
+    /** @type {string[]} */
     static defaultColor = ["white", "purple"];
 
+    /** @type {{yard: string, garden: string, water: string}} */
     static units = {
         "water": "ug/L",
         "yard": "ug/mg",
         "garden": "ug/mg"
     };
 
+    /** @type {string} */
     static backGroundMapPath = "./lib/counties-and-roads.json";
 
+    /** @type {string} */
     static libraryPath = "./lib/";
 
+    /** type {{yard: string, garden: string, water: string}} */
     static filenames = {
         "water": "water-centroids-avgs-vals.json",
         "yard": "yard-centroids-avgs-vals.json",
@@ -115,22 +168,34 @@ class Model {
 
 
     // keep recording current data set and contaminant
+    /** @member {string} */
     currentDataSet;
+    /** @member {string} */
     currentContaminant;
 
-    // other Model objects
-    // a dictionary that maps contaminant to their color scales
+    /** @member {{string:DataSet}} dataSets - a dictionary that maps contaminant to their color scales*/
     dataSets = {};
 
+    /**
+     * This is constructor
+     */
     constructor() {
         this.currentDataSet = Model.dataSets.NULL;
         this.currentContaminant = Model.contaminants.NULL;
     }
 
+    /**
+     * return the current data set selected by user
+     * @return {string}
+     */
     getCurrentDataSet() {
         return this.currentDataSet;
     }
 
+    /**
+     * set the current data set
+     * @param {string} newSet
+     */
     setCurrentDataSet(newSet) {
         if (newSet === this.currentDataSet) {
             return;
@@ -143,10 +208,18 @@ class Model {
     }
 
 
+    /**
+     * This function returns the current contaminant selected by user
+     * @return {string}
+     */
     getCurrentContaminant() {
         return this.currentContaminant;
     }
 
+    /**
+     * set the current contaminant
+     * @param {string} newContaminant
+     */
     setCurrentContaminant(newContaminant) {
         if (newContaminant === this.currentContaminant) {
             return;
@@ -157,10 +230,20 @@ class Model {
         this.currentContaminant = newContaminant;
     }
 
+    /**
+     * This function initializes a instance of background map
+     * @return {BackGroundMap}
+     */
     getBackGroundMapObj() {
         return new BackGroundMap(Model.backGroundMapPath);
     }
 
+    /**
+     * This function returns a dataset instance.
+     * If the data set has been initialized, initializes a new one.
+     * Otherwise, returns the old one.
+     * @return {DataSet}
+     */
     getDataSetObj() {
         if (this.dataSets.hasOwnProperty(this.currentDataSet)) {
             return this.dataSets[this.currentDataSet];
