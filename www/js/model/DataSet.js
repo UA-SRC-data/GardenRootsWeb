@@ -3,21 +3,21 @@
  */
 class DataSet {
 
-    /**@type {string} - name of this data set*/
+    /**@member {string} - name of this data set*/
     name;
-    /**@type {string} - path of this data set*/
+    /**@member {string} - path of this data set*/
     dataPath;
-    /**@type {{string: number}} - path of this data set*/
+    /**@member {{string: number}} - path of this data set*/
     refValues;
-    /**@type {Array.<DataPoint>}  */
+    /**@member {Array.<DataPoint>}  */
     dataPoints = [];
-    /**@type {number[]} */
+    /**@member {number[]} */
     LegendSample = [20, 10, 5, 2, 1];
 
 
-    /**@type {ColorScales} */
+    /**@member {ColorScales} */
     colorScales;
-    /**@type {SizeScales} */
+    /**@member {SizeScales} */
     sizeScales;
 
     /**
