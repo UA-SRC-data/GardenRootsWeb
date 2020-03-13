@@ -95,6 +95,7 @@ class Model {
 
     static colors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4'];
     static maxColor = '#0c2c84';
+    static defaultColor = ["white", "purple"];
 
     static units = {
         "water": "ug/L",
@@ -169,10 +170,4 @@ class Model {
         this.dataSets[this.currentDataSet] = setObj;
         return setObj;
     }
-
-    getDataPointObj() {
-        let setObj = this.getDataSetObj();
-        return setObj.getDataPointObj(this.currentContaminant);
-    }
-
 }
