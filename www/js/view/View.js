@@ -105,7 +105,7 @@ class View {
      * This function sets up all svg in the dom tree,
      * which are the one for the main graph and the one for histogram.
      */
-    setUpSvg=()=> {
+    setUpSvg = () => {
         this.mainSvg = d3.select(View.divClass)
             .append("svg")
             .attr("width", View.svgWidth)
@@ -120,27 +120,27 @@ class View {
             .attr("width", View.svgWidth)
             .attr("height", View.histogramSvgHeight)
             .attr("style", "background-color:#f0f0f0")
-    }
+    };
 
     /**
      * This function sets up the background map
      * @see Controller#setUpBackGroundMap
      * @see BackGround#callbackDrawBackGroundMap
      */
-    setUpBackGroundMap=()=> {
+    setUpBackGroundMap = () => {
         // -------------------------------------vvvvv has to be done in this way. to avoid the problem of "this" keyword
         this.controller.setUpBackGroundMap((data) => {
             this.background.callbackDrawBackGroundMap(data)
         });
-    }
+    };
 
     /**
      * This function sets up the color legend with white color
      * @see ColorLegend#setUpWhiteColor
      */
-    setUpWhiteColorLegend=()=> {
+    setUpWhiteColorLegend = () => {
         this.colorLegend.setUpWhiteColor();
-    }
+    };
 
 
     /**
@@ -153,7 +153,7 @@ class View {
      * @see Histogram#boundToMap
      * @see Points#update
      */
-    drawDataPointsAndLegends=()=> {
+    drawDataPointsAndLegends = () => {
         this.controller.setUpPoints((points) => {
             this.point.callbackDrawPoints(points);
             this.sizeLegend.drawSizeLegend();
@@ -161,7 +161,7 @@ class View {
             this.histogramGroup.callbackDrawBigHistogram(points);
             this.histogramGroup.bigHistogramBoundToMap(this.point.erase, this.point.callbackDrawPoints);
         });
-    }
+    };
 
     /**
      * This function cleans up all previous drawing.
@@ -170,13 +170,13 @@ class View {
      * @see ColorLegend#resetColor
      * @see Histogram#erase
      */
-    erasePreviousDrawing=()=> {
+    erasePreviousDrawing = () => {
         this.point.erase();
         this.sizeLegend.erase();
         this.colorLegend.resetColor();
         this.histogramGroup.eraseBigHistograms();
         this.histogramGroup.eraseSmallMultipleHistograms();
-    }
+    };
 
     /**
      * This function is called when user selects a new data set.
@@ -188,13 +188,13 @@ class View {
      *
      * @param {String} dataSet  - the name of the data set
      */
-    selectDataSet=(dataSet)=> {
+    selectDataSet = (dataSet) => {
         document.getElementById(View.setSelectorId).innerHTML = dataSet;
         document.getElementById(View.contaminantSelectorId).innerHTML = "";
         this.erasePreviousDrawing();
         this.controller.setCurrentDataSet(dataSet);
         this.histogramGroup.setUpSmallMultipleHistograms();
-    }
+    };
 
     /**
      * This function is called when suer selects a new contaminant.
@@ -207,14 +207,14 @@ class View {
      *
      * @param {String} contaminant
      */
-    selectContaminant = (contaminant)=> {
+    selectContaminant = (contaminant) => {
         document.getElementById(View.contaminantSelectorId).innerHTML = contaminant;
         this.erasePreviousDrawing();
         this.controller.setCurrentContaminant(contaminant);
         if (!this.controller.isCurrentDataSetNull()) {
             this.drawDataPointsAndLegends();
         }
-    }
+    };
 
     /**
      * Call this function to lunch this visualization
