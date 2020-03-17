@@ -92,10 +92,17 @@ class Controller {
         return this.model.getCurrentContaminant();
     }
 
+    /**
+     * This function returns a list of contaminants
+     * @return {string[]}
+     */
     getContaminantList(){
         return Object.keys(Model.contaminants).filter(x => x !== "NULL");
     }
 
+    /**
+     * This function resets the currentContaminant in model to NULL.
+     */
     resetCurrentContaminant(){
         this.model.setCurrentContaminant("NULL");
     }
