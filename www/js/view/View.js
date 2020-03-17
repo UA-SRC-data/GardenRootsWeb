@@ -20,6 +20,7 @@
  * @property {D3Function} filter
  * @property {D3Function} transition
  * @property {D3Function} html
+ * @property {D3Function} on
  *
  */
 
