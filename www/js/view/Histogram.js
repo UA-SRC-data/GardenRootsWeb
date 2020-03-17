@@ -24,7 +24,7 @@ class Histogram {
     /** @type {Number} */
     static step = 50;
 
-    /**@member {D3Selection} layer - the svg dom for background map*/
+    /**@member {D3Selection} layer - the svg dom for histogram*/
     layer;
     /** @member {Controller} controller - the controller */
     controller;
