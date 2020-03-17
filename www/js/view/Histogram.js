@@ -37,9 +37,14 @@ class Histogram {
      * This is the constructor
      * @param {D3Selection} svg - the main svg dom
      * @param {Controller} controller - a instance of controller object
+     * @param {string} [translate]
      */
-    constructor(svg, controller) {
-        this.layer = svg.append("g");
+    constructor(svg, controller, translate) {
+        if (translate===undefined) {
+            this.layer = svg.append("g");
+        }else {
+            this.layer = svg.append("g").attr("transform", translate);
+        }
         this.controller = controller;
         this.hasBeenBound = false;
     }
@@ -64,7 +69,7 @@ class Histogram {
             .append("text")
             .attr("x", 100)
             .attr("y", 550)
-            .text("Amount of Contaminants ("+ this.controller.getTheUnitForCurrentDataSet()+")" )
+            .text("Amount of "+this.controller.getCurrentContaminant()+" ("+ this.controller.getTheUnitForCurrentDataSet()+")" )
     };
 
 
