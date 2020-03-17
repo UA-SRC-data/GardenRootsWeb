@@ -55,7 +55,7 @@ class View {
     /** @type {number}*/
     static smallHistogramHeight = 170;
     /** @type {number}*/
-    static smallHistogramWidth = 120;
+    static smallHistogramWidth = 125;
 
 
     /** @type {Number}*/
