@@ -49,8 +49,16 @@ class View {
     /** @type {String}*/
     static contaminantSelectorId = "contaminant";
 
+    /** @type {number}*/
+    static smallHistogramZoomingFactor = 0.35;
+    /** @type {number}*/
+    static smallHistogramHeight = 170;
+    /** @type {number}*/
+    static smallHistogramWidth = 120;
+
+
     /** @type {Number}*/
-    static histogramSvgHeight = 600;
+    static histogramSvgHeight = 1000;
     /** @type {View}*/
     static viewInstance = undefined;
 
@@ -72,7 +80,8 @@ class View {
     colorLegend;
     /** @member {Histogram} histogram- a instance of Histogram*/
     histogram;
-
+    /** @member {Histogram[]} smallMultipleHistograms- a array of histograms*/
+    smallMultipleHistograms = [];
 
     /**
      * This is the constructor
@@ -135,6 +144,40 @@ class View {
         this.colorLegend.setUpWhiteColor();
     }
 
+    setUpSmallMultipleHistograms() {
+        let contaminants = this.controller.getContaminantList();
+        let recursionCallBack = (row, col, contaminants) => {
+            if (contaminants.length === 0) {
+                this.controller.resetCurrentContaminant();
+                return;
+            }
+            let head = contaminants[0];
+            let tail = contaminants.slice(1);
+            this.controller.setCurrentContaminant(head);
+            let transform = `translate(${View.smallHistogramWidth * col}, ${View.smallHistogramHeight * row}) scale(${View.smallHistogramZoomingFactor})`;
+            let smallHistogram = new Histogram(this.histogramSvg, this.controller, transform);
+            this.smallMultipleHistograms.push(smallHistogram);
+            let newCol = col + 1;
+            if (newCol === 5) {
+                newCol = 0;
+                row++;
+            }
+            this.controller.setUpPoints((points) => {
+                smallHistogram.callbackDrawHistogram(points);
+                recursionCallBack(row, newCol, tail)
+            });
+        };
+        recursionCallBack(0, 0, contaminants);
+    }
+
+    eraseSmallMultipleHistograms() {
+        for (let i = 0; i < this.smallMultipleHistograms.length; i++) {
+            this.smallMultipleHistograms[i].erase();
+        }
+        this.smallMultipleHistograms = [];
+    }
+
+
     /**
      * This function calls all other function to draw data points and all legends.
      * @see Controller#setUpPoints
@@ -183,6 +226,7 @@ class View {
         document.getElementById(View.setSelectorId).innerHTML = dataSet;
         this.erasePreviousDrawing();
         this.controller.setCurrentDataSet(dataSet);
+        this.setUpSmallMultipleHistograms();
     }
 
     /**
@@ -199,6 +243,7 @@ class View {
     selectContaminant(contaminant) {
         document.getElementById(View.contaminantSelectorId).innerHTML = contaminant;
         this.erasePreviousDrawing();
+        this.eraseSmallMultipleHistograms();
         this.controller.setCurrentContaminant(contaminant);
         if (!this.controller.isCurrentDataSetNull()) {
             this.drawDataPointsAndLegends();
