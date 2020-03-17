@@ -78,10 +78,8 @@ class View {
     sizeLegend;
     /** @member {ColorLegend} colorLegend - a instance of ColorLegend*/
     colorLegend;
-    /** @member {Histogram} histogram- a instance of Histogram*/
-    histogram;
-    /** @member {Histogram[]} smallMultipleHistograms- a array of histograms*/
-    smallMultipleHistograms = [];
+    /** @member {HistogramGroup} histogramGroup- a instance of HistogramGroup*/
+    histogramGroup;
 
     /**
      * This is the constructor
@@ -100,7 +98,7 @@ class View {
         this.point = new Points(this.mainSvg, this.controller);
         this.sizeLegend = new SizeLegend(this.mainSvg, this.controller);
         this.colorLegend = new ColorLegend(this.mainSvg, this.controller);
-        this.histogram = new Histogram(this.histogramSvg, this.controller);
+        this.histogramGroup = new HistogramGroup(this.histogramSvg, this.controller);
     }
 
     /**
@@ -144,39 +142,6 @@ class View {
         this.colorLegend.setUpWhiteColor();
     }
 
-    setUpSmallMultipleHistograms() {
-        let contaminants = this.controller.getContaminantList();
-        let recursionCallBack = (row, col, contaminants) => {
-            if (contaminants.length === 0) {
-                this.controller.resetCurrentContaminant();
-                return;
-            }
-            let head = contaminants[0];
-            let tail = contaminants.slice(1);
-            this.controller.setCurrentContaminant(head);
-            let transform = `translate(${View.smallHistogramWidth * col}, ${View.smallHistogramHeight * row}) scale(${View.smallHistogramZoomingFactor})`;
-            let smallHistogram = new Histogram(this.histogramSvg, this.controller, transform);
-            this.smallMultipleHistograms.push(smallHistogram);
-            let newCol = col + 1;
-            if (newCol === 5) {
-                newCol = 0;
-                row++;
-            }
-            this.controller.setUpPoints((points) => {
-                smallHistogram.callbackDrawHistogram(points);
-                recursionCallBack(row, newCol, tail)
-            });
-        };
-        recursionCallBack(0, 0, contaminants);
-    }
-
-    eraseSmallMultipleHistograms() {
-        for (let i = 0; i < this.smallMultipleHistograms.length; i++) {
-            this.smallMultipleHistograms[i].erase();
-        }
-        this.smallMultipleHistograms = [];
-    }
-
 
     /**
      * This function calls all other function to draw data points and all legends.
@@ -193,8 +158,8 @@ class View {
             this.point.callbackDrawPoints(points);
             this.sizeLegend.drawSizeLegend();
             this.colorLegend.updateColor();
-            this.histogram.callbackDrawHistogram(points);
-            this.histogram.boundToMap(this.point.erase, this.point.callbackDrawPoints);
+            this.histogramGroup.callbackDrawBigHistogram(points);
+            this.histogramGroup.bigHistogramBoundToMap(this.point.erase, this.point.callbackDrawPoints);
         });
     }
 
@@ -209,7 +174,8 @@ class View {
         this.point.erase();
         this.sizeLegend.erase();
         this.colorLegend.resetColor();
-        this.histogram.erase();
+        this.histogramGroup.eraseBigHistograms();
+        this.histogramGroup.eraseSmallMultipleHistograms();
     }
 
     /**
@@ -224,9 +190,10 @@ class View {
      */
     selectDataSet(dataSet) {
         document.getElementById(View.setSelectorId).innerHTML = dataSet;
+        document.getElementById(View.contaminantSelectorId).innerHTML = "";
         this.erasePreviousDrawing();
         this.controller.setCurrentDataSet(dataSet);
-        this.setUpSmallMultipleHistograms();
+        this.histogramGroup.setUpSmallMultipleHistograms();
     }
 
     /**
@@ -243,7 +210,6 @@ class View {
     selectContaminant(contaminant) {
         document.getElementById(View.contaminantSelectorId).innerHTML = contaminant;
         this.erasePreviousDrawing();
-        this.eraseSmallMultipleHistograms();
         this.controller.setCurrentContaminant(contaminant);
         if (!this.controller.isCurrentDataSetNull()) {
             this.drawDataPointsAndLegends();
