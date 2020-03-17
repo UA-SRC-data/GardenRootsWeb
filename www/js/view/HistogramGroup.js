@@ -1,23 +1,24 @@
 class HistogramGroup {
     /** @member {Histogram} bigHistogram- a instance of Histogram*/
     bigHistogram;
-    /** @member {Histogram[]} smallMultipleHistograms- a array of histograms*/
+    /** @member {SmallHistogram[]} smallMultipleHistograms- a array of histograms*/
     smallMultipleHistograms = [];
     /**@member {D3Selection} svg - the svg dom for histogram*/
     svg;
     /** @member {Controller} controller - a instance of controller */
     controller;
+    selectContaminant;
 
     /**
      * This is the constructor.
      * @param {D3Selection} svg - the svg dom for histogram
      * @param {Controller} controller - a instance of controller object
      */
-    constructor(svg, controller) {
+    constructor(svg, controller, selectContaminant) {
         this.svg = svg;
         this.controller = controller;
-        this.bigHistogram = null;
         this.bigHistogram = new Histogram(svg, controller);
+        this.selectContaminant = selectContaminant;
     }
 
     setUpSmallMultipleHistograms() {
@@ -27,11 +28,10 @@ class HistogramGroup {
                 this.controller.resetCurrentContaminant();
                 return;
             }
-            let head = contaminants[0];
-            let tail = contaminants.slice(1);
+            let head = contaminants[0], tail = contaminants.slice(1);
             this.controller.setCurrentContaminant(head);
             let transform = `translate(${View.smallHistogramWidth * col}, ${View.smallHistogramHeight * row}) scale(${View.smallHistogramZoomingFactor})`;
-            let smallHistogram = new Histogram(this.svg, this.controller, transform);
+            let smallHistogram = new SmallHistogram(this.svg, this.controller, transform, this.selectContaminant);
             this.smallMultipleHistograms.push(smallHistogram);
             let newCol = col + 1;
             if (newCol === 5) {
