@@ -92,6 +92,14 @@ class Controller {
         return this.model.getCurrentContaminant();
     }
 
+    getContaminantList(){
+        return Object.keys(Model.contaminants).filter(x => x !== "NULL");
+    }
+
+    resetCurrentContaminant(){
+        this.model.setCurrentContaminant("NULL");
+    }
+
     /**
      * This function checks whether currentDataSet has already been set.
      *
