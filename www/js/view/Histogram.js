@@ -243,6 +243,20 @@ class Histogram {
         this.hasBeenBound = false;
     };
 
+    /**
+     * This callback type is called `filterPoints`
+     *
+     * @callback filterPoints
+     * @param {number}
+     * @return {boolean}
+     */
+
+    /**
+     * This function updates points/circles in the map
+     * @param {eraseCallback} eraseCallback
+     * @param {setUpPointsCallback} setUpPointsCallback
+     * @param {filterPoints} [filter]
+     */
     updatePoints = (eraseCallback, setUpPointsCallback, filter) => {
         eraseCallback();
         this.controller.setUpPoints((point)=>{setUpPointsCallback(point)}, filter)

@@ -58,7 +58,7 @@ class DataPoint{
      * This function produces the data that is necessary for view
      *
      * @param {String} contaminant
-     * @param {function} [filter]
+     * @param {filterPoints} [filter]
      * @return {(null | dataPointWithAssociatedInfo)}
      */
     getData(contaminant, filter){
