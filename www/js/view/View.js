@@ -98,14 +98,14 @@ class View {
         this.point = new Points(this.mainSvg, this.controller);
         this.sizeLegend = new SizeLegend(this.mainSvg, this.controller);
         this.colorLegend = new ColorLegend(this.mainSvg, this.controller);
-        this.histogramGroup = new HistogramGroup(this.histogramSvg, this.controller);
+        this.histogramGroup = new HistogramGroup(this.histogramSvg, this.controller, this.selectContaminant);
     }
 
     /**
      * This function sets up all svg in the dom tree,
      * which are the one for the main graph and the one for histogram.
      */
-    setUpSvg() {
+    setUpSvg=()=> {
         this.mainSvg = d3.select(View.divClass)
             .append("svg")
             .attr("width", View.svgWidth)
@@ -127,7 +127,7 @@ class View {
      * @see Controller#setUpBackGroundMap
      * @see BackGround#callbackDrawBackGroundMap
      */
-    setUpBackGroundMap() {
+    setUpBackGroundMap=()=> {
         // -------------------------------------vvvvv has to be done in this way. to avoid the problem of "this" keyword
         this.controller.setUpBackGroundMap((data) => {
             this.background.callbackDrawBackGroundMap(data)
@@ -138,7 +138,7 @@ class View {
      * This function sets up the color legend with white color
      * @see ColorLegend#setUpWhiteColor
      */
-    setUpWhiteColorLegend() {
+    setUpWhiteColorLegend=()=> {
         this.colorLegend.setUpWhiteColor();
     }
 
@@ -153,7 +153,7 @@ class View {
      * @see Histogram#boundToMap
      * @see Points#update
      */
-    drawDataPointsAndLegends() {
+    drawDataPointsAndLegends=()=> {
         this.controller.setUpPoints((points) => {
             this.point.callbackDrawPoints(points);
             this.sizeLegend.drawSizeLegend();
@@ -170,7 +170,7 @@ class View {
      * @see ColorLegend#resetColor
      * @see Histogram#erase
      */
-    erasePreviousDrawing() {
+    erasePreviousDrawing=()=> {
         this.point.erase();
         this.sizeLegend.erase();
         this.colorLegend.resetColor();
@@ -188,7 +188,7 @@ class View {
      *
      * @param {String} dataSet  - the name of the data set
      */
-    selectDataSet(dataSet) {
+    selectDataSet=(dataSet)=> {
         document.getElementById(View.setSelectorId).innerHTML = dataSet;
         document.getElementById(View.contaminantSelectorId).innerHTML = "";
         this.erasePreviousDrawing();
@@ -207,7 +207,7 @@ class View {
      *
      * @param {String} contaminant
      */
-    selectContaminant(contaminant) {
+    selectContaminant = (contaminant)=> {
         document.getElementById(View.contaminantSelectorId).innerHTML = contaminant;
         this.erasePreviousDrawing();
         this.controller.setCurrentContaminant(contaminant);
