@@ -37,14 +37,9 @@ class Histogram {
      * This is the constructor
      * @param {D3Selection} svg - the main svg dom
      * @param {Controller} controller - a instance of controller object
-     * @param {string} [translate]
      */
-    constructor(svg, controller, translate) {
-        if (translate===undefined) {
-            this.layer = svg.append("g");
-        }else {
-            this.layer = svg.append("g").attr("transform", translate);
-        }
+    constructor(svg, controller) {
+        this.layer = svg.append("g");
         this.controller = controller;
         this.hasBeenBound = false;
     }
@@ -69,9 +64,8 @@ class Histogram {
             .append("text")
             .attr("x", 100)
             .attr("y", 550)
-            .text("Amount of "+this.controller.getCurrentContaminant()+" ("+ this.controller.getTheUnitForCurrentDataSet()+")" )
+            .text("Amount of " + this.controller.getCurrentContaminant() + " (" + this.controller.getTheUnitForCurrentDataSet() + ")")
     };
-
 
 
     /**
@@ -207,7 +201,7 @@ class Histogram {
      * @param {setUpPointsCallback} setUpPointsCallback
      */
     boundToMap = (eraseCallback, setUpPointsCallback) => {
-        if (this.hasBeenBound){
+        if (this.hasBeenBound) {
             // todo throw error
             return;
         }
@@ -227,7 +221,7 @@ class Histogram {
                     self.selected.add(this); // otherwise, select it
                 }
                 self.updateSelectedRect();
-                if (self.selected.size!==0) {
+                if (self.selected.size !== 0) {
                     self.updatePoints(eraseCallback, setUpPointsCallback, filter);
                 }
             });
@@ -259,7 +253,9 @@ class Histogram {
      */
     updatePoints = (eraseCallback, setUpPointsCallback, filter) => {
         eraseCallback();
-        this.controller.setUpPoints((point)=>{setUpPointsCallback(point)}, filter)
+        this.controller.setUpPoints((point) => {
+            setUpPointsCallback(point)
+        }, filter)
     };
 
 
@@ -287,7 +283,7 @@ class Histogram {
         for (let e of this.selected) {
             let range = d3.select(e).data()[0].range;
             // allow 0.1 as floating point calculation may not produce the precise value.
-            if (range[0]-0.1 <= value && value <= range[1]+0.1) {
+            if (range[0] - 0.1 <= value && value <= range[1] + 0.1) {
                 return true;
             }
         }
