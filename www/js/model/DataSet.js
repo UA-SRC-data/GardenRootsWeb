@@ -49,7 +49,7 @@ class DataSet {
      * @param {function} [filter]
      */
     setUpPoints(contaminant, callback, filter) {
-        this.setUpPointsByCounty(contaminant, undefined, callback, filter)
+        this.setUpPointsByCounty(contaminant, Model.availableCounties.all, callback, filter)
     }
 
     /**
@@ -69,7 +69,7 @@ class DataSet {
             });
             return;
         }
-        if (county !== undefined) {
+        if (county !== Model.availableCounties.all) {
             callback(this.dataPoints
                 .filter(point => point.county === county)
                 .map(point => point.getData(contaminant, filter))
