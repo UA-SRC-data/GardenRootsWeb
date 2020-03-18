@@ -26,7 +26,7 @@ class BackGround {
     callbackDrawBackGroundMap = (data) => {
         //draw the map
         this.layer.selectAll("path")
-            .data(data) // todo need change
+            .data(data)
             .enter()
             .append("path")
             .attr("class", "garden")
@@ -54,4 +54,8 @@ class BackGround {
                 return (0.5) / d3.event.transform.k;
             });
     };
+
+    erase = () => {
+        this.layer.selectAll("path").remove()
+    }
 }
