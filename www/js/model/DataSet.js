@@ -49,15 +49,37 @@ class DataSet {
      * @param {function} [filter]
      */
     setUpPoints(contaminant, callback, filter) {
+        this.setUpPointsByCounty(contaminant, undefined, callback, filter)
+    }
+
+    /**
+     * This function collects data and calls the call back function to produce the visualization
+     * @param {string} contaminant
+     * @param {string} county
+     * @param {getDataCallback} callback
+     * @param {function} [filter]
+     */
+    setUpPointsByCounty(contaminant, county, callback, filter) {
         if (this.dataPoints.length === 0) {
             d3.json(this.dataPath).then((data) => {
-                for (let i=0; i<data.length; i++){
+                for (let i = 0; i < data.length; i++) {
                     this.dataPoints.push(new DataPoint(data[i], this.colorScales, this.sizeScales))
                 }
-                callback(this.dataPoints.map(point=>point.getData(contaminant, filter)).filter(x=>x !== null));
+                this.setUpPointsByCounty(contaminant, county, callback, filter);
             })
         } else {
-            callback(this.dataPoints.map(point=>point.getData(contaminant, filter)).filter(x=>x !== null));
+            if (county !== undefined) {
+                callback(
+                    this.dataPoints
+                        .filter(point => point.county === county)
+                        .map(point => point.getData(contaminant, filter))
+                        .filter(x => x !== null));
+            } else {
+                callback(
+                    this.dataPoints
+                        .map(point => point.getData(contaminant, filter))
+                        .filter(x => x !== null));
+            }
         }
     }
 
@@ -67,7 +89,7 @@ class DataSet {
      * @param {string} contaminant
      * @return {number}
      */
-    getRefValue(contaminant){
+    getRefValue(contaminant) {
         return this.refValues[contaminant];
     }
 
@@ -109,7 +131,7 @@ class DataSet {
      * @param {string} contaminant
      * @return {boolean}
      */
-    isContaminantAvailable(contaminant){
+    isContaminantAvailable(contaminant) {
         return this.refValues.hasOwnProperty(contaminant);
     }
 
@@ -119,12 +141,12 @@ class DataSet {
      * @param {String} contaminant
      * @return {{sample: number, r: number}[]}
      */
-    getLegendPoints(contaminant){
-        let data=[];
-        for (let i=0; i<this.LegendSample.length; i++){
+    getLegendPoints(contaminant) {
+        let data = [];
+        for (let i = 0; i < this.LegendSample.length; i++) {
             data.push({
                 sample: this.LegendSample[i],
-                r:this.sizeScales.calculateSize(contaminant, this.LegendSample[i])
+                r: this.sizeScales.calculateSize(contaminant, this.LegendSample[i])
             })
         }
         return data;
