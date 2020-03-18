@@ -10,8 +10,9 @@
  *            median: number,
  *            exceed: number,
  *            max: number,
- *            color: String,
- *            size: number
+ *            color: string,
+ *            size: number,
+ *            county: string
  *            }} dataPointWithAssociatedInfo
  */
 
@@ -27,6 +28,8 @@ class DataPoint{
     sizeScales;
     /** @member {dataPoint} */
     data;
+    /** @member {string} */
+    county;
 
     /**
      * This is the constructor.
@@ -39,6 +42,11 @@ class DataPoint{
         this.data = this.processData(rawData);
         this.colorScales = colorScales;
         this.sizeScales = sizeScales;
+        if (rawData.properties.points.length ===0) {
+            this.county = ""
+        }else {
+            this.county = rawData.properties.points[0].properties.County;
+        }
     }
 
     /**
@@ -79,7 +87,8 @@ class DataPoint{
             exceed: this.getExceed(contaminant, contaminantSamples),
             max: Math.max(...contaminantSamples),
             color: this.calculateColor(contaminant, average),
-            size: this.calculateSize(contaminant, contaminantSamples.length)
+            size: this.calculateSize(contaminant, contaminantSamples.length),
+            county: ""
         };
     }
 
