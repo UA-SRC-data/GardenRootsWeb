@@ -36,11 +36,10 @@ class Controller {
      * @param {setUpBackGroundMapCallback} callBack
      */
     setUpBackGroundMap(callBack) {
-        if (this.backgroundMap !== undefined) {
-            return; // todo maybe generate an error.
+        if (this.backgroundMap === undefined) {
+            this.backgroundMap = this.model.getBackGroundMapObj();
         }
-        this.backgroundMap = this.model.getBackGroundMapObj();
-        this.backgroundMap.setUp(callBack);
+        this.backgroundMap.setUp(this.model.getCurrentCounty(), callBack);
     }
 
     /**
@@ -54,14 +53,14 @@ class Controller {
     /**
      * This function sets up the data points (circles) in the map
      * @see Model#getDataSetObj
-     * @see DataSet#setUpPoints
+     * @see DataSet#setUpPointsByCounty
      *
      * @param {setUpPointCallback} callBack
      * @param {function} [filter]
      */
     setUpPoints(callBack,filter) {
         this.currentDataSet = this.model.getDataSetObj();
-        this.currentDataSet.setUpPoints(this.model.getCurrentContaminant(), callBack, filter);
+        this.currentDataSet.setUpPointsByCounty(this.model.getCurrentContaminant(), this.model.getCurrentCounty(), callBack, filter);
     }
 
     /**
@@ -81,6 +80,15 @@ class Controller {
      */
     setCurrentContaminant(contaminant) {
         this.model.setCurrentContaminant(contaminant);
+    }
+
+    /**
+     * This function sets up/changes the current county
+     *
+     * @param {String} county
+     */
+    setCurrentCounty(county) {
+        this.model.setCurrentCounty(county);
     }
 
 
