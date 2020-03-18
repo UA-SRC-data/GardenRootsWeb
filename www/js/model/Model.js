@@ -140,9 +140,9 @@ class Model {
     };
 
     static availableCounties = {
-        all: undefined,
+        all: "all",
         Apache: "Apache",
-        GreenLee: "GreenLee",
+        Greenlee: "Greenlee",
         Cochise: "Cochise",
         Yavapai: "Yavapai"
     };
@@ -222,10 +222,10 @@ class Model {
      * @param {string} county
      */
     setCurrentCounty(county) {
-        if (county === this.currentDataSet) {
+        if (!Model.availableCounties.hasOwnProperty(county)) {
             return;
         }
-        if (!Model.availableCounties.hasOwnProperty(county)) {
+        if (county === this.currentCounty) {
             return;
         }
         this.currentCounty = county;
