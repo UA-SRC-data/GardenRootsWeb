@@ -139,6 +139,14 @@ class Model {
         "Lead": 498.85
     };
 
+    static availableCounties = {
+        all: undefined,
+        Apache: "Apache",
+        GreenLee: "GreenLee",
+        Cochise: "Cochise",
+        Yavapai: "Yavapai"
+    };
+
     /** @type {string[]} */
     static colors = ['#ffffcc', '#c7e9b4', '#7fcdbb', '#41b6c4'];
     /** @type {string} */
@@ -172,6 +180,8 @@ class Model {
     currentDataSet;
     /** @member {string} */
     currentContaminant;
+    /** @member {string} */
+    currentCounty;
 
     /** @member {{string:DataSet}} dataSets - a dictionary that maps contaminant to their color scales*/
     dataSets = {};
@@ -182,6 +192,7 @@ class Model {
     constructor() {
         this.currentDataSet = Model.dataSets.NULL;
         this.currentContaminant = Model.contaminants.NULL;
+        this.currentCounty = Model.availableCounties.all;
     }
 
     /**
@@ -204,7 +215,28 @@ class Model {
             return;
         }
         this.currentDataSet = newSet;
-        //todo clean other clean contaminant
+    }
+
+    /**
+     * set the current county
+     * @param {string} county
+     */
+    setCurrentCounty(county) {
+        if (county === this.currentDataSet) {
+            return;
+        }
+        if (!Model.availableCounties.hasOwnProperty(county)) {
+            return;
+        }
+        this.currentCounty = county;
+    }
+
+    /**
+     * This function returns the current county selected by user
+     * @return {string}
+     */
+    getCurrentCounty() {
+        return this.currentCounty;
     }
 
 
