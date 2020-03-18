@@ -66,21 +66,20 @@ class DataSet {
                     this.dataPoints.push(new DataPoint(data[i], this.colorScales, this.sizeScales))
                 }
                 this.setUpPointsByCounty(contaminant, county, callback, filter);
-            })
-        } else {
-            if (county !== undefined) {
-                callback(
-                    this.dataPoints
-                        .filter(point => point.county === county)
-                        .map(point => point.getData(contaminant, filter))
-                        .filter(x => x !== null));
-            } else {
-                callback(
-                    this.dataPoints
-                        .map(point => point.getData(contaminant, filter))
-                        .filter(x => x !== null));
-            }
+            });
+            return;
         }
+        if (county !== undefined) {
+            callback(this.dataPoints
+                .filter(point => point.county === county)
+                .map(point => point.getData(contaminant, filter))
+                .filter(x => x !== null));
+        } else {
+            callback(this.dataPoints
+                .map(point => point.getData(contaminant, filter))
+                .filter(x => x !== null));
+        }
+
     }
 
     /**
