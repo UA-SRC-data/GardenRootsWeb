@@ -217,6 +217,17 @@ class View {
         }
     };
 
+
+    selectCounty = (county) => {
+        this.controller.setCurrentCounty(county);
+        this.erasePreviousDrawing();
+        this.background.erase();
+        this.setUpBackGroundMap();
+        if (!this.controller.isCurrentDataSetNull()) {
+            this.drawDataPointsAndLegends();
+        }
+    };
+
     /**
      * Call this function to lunch this visualization
      * @see View#setUpBackGroundMap
@@ -252,6 +263,13 @@ class View {
             //todo throw error
         }
         View.viewInstance.selectContaminant(contaminant);
+    }
+
+    static selectCounty(county) {
+        if (View.viewInstance === undefined) {
+            //todo throw error
+        }
+        View.viewInstance.selectCounty(county);
     }
 
 }
