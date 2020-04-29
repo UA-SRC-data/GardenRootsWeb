@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script src="//d3js.org/d3.v5.js"></script>
+    <script src="//d3js.org/topojson.v2.min.js"></script>
+    <script src="./js/model/APIReader.js"></script>
+</head>
+<body>
+
+<label>Geo id</label>
+<input type="text" id="geoid"><br><br>
+<input type="submit" value="Submit" onclick="getGeoId()">
+
+<div id="canvas"></div>
+
+<script>
+
+    let tract = "./lib/tl_2016_04_tract.json";          //20.14 MB
+    let bg = "./lib/tl_2017_04_bg.json";                //33.06 MB
+    let tabblock = "./lib/tl_2017_04_tabblock10.json";  //424.85MB
+
+    let projection = d3.geoAlbersUsa().scale(20000).translate([5500, 100]);
+    let geoPath = d3.geoPath().projection(projection);
+
+    let svg = d3.select("#canvas")
+        .append("svg")
+        .attr("width", 5000)
+        .attr("height", 5000);
+
+
+    d3.json(tabblock).then(function (d) {
+        svg.selectAll("path")
+            .data(d.features)
+            .enter()
+            .append("path")
+            .attr("d", geoPath)
+            .attr("stroke-width", 0.5)
+            .attr("stroke", "black")
+            .attr('fill', 'lightgrey');
+    });
+
+    function getGeoId() {
+        let t = $("#geoid");
+        let geoId = t.val();
+        t.val("");
+        svg.selectAll("path")
+            .filter(
+            function (d) {
+                return d.properties["GEOID"] === geoId;
+            })
+            .attr('fill',  "green")
+    }
+
+
+</script>
+
+
+</body>
+</html>
