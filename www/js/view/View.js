@@ -236,11 +236,11 @@ class View {
     };
 
     /**
-     * Call this function to lunch this visualization
+     * Call this function to launch this visualization
      * @see View#setUpBackGroundMap
      * @see View#setUpWhiteColorLegend
      */
-    static lunch() {
+    static launch() {
         View.viewInstance = new View();
         View.viewInstance.setUpBackGroundMap();
         View.viewInstance.setUpWhiteColorLegend();
