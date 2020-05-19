@@ -32,7 +32,9 @@ class SmallHistogram extends Histogram {
     }
 
 
-
+    /**
+     * Add the name of contaminant when user's mouse over the histogram
+     */
     showContaminantName = () => {
         this.greyBackGround = this.layer.append("rect");
         this.greyBackGround
@@ -65,6 +67,9 @@ class SmallHistogram extends Histogram {
 
     };
 
+    /**
+     * remove the name
+     */
     removeContaminantName = () => {
         this.greyBackGround.remove();
         this.cover.remove();
@@ -72,30 +77,37 @@ class SmallHistogram extends Histogram {
     };
 
 
-
-
-
-
-
-
-
-
+    /**
+     * This class does not support this operation. but it is defined in Histogram
+     */
     boundToMap = (eraseCallback, setUpPointsCallback) =>{
         //todo throw error
     };
 
+    /**
+     * This class does not support this operation. but it is defined in Histogram
+     */
     unBoundToMap=() => {
         //todo throw error
     };
 
+    /**
+     * This class does not support this operation. but it is defined in Histogram
+     */
     updatePoints = (eraseCallback, setUpPointsCallback, filter) => {
         //todo throw error
     };
 
+    /**
+     * This class does not support this operation. but it is defined in Histogram
+     */
     updateSelectedRect = () => {
         //todo throw error
     };
 
+    /**
+     * This class does not support this operation. but it is defined in Histogram
+     */
     isSelected = () => {
         //todo throw error
     };

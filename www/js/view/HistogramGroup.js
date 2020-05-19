@@ -13,6 +13,7 @@ class HistogramGroup {
      * This is the constructor.
      * @param {D3Selection} svg - the svg dom for histogram
      * @param {Controller} controller - a instance of controller object
+     * @param {string} selectContaminant
      */
     constructor(svg, controller, selectContaminant) {
         this.svg = svg;
@@ -21,6 +22,9 @@ class HistogramGroup {
         this.selectContaminant = selectContaminant;
     }
 
+    /**
+     * This function sets up small histograms
+     */
     setUpSmallMultipleHistograms() {
         let contaminants = this.controller.getContaminantList();
         let recursionCallBack = (row, col, contaminants) => {
@@ -47,14 +51,26 @@ class HistogramGroup {
     }
 
 
+    /**
+     * This function draw the big histogram
+     * @param points
+     */
     callbackDrawBigHistogram(points) {
         this.bigHistogram.callbackDrawHistogram(points);
     }
 
+    /**
+     * THis function bound the big histogram to current map
+     * @param eraseCallback
+     * @param setUpPointsCallback
+     */
     bigHistogramBoundToMap(eraseCallback, setUpPointsCallback) {
         this.bigHistogram.boundToMap(eraseCallback, setUpPointsCallback);
     }
 
+    /**
+     * his function removes small histograms
+     */
     eraseSmallMultipleHistograms() {
         for (let i = 0; i < this.smallMultipleHistograms.length; i++) {
             this.smallMultipleHistograms[i].erase();
@@ -62,7 +78,10 @@ class HistogramGroup {
         this.smallMultipleHistograms = [];
     }
 
-    eraseBigHistograms(){
+    /**
+     * This function removes the big histogram
+     */
+    eraseBigHistogram(){
         this.bigHistogram.erase()
     }
 

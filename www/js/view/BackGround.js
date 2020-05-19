@@ -55,6 +55,9 @@ class BackGround {
             });
     };
 
+    /**
+     * erase all path
+     */
     erase = () => {
         this.layer.selectAll("path").remove()
     }

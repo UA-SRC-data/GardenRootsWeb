@@ -175,7 +175,7 @@ class View {
         this.point.erase();
         this.sizeLegend.erase();
         this.colorLegend.resetColor();
-        this.histogramGroup.eraseBigHistograms();
+        this.histogramGroup.eraseBigHistogram();
         this.histogramGroup.eraseSmallMultipleHistograms();
     };
 
