@@ -1,5 +1,3 @@
-This is still under development.
------------------------------------------------
 # How to Launch This
 A simple python server is used here.
 1. make sure you have python3  
@@ -22,3 +20,38 @@ You can do it by typing `cd` followed by the path of the directory.
 ------------------------------------------------------------
 <a name="myfootnote1">1</a>: could be `python3 --version`  
 <a name="myfootnote2">2</a>: could be `python3 -m http.server 8982`  
+--------------------------------------------------------------
+# Functionality of Each Module
+This visualization has 3 parts: controller, model, and view.
+##controller
+Controller.js contains the controller class. A instance of controller manages how view can interact with 
+model. It will 
+
+##model
+There are 7 files under the model directory.
+1. APIReader.js contains the code that interacts with API. There are several functions defined in the class. Other classes
+can just call them to get data from API. Currently, APIReader is not used in the visualization.
+In the future, the visualization should use data from APIReader instead of data from local file. 
+
+2. BackGroundMap.js contains the code that loads the map of Arizona. The file should be in topojson format. Other classes can 
+just call setUp function with a county and a callback. The callback function will be called with the map data.
+
+3. ColorScales.js contains the code that calculates the color scales. Other classes can just call its calculateColor 
+function to get correct color.
+
+4. DataPoints.js represents a circle/point in the map. getData is the function that should be called from other files. 
+It will return a js object (or someone calls it dictionary) that contains info needed by the visualization. 
+
+5. DataSet.js represents a data set. It manages DataPoints. Most of its functions are used in Controller.js
+
+6. Model.js just contains most hard code values. They are either file paths or enumerated variables. 
+It also keeps records of current data set, contaminant, and county. Call functions in this class to get instances of other model classes.
+
+7. SizeScales.js contains code that calculate size.
+##view 
+
+##index.html 
+
+
+.
+##test.html
