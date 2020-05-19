@@ -60,7 +60,7 @@ class HistogramGroup {
     }
 
     /**
-     * THis function bound the big histogram to current map
+     * This function bound the big histogram to current map
      * @param eraseCallback
      * @param setUpPointsCallback
      */
@@ -69,7 +69,7 @@ class HistogramGroup {
     }
 
     /**
-     * his function removes small histograms
+     * This function removes small histograms
      */
     eraseSmallMultipleHistograms() {
         for (let i = 0; i < this.smallMultipleHistograms.length; i++) {
