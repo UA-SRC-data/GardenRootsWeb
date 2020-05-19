@@ -18,7 +18,7 @@
 
 
 /**
- * This class represents a circle in the map.
+ * This class represents circles in the map.
  */
 class DataPoint{
 
