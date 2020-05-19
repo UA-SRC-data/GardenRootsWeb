@@ -198,7 +198,7 @@ class View {
     };
 
     /**
-     * This function is called when suer selects a new contaminant.
+     * This function is called when user selects a new contaminant.
      * It erase previous points and legend
      * It only draws new data points and legend when data set is selected.
      * @see View#erasePreviousDrawing
@@ -218,6 +218,13 @@ class View {
     };
 
 
+    /**
+     * This function is called when user selects a new county..
+     * It erase previous points and legend
+     * It only draws new data points and legend when data set is selected.
+     *
+     * @param {String} county
+     */
     selectCounty = (county) => {
         this.controller.setCurrentCounty(county);
         this.erasePreviousDrawing();
@@ -240,7 +247,7 @@ class View {
     }
 
     /**
-     * This function is called when user selects data set.
+     * This function is called when user selects a data set.
      * @see View#selectDataSet
      *
      * @param {String} dataSet
@@ -253,7 +260,7 @@ class View {
     }
 
     /**
-     * This function is called when user selects contaminant.
+     * This function is called when user selects a contaminant.
      * @see View#selectContaminant
      *
      * @param {String} contaminant
@@ -265,6 +272,10 @@ class View {
         View.viewInstance.selectContaminant(contaminant);
     }
 
+    /**
+     * This function is called when user selects a county.
+     * @param {String} county
+     */
     static selectCounty(county) {
         if (View.viewInstance === undefined) {
             //todo throw error
