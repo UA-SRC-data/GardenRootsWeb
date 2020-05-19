@@ -23,11 +23,11 @@ You can do it by typing `cd` followed by the path of the directory.
 --------------------------------------------------------------
 # Functionality of Each Module
 This visualization has 3 parts: controller, model, and view.  
-##controller
+## controller
 Controller.js contains the controller class. A instance of controller manages how view can interact with 
 model. It will   
   
-##model
+## model
 There are 7 files under the model directory.
 1. APIReader.js contains the code that interacts with API. There are several functions defined in the class. Other classes
 can just call them to get data from API. Currently, APIReader is not used in the visualization.
@@ -48,10 +48,10 @@ It will return a js object (or someone calls it dictionary) that contains info n
 It also keeps records of current data set, contaminant, and county. Call functions in this class to get instances of other model classes.
 
 7. SizeScales.js contains code that calculate size.  
-##view 
+## view 
 
-##index.html   
+## index.html   
 
 
 
-##test.html  
+## test.html  
