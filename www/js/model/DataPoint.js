@@ -18,9 +18,9 @@
 
 
 /**
- * This class represents circles in the map.
+ * This class represents a circle in the map.
  */
-class DataPoints{
+class DataPoint{
 
     /** @member {ColorScales}*/
     colorScales;

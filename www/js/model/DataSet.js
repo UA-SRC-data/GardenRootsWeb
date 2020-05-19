@@ -9,7 +9,7 @@ class DataSet {
     dataPath;
     /**@member {{string: number}} - path of this data set*/
     refValues;
-    /**@member {Array.<DataPoints>}  */
+    /**@member {Array.<DataPoint>}  */
     dataPoints = [];
     /**@member {number[]} */
     LegendSample = [20, 10, 5, 2, 1];
@@ -64,7 +64,7 @@ class DataSet {
         if (this.dataPoints.length === 0) {
             d3.json(this.dataPath).then((data) => {
                 for (let i = 0; i < data.length; i++) {
-                    this.dataPoints.push(new DataPoints(data[i], this.colorScales, this.sizeScales))
+                    this.dataPoints.push(new DataPoint(data[i], this.colorScales, this.sizeScales))
                 }
                 this.setUpPointsByCounty(contaminant, county, callback, filter);
             });
