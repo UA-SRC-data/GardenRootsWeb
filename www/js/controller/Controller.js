@@ -56,7 +56,7 @@ class Controller {
      * @see DataSet#setUpPointsByCounty
      *
      * @param {setUpPointCallback} callBack
-     * @param {function} [filter]
+     * @param {filterPoints} [filter]
      */
     setUpPoints(callBack,filter) {
         this.currentDataSet = this.model.getDataSetObj();
