@@ -20,7 +20,7 @@
 /**
  * This class represents circles in the map.
  */
-class DataPoint{
+class DataPoints{
 
     /** @member {ColorScales}*/
     colorScales;
