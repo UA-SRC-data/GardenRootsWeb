@@ -22,11 +22,11 @@ You can do it by typing `cd` followed by the path of the directory.
 <a name="myfootnote2">2</a>: could be `python3 -m http.server 8982`  
 --------------------------------------------------------------
 # Functionality of Each Module
-This visualization has 3 parts: controller, model, and view.
+This visualization has 3 parts: controller, model, and view.  
 ##controller
 Controller.js contains the controller class. A instance of controller manages how view can interact with 
-model. It will 
-
+model. It will   
+  
 ##model
 There are 7 files under the model directory.
 1. APIReader.js contains the code that interacts with API. There are several functions defined in the class. Other classes
@@ -47,11 +47,11 @@ It will return a js object (or someone calls it dictionary) that contains info n
 6. Model.js just contains most hard code values. They are either file paths or enumerated variables. 
 It also keeps records of current data set, contaminant, and county. Call functions in this class to get instances of other model classes.
 
-7. SizeScales.js contains code that calculate size.
+7. SizeScales.js contains code that calculate size.  
 ##view 
 
-##index.html 
+##index.html   
 
 
-.
-##test.html
+
+##test.html  
