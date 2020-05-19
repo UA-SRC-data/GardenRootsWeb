@@ -47,6 +47,7 @@ class DataSet {
      * @param {string} contaminant
      * @param {getDataCallback} callback
      * @param {function} [filter]
+     * @deprecated
      */
     setUpPoints(contaminant, callback, filter) {
         this.setUpPointsByCounty(contaminant, Model.availableCounties.all, callback, filter)

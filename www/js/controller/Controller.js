@@ -130,6 +130,8 @@ class Controller {
      *
      * @param {number} value
      * @returns {number} size of the circle. A.k.a the number of points in the area.
+     *
+     * @deprecated
      */
     calculateSize(value) {
         if (this.currentDataSet === undefined) {
