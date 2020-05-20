@@ -57,7 +57,7 @@ It also keeps records of current data set, contaminant, and county. Call functio
 Things to know:   
 Overall, each circle of the visualization is represented by a instance of _DataPoint_. All circles are managed by _DataSet_. 
 _ColorScales_ and _SizeScales_ provides methods that convert data to values that view can use. _Model_ is like a factory class. 
-All other classes in model should be indirectly constructed by calling methods in Model.js to avoid unexpected behavior 
+All other classes in model should be indirectly constructed by calling methods in **Model.js** to avoid unexpected behavior 
 caused by constructing multiple times.  
 
 ## view 
