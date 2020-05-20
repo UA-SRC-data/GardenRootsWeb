@@ -63,30 +63,36 @@ caused by constructing multiple times.
 ## view 
 There are 9 files in view.  
 
-**View.js** is the top class that organizes other classes in view. 
+**View.js** is the top class that organizes other classes in view. Because it is complex, here is explanation of the purposes of each function. 
+Further explanation of how-it-works can be find in the comments of code. 
 - static methods:
-    - _selectDataSet_, _selectContaminant_, and _selectCounty_ are called when user selects corresponding variables
-    - call _launch_ to start this visualization.
+    - _selectDataSet_, _selectContaminant_, and _selectCounty_ are called when user selects corresponding variables. See **index.html**
+    - call _launch_ to start this visualization. See **index.html**
 - instance methods 
     - _selectDataSet_, _selectContaminant_, and _selectCounty_ are the instance version called by their corresponding static methods.
         the reason of doing this is to make sure there is only one instance of view (and this is how JavaFx did).
     - _erasePreviousDrawing_ will erase the visualization. 
-    - _drawDataPointsAndLegends_ will draw the visualization 
+    - _drawDataPointsAndLegends_ will draw the visualization.
     - _setUpWhiteColorLegend_ is called after the visualization launches and before user selects a data set and a contamination.
-    - _setUpBackGroundMap_ sets up back ground map
+    - _setUpBackGroundMap_ sets up the back ground map
     - _setUpSvg_ sets up SVG and relevant zooming functions.
 
 **Histogram.js**, **SmallHistogram.js**, and **HistogramGroup.js** are classes dealing with histograms. 
-**Histogram.js** draws the big histogram when user selects a data set and a contamination. 
-**SmallHistogram.js** extends **Histogram.js** and is managed by **HistogramGroup.js** to show small multiple histograms 
-when user only select a data set. 
+- **Histogram.js** draws the big histogram when user selects a data set and a contamination. 
+- **SmallHistogram.js** extends **Histogram.js** and is managed by **HistogramGroup.js** to show small multiple histograms.
+- **SmallHistogram.js** overrides some functions in **Histogram.js** and just throws error for them.
+- small multiple histograms will be shown when user only select a data set. 
+- **HistogramGroup.js** manages both **Histogram.js** and **SmallHistogram.js**
 
+**BackGround.js** sets up the map of Arizona. It supports zooming.  
 
-BackGround.js
-ColorLegend.js
-DataPointPrompt.js
-Points.js
-SizeLegend.js
+**Points.js**  
+
+**DataPointPrompt.js**  
+
+**ColorLegend.js**  
+
+**SizeLegend.js**  
 
          
         
