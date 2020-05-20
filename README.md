@@ -81,27 +81,28 @@ Further explanation of how-it-works can be find in the comments of code.
 - **Histogram.js** draws the big histogram when user selects a data set and a contamination. 
 - **SmallHistogram.js** extends **Histogram.js** and is managed by **HistogramGroup.js** to show small multiple histograms.
 - **SmallHistogram.js** overrides some functions in **Histogram.js** and just throws error for them.
-- small multiple histograms will be shown when user only select a data set. 
-- **HistogramGroup.js** manages both **Histogram.js** and **SmallHistogram.js**
+- Small multiple histograms will be shown when user only select a data set. 
+- **HistogramGroup.js** manages both **Histogram.js** and **SmallHistogram.js**, and **View.js** only deals with **HistogramGroup.js**
+- When user clicks a bar in big histogram. A filter will be applied to circles 
+(by passing the filter to model to get a new set of points) and new circles will be drawn in the map.
+- _Histogram.boundToMap_ takes 2 functions. The 1st one will erase all circles in the map (Points.erase).
+The 2nd takes 1 parameter and will setup points based on the given data (Points.callbackDrawPoints).
 
-**BackGround.js** sets up the map of Arizona. It supports zooming.  
+**BackGround.js** sets up the map of Arizona. It supports zooming.    
 
-**Points.js**  
+**Points.js** depicts the circles (points) in the map. It supports zooming.
 
-**DataPointPrompt.js**  
+**DataPointPrompt.js** manages the prompt when user's is on a circle. **Points.js** takes care of it, so **View.js** do not know its existence
 
-**ColorLegend.js**  
+**ColorLegend.js** sets up the color legend, It does not support zooming, and there is no way to erase it. All it can do is recover to an all-white legend.
 
-**SizeLegend.js**  
+**SizeLegend.js** sets up the size legend. It supports zooming since the legend should be changed when the size of map and circles changes    
 
-         
-        
-
-
-
-
-
-
+Things to know:  
+- User cannot select none of the bars in the histogram since there is no reason to show an empty map
+ when they have already selected a data set and a contamination. If they try, the selection will be reset.
+- The object returned by **DataPoint.js** should have enough info for coloring and sizing points, 
+but the controller still has a function to calculate color for histogram and a deprecated function to calculate size.
 
 ## index.html   
 **index.html** is the page for the visualization. _View.lunch()_ should be called after the website is loaded.
